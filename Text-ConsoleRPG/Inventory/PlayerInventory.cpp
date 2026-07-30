@@ -1,0 +1,33 @@
+#include "PlayerInventory.h"
+#include <iomanip>
+#include <iostream>
+
+Inventory<InventoryInfo> g_player_inventory;
+Inventory<InventoryInfo> g_player_armory;
+
+void AddItem(Inventory<InventoryInfo>& inven, const std::string name, int count) {
+	inven.Add(name, count);
+}
+bool RemoveItem(Inventory<InventoryInfo>& inven, const std::string name, int count) {
+	return inven.Remove(name, count);
+}
+bool CheckItem(const Inventory<InventoryInfo>& inven, const std::string name, int count) {
+	return inven.Check(name, count);
+}
+void ViewInventory(const Inventory<InventoryInfo>& inven) {
+	std::cout << "=========================================================\n";
+	std::cout << std::left << std::setw(5) << "[No]"
+		<< std::left << std::setw(12) << "[Name]"
+		<< std::left << std::setw(12) << "[Count]"
+		<< std::endl;
+	std::cout << "---------------------------------------------------------\n";
+	int number = 1;
+	for (const auto& i : inven.ViewInventory()) {
+		std::cout << std::left << std::setw(5) <<  number
+			<< std::left << std::setw(12) << i.name_
+			<< std::left << std::setw(12) << i.count_
+			<< std::endl;
+		++number;
+	}
+	std::cout << "=========================================================\n";
+}
