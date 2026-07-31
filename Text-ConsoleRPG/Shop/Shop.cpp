@@ -48,9 +48,7 @@ bool RemoveGoods(const std::string& shop_name, const std::string& item_name, int
 bool CheckGoods(const std::string& shop_name, const std::string& item_name, int count) {
 	return g_map_shop.at(shop_name).items_.Check(item_name, count);
 }
-// const std::vector<ShopItems>& ViewShop(const std::string& name) {
-// 	return g_map_shop.at(shop_name).items_.at(name).ViewInventory();
-// }
+
 bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string& shop_name, const std::string& item_name) {
 
 	bool existed = CheckGoods(shop_name, item_name, 1);

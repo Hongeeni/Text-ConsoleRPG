@@ -26,9 +26,8 @@ void LoadShop();
 void AddGoods(const std::string& shop_name, const std::string& item_name, int count);
 bool RemoveGoods(const std::string& shop_name, const std::string& item_name, int count);
 bool CheckGoods(const std::string& shop_name, const std::string& item_name, int count);
-// const std::vector<ShopItems>& ViewShop(const std::string& name);
-
 void ViewShop(const std::string& shop_name, const std::string& name, Player& player);
+
 bool SellItemMenu(Inventory<InventoryInfo>& inven, Player& player);
 ShopData FindShopData(const std::string name);
 
