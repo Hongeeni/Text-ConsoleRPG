@@ -28,6 +28,6 @@ struct ItemData {
 std::vector<ItemData> ItemList();
 
 std::unordered_map<std::string, ItemData> GetItemMap();
-ItemData FindItem(const std::string& ¿Ã∏ß);
+ItemData FindItem(const std::string& name);
 
 Item CreateItem(std::string name, int count = 1); // default count, 1
