@@ -35,7 +35,12 @@ public:
 
     // setter
     void AddCount(int amount) { m_count += amount; }
-    void UseItem() { if (m_count > 0) m_count--; }
+    void UseItem()         
+        {
+            if (m_category == "license") return;  // license 카테고리는 사용 불가 (개수가 줄어들지 않음)
+            if (m_count > 0) m_count--;
+        }
+
     bool IsEmpty() const { return m_count <= 0; }
 
     // print
