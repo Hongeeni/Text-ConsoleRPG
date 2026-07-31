@@ -33,7 +33,7 @@ protected:
 
 public:
     // Constructor
-    Player(Player* player_info = nullptr);
+    Player(void);
 
     // Setter
     void SetPlayerName(std::string new_player_name);
@@ -85,10 +85,8 @@ public:
     // Gold Function
     void AddGold(int add_amount);
     void DecreaseGold(int decrease_amount);
-    //bool SpendGold(int amount);                // 골드 부족하면 false
 
-    // 소멸자를 순수 가상함수로 선언
-    virtual ~Player(void) = 0;
+    virtual ~Player(void);
 
 private:
     // Private Player Function

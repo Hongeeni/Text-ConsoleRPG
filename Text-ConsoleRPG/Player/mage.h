@@ -1,18 +1,19 @@
-#ifndef _WARRIOR_H_
-#define _WARRIOR_H_
+#ifndef _MAGE_H_
+#define _MAGE_H_
 
 #include "player.h"
 
-class Warrior : public Player {
+class Mage : public Player {
 private:
 	const unsigned short kSpecialAttackCost = 20;
 
 public:
-	Warrior(Player* player_info);
+	Mage(Player* player_info);
 
 	const unsigned short GetSpecialAttackCost(void);
 
-	~Warrior(void);
+	~Mage(void);
 };
 
 #endif
+

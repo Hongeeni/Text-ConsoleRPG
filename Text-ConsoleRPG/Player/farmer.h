@@ -5,7 +5,7 @@
 
 class Farmer : public Player {
 public:
-	Farmer(Player* player_info = nullptr);
+	Farmer(std::string new_player_name);
 
 	~Farmer(void);
 };

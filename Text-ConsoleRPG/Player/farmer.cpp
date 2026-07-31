@@ -1,7 +1,10 @@
 #include "farmer.h"
 
-Farmer::Farmer(Player* player_info = nullptr) : Player(player_info) {
+Farmer::Farmer(std::string new_player_name) {
+	this->player_name = new_player_name;
 	this->player_job = "Farmer";
 }
 
-Farmer::~Farmer(void) {}
+Farmer::~Farmer(void) {
+	std::cout << "The farmer object was successfully delete." << std::endl;
+}

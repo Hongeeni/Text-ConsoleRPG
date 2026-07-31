@@ -1,6 +1,6 @@
-#include "warrior.h"
+#include "mage.h"
 
-Warrior::Warrior(Player* player_info) {
+Mage::Mage(Player* player_info) {
 	this->player_job = "Warrior";
 
 	this->player_name = player_info->GetPlayerName();
@@ -19,10 +19,10 @@ Warrior::Warrior(Player* player_info) {
 	this->player_gold = player_info->GetPlayerGold();
 }
 
-const unsigned short Warrior::GetSpecialAttackCost(void) {
+const unsigned short Mage::GetSpecialAttackCost(void) {
 	return this->kSpecialAttackCost;
 }
 
-Warrior::~Warrior(void) {
-	std::cout << "The warrior object was successfully delete." << std::endl;
+Mage::~Mage(void) {
+	std::cout << "The mage object was successfully delete." << std::endl;
 }
