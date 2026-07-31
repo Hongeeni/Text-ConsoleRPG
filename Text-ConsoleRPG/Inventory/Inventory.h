@@ -1,6 +1,7 @@
+#pragma once
 #include "TemplateInventory.h"
 #include <string>
-#pragma once
+
 
 struct InventoryInfo {
 	std::string name_;
