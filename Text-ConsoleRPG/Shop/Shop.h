@@ -19,9 +19,9 @@ struct ShopData {
 //vector for shoplist
 std::vector<ShopData> kShopList();
 extern std::unordered_map<std::string, ShopData> g_map_shop;
-//need to load when game started
+//need to exec this when game started
 void LoadShop();
-
+ShopData FindShopData(const std::string name); //export shop datas
 
 void AddGoods(const std::string& shop_name, const std::string& item_name, int count);
 bool RemoveGoods(const std::string& shop_name, const std::string& item_name, int count);
@@ -29,8 +29,6 @@ bool CheckGoods(const std::string& shop_name, const std::string& item_name, int 
 void ViewShop(const std::string& shop_name, const std::string& name, Player& player);
 
 bool SellItemMenu(Inventory<InventoryInfo>& inven, Player& player);
-ShopData FindShopData(const std::string name);
-
 
 bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string& shop_name, const std::string& item_name);
 bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::string& item_name);

@@ -5,21 +5,21 @@
 
 std::vector<ShopData> kShopList() {
 	std::vector<ShopData> shops = {
-		{"일반 상점", "어서오세요", "마을에 있는 잡화 상점",  1,{
-			{"체력 포션", 5},
-			{"마나 포션", 5},
+		{"Normal Shop", "Hello.", "Town Shop",  1,{
+			{"Health Potion", 5},
+			{"Mana Potion", 5},
 		}},
-		{"슬라임 던전 상점", "어서오세요", "슬라임 던전에 있는 상점", 1.5,{
-			{"체력 포션", 5},
-			{"마나 포션", 5},
+		{"Slime Shop", "Hello", "Slime Dungeon Shop", 1.5,{
+			{"Health Potion", 5},
+			{"Mana Potion", 5},
 		}},
-		{"언데드 던전 상점", "어서오세요", "좀비 던전에 있는 잡화 상점",  2, {
-			{"체력 포션", 5},
-			{"마나 포션", 5},
+		{"Undead Dungeon Shop", "Welcome", "Undead Shop",  2, {
+			{"Health Potion", 5},
+			{"Mana Potion", 5},
 		}},
-		{"골렘 던전 상점", "어서오세요", "골렘 던전에 있는 잡화 상점",  2,{
-			{"체력 포션", 5},
-			{"마나 포션", 5},
+		{"Stone Shop", "Greeting.", "Golem Shop.",  2,{
+			{"Health Potion", 5},
+			{"Mana Potion", 5},
 		}}
 	};
 	return shops;
@@ -54,38 +54,38 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 	bool existed = CheckGoods(shop_name, item_name, 1);
 	if (!existed) {
 		std::cout << "---------------------------------------------------------------------\n";
-		std::cout << "선택한 아이템을 찾을 수 없습니다.\n";
+		std::cout << "Can not find that item.\n";
 		std::cout << "---------------------------------------------------------------------\n";
 		_getch();
 		return false;
 	}
 	// int d = FindItem(item_name); 
-	// ItemInfo data = GetItemData(d); !아이템 정보를 가져올 수 있는 함수 필요함
+	// ItemInfo data = GetItemData(d); !Need a function that bring item informations
 	// if (data.buy_value > playe.GetPlayerGold()) {
 	//	cout << "---------------------------------------------------------------------\n";
-	//	cout << "골드가 충분하지 않습니다.\n";
+	//	cout << "You don't have enough gold.\n";
 	//	cout << "---------------------------------------------------------------------\n";
 	//	
 	//	return false;
 	//}
-	//ItemInfo data = GetItemData[item_name]; !아이템 정보 가져오는 함수 필요함
+	//ItemInfo data = GetItemData[item_name]; !Need a function that bring item informations
 	// RemoveGoods(shop_name, data.name, 1);
 	// g_map_shop.at(shop_name);
 	// AddItem(inven, data.name, 1);
 	// SetPlayerGold(GetPlayerGold() - (data.buy_value * multiple_));
 	// std::cout << "---------------------------------------------------------------------\n";
-	// std::cout << "[" << data.name << "] 를 구매했습니다.\n";
-	// std::cout << "[" << data.buy_value << "]골드를 사용했습니다.\n";
+	// std::cout << "You bought [" << data.name << "].\n";
+	// std::cout << "You spent [" << data.buy_value << "].\n";
 	// std::cout << "---------------------------------------------------------------------\n";
 	 _getch();
 	 return true;
 }
 bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::string& item_name) {
-	// // ItemInfo data = FindItem(item_name); 아이템 정보 가져오는 함수
+	// // ItemInfo data = FindItem(item_name); !Need a function that bring item informations
 
 	//  if (id == -1) {
 	//  	std::cout << "---------------------------------------------------------------------\n";
-	//  	std::cout << "선택한 아이템을 찾을 수 없습니다.\n";
+	//  	std::cout << "Can not find that item.\n";
 	//  	std::cout << "---------------------------------------------------------------------\n";
 	//  	_getch();
 	//  	return false;
@@ -93,7 +93,7 @@ bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::strin
 	
 	if (!CheckItem(inven, item_name, 1)) {
 	  	std::cout << "---------------------------------------------------------------------\n";
-	  	std::cout << "선택한 아이템을 가지고 있지 않습니다.\n";
+	  	std::cout << "You don't have that item in your inventory.\n";
 	  	std::cout << "---------------------------------------------------------------------\n";
 	  	_getch();
 	  	return false;
@@ -133,7 +133,7 @@ void ViewShop(const std::string& shop_name, const std::string& name, Player& pla
 		std::cout << "---------------------------------------------------------\n";
 		std::cout << "Current [" << player.GetPlayerGold() << "]\n";
 		std::cout << "---------------------------------------------------------\n";
-		std::cout << "[아이템 이름: 구매] [[1]: 아이템 판매] [[2]: 장비 판매] [[0]: 돌아가기]\n";
+		std::cout << "[Item Name: Buy] [[1]: Sell Item] [[2]: Sell Gears] [[0]: Back]\n";
 		std::string answer;
 		std::cin.clear();
 		getline(std::cin >> std::ws, answer);
@@ -149,7 +149,7 @@ void ViewShop(const std::string& shop_name, const std::string& name, Player& pla
 			return; 
 		}
 
-		// BuyItems(inven, player, shop_name, answer); 아이템 구분 로직 아직 없음
+		// BuyItems(inven, player, shop_name, answer); Need a function from itemdata
 		continue;
 	}
 }
@@ -159,7 +159,7 @@ bool SellItemMenu(Inventory<InventoryInfo>& inven, Player& player) {
 		system("cls");
 		ViewInventory(inven);
 		std::cout << "---------------------------------------------------------\n";
-		std::cout << "[아이템 이름: 판매] [[0]: 돌아가기]\n";
+		std::cout << "[Item Name: Sell] [[0]: Back]\n";
 		std::string answer;
 		getline(std::cin >> std::ws, answer);
 		if (answer == "0") { 
