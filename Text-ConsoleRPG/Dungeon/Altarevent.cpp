@@ -12,19 +12,19 @@ namespace {
 }
 
 void AltarEvent::Trigger(Player& player) {
-    std::cout << "³°Àº Àç´ÜÀ» ¹ß°ßÇß½À´Ï´Ù.\n";
+    std::cout << "ë‚¡ì€ ì œë‹¨ì„ ë°œê²¬í–ˆìŠµë‹ˆë‹¤.\n";
 
-    // (¹ÌÈ®Á¤) ÁÁÀº/³ª»Û È¿°ú ¸ñ·Ï - ¿ì¼± Ã¼·Â Áõ°¨ 1Á¾·ù¾¿¸¸ ±¸Çö
-    const int kHealAmount = 20;   // (¹ÌÈ®Á¤)
-    const int kDamageAmount = 20; // (¹ÌÈ®Á¤)
+    // (ë¯¸í™•ì •) ì¢‹ì€/ë‚˜ìœ íš¨ê³¼ ëª©ë¡ - ìš°ì„  ì²´ë ¥ ì¦ê° 1ì¢…ë¥˜ì”©ë§Œ êµ¬í˜„
+    const unsigned short kHealAmount = 20;   // (ë¯¸í™•ì •)
+    const unsigned short kDamageAmount = 20; // (ë¯¸í™•ì •)
 
     std::bernoulli_distribution isGood(0.5);
     if (isGood(Rng())) {
-        player.Heal(kHealAmount);
-        std::cout << "Àç´ÜÀÌ Ãàº¹À» ³»·È½À´Ï´Ù! (Ã¼·Â " << kHealAmount << " È¸º¹)\n";
+        player.HpRecovery(kHealAmount);
+        std::cout << "ì œë‹¨ì´ ì¶•ë³µì„ ë‚´ë ¸ìŠµë‹ˆë‹¤! (ì²´ë ¥ " << kHealAmount << " íšŒë³µ)\n";
     }
     else {
-        player.TakeDamage(kDamageAmount);
-        std::cout << "Àç´ÜÀÌ ÀúÁÖ¸¦ ³»·È½À´Ï´Ù! (Ã¼·Â " << kDamageAmount << " °¨¼Ò)\n";
+        player.PlayerDamage(kDamageAmount);
+        std::cout << "ì œë‹¨ì´ ì €ì£¼ë¥¼ ë‚´ë ¸ìŠµë‹ˆë‹¤! (ì²´ë ¥ " << kDamageAmount << " ê°ì†Œ)\n";
     }
 }

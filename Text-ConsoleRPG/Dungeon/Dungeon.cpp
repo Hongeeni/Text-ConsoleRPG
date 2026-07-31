@@ -11,30 +11,53 @@
 #include <iostream>
 #include <algorithm>
 #include <numeric>
+#include <array>
 
 Dungeon::Dungeon(DungeonType type) : type_(type) {}
 
+// ë˜ì „ íƒ€ì…ë³„ í´ë¦¬ì–´ ì—¬ë¶€ ì €ì¥ (ì¸ë±ìŠ¤ = static_cast<int>(DungeonType))
+std::array<bool, 3> Dungeon::s_cleared{};
+
+bool Dungeon::IsCleared(DungeonType type) {
+    return s_cleared[static_cast<int>(type)];
+}
+
+// Player::IsAlive()ê°€ privateë¼ ì™¸ë¶€ì—ì„œ í˜¸ì¶œ ë¶ˆê°€ -> ì¼ë‹¨ ì„ì‹œ
+bool Dungeon::IsPlayerAlive(Player& player) const {
+    return player.GetPlayerHp().at("current_hp") > 0;
+}
+
 std::string Dungeon::GetName() const {
     switch (type_) {
-    case DungeonType::Slime:  return "½½¶óÀÓ ´øÀü";
-    case DungeonType::Zombie: return "Á»ºñ ´øÀü";
-    case DungeonType::Golem:  return "°ñ·½ ´øÀü";
+    case DungeonType::Slime:  return "ìŠ¬ë¼ì„ ë˜ì „";
+    case DungeonType::Zombie: return "ì¢€ë¹„ ë˜ì „";
+    case DungeonType::Golem:  return "ê³¨ë ˜ ë˜ì „";
     }
-    return "¾Ë ¼ö ¾ø´Â ´øÀü";
+    return "ì•Œ ìˆ˜ ì—†ëŠ” ë˜ì „";
+}
+
+std::string Dungeon::GetShopName() const {
+    // Shop.cpp kShopList()ì— ì •ì˜ëœ ì‹¤ì œ ìƒì  ì´ë¦„ê³¼ ë§¤ì¹­
+    switch (type_) {
+    case DungeonType::Slime:  return "Slime Shop";
+    case DungeonType::Zombie: return "Undead Dungeon Shop";
+    case DungeonType::Golem:  return "Stone Shop";
+    }
+    return "Normal Shop";
 }
 
 void Dungeon::ShowMenu() const {
     std::cout << "========== " << GetName() << " ==========\n";
-    std::cout << "1. ÀüÁø\n";
-    std::cout << "2. ÀÎº¥Åä¸®\n";
+    std::cout << "1. ì „ì§„\n";
+    std::cout << "2. ì¸ë²¤í† ë¦¬\n";
     if (bossFound_) {
-        std::cout << "3. º¸½º¹æÀ¸·Î °¡±â\n";
-        std::cout << "4. ´øÀü Å»Ãâ\n";
+        std::cout << "3. ë³´ìŠ¤ë°©ìœ¼ë¡œ ê°€ê¸°\n";
+        std::cout << "4. ë˜ì „ íƒˆì¶œ\n";
     }
     else {
-        std::cout << "3. ´øÀü Å»Ãâ\n";
+        std::cout << "3. ë˜ì „ íƒˆì¶œ\n";
     }
-    std::cout << "¼±ÅÃ: ";
+    std::cout << "ì„ íƒ: ";
 }
 
 int Dungeon::GetChoice(int maxOption) const {
@@ -42,7 +65,7 @@ int Dungeon::GetChoice(int maxOption) const {
     while (!(std::cin >> choice) || choice < 1 || choice > maxOption) {
         std::cin.clear();
         std::cin.ignore(10000, '\n');
-        std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. ´Ù½Ã ¼±ÅÃÇÏ¼¼¿ä: ";
+        std::cout << "ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì„ íƒí•˜ì„¸ìš”: ";
     }
     return choice;
 }
@@ -59,17 +82,18 @@ void Dungeon::Run(Player& player) {
             Resolve(RollEvent(), player);
         }
         else if (choice == 2) {
-            ViewInventory(player.GetInventory()); // (¹ÌÈ®Á¤) Player::GetInventory ¹İÈ¯ Å¸ÀÔ È®ÀÎ
+            ViewInventory(g_player_inventory); // ì „ì—­ ì¸ë²¤í† ë¦¬ ì‚¬ìš©
         }
         else if (bossFound_ && choice == 3) {
             if (TryEnterBossRoom()) {
                 OnBossFight(player);
             }
             else {
-                std::cout << "Á¤´äÀÌ Æ²·È½À´Ï´Ù. º¸½º¹æ¿¡ µé¾î°¥ ¼ö ¾ø½À´Ï´Ù.\n";
+                std::cout << "ì •ë‹µì´ í‹€ë ¸ìŠµë‹ˆë‹¤. ë³´ìŠ¤ë°©ì— ë“¤ì–´ê°ˆ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n";
             }
         }
         else {
+            // bossFound_ê°€ falseë©´ 3, trueë©´ 4ê°€ ì´ ë¶„ê¸°(íƒˆì¶œ ì‹œë„)ë¡œ ë“¤ì–´ì˜´
             if (TryEscape(player)) {
                 exitRequested_ = true;
             }
@@ -78,7 +102,7 @@ void Dungeon::Run(Player& player) {
 }
 
 Dungeon::Event Dungeon::RollEvent() {
-    // (¹ÌÈ®Á¤) ¸ó½ºÅÍ Á¶¿ì ¿Ü 5°³ Ç×¸ñ »ó´ë ºñÀ²
+    // (ë¯¸í™•ì •) ëª¬ìŠ¤í„° ì¡°ìš° ì™¸ 5ê°œ í•­ëª© ìƒëŒ€ ë¹„ìœ¨
     std::vector<double> weights = {
         40.0,                       // Monster
         12.0,                       // Treasure
@@ -103,13 +127,15 @@ void Dungeon::Resolve(Event e, Player& player) {
 }
 
 void Dungeon::OnMonster(Player& player) {
-    std::cout << "¸ó½ºÅÍ¿Í ¸¶ÁÖÃÆ½À´Ï´Ù!\n";
-    Monster monster = Monster::Create(type_, player.GetLevel()); // (¹ÌÈ®Á¤) Monster ½ÇÁ¦ ÇÔ¼ö¸í
+    std::cout << "ëª¬ìŠ¤í„°ì™€ ë§ˆì£¼ì³¤ìŠµë‹ˆë‹¤!\n";
+
+    // Monster / CombatSystemì€ ì•„ì§ ë¯¸í™•ì •ì´ë¼ ê¸°ì¡´ ì„ì‹œ í˜¸ì¶œ í˜•íƒœ ê·¸ëŒ€ë¡œ ìœ ì§€
+    Monster monster = Monster::Create(type_, player.GetPlayerLevel().at("current_level")); // (ë¯¸í™•ì •) Monster ì‹¤ì œ í•¨ìˆ˜ëª…
 
     CombatSystem combat;
-    combat.Fight(player, monster); // (¹ÌÈ®Á¤) CombatSystem ½ÇÁ¦ ÇÔ¼ö¸í
+    combat.Fight(player, monster); // (ë¯¸í™•ì •) CombatSystem ì‹¤ì œ í•¨ìˆ˜ëª…
 
-    if (!player.IsAlive()) {
+    if (!IsPlayerAlive(player)) {
         OnDefeat(player);
     }
 }
@@ -119,11 +145,11 @@ void Dungeon::OnTreasure(Player& player) {
 }
 
 void Dungeon::OnShop(Player& player) {
-    std::cout << "´øÀü »óÀÎÀ» ¸¸³µ½À´Ï´Ù.\n";
+    std::cout << "ë˜ì „ ìƒì¸ì„ ë§Œë‚¬ìŠµë‹ˆë‹¤.\n";
 
-    // »óÁ¡ ·ÎÁ÷ ÀÚÃ¼´Â Shop Å¬·¡½º ±×´ë·Î »ç¿ë, °¡°İ¸¸ ´øÀü »óÁ¡ ±âÁØ(true)À¸·Î ´Ù¸£°Ô Àû¿ë
-    Shop dungeonShop(true);
-    dungeonShop.Open(player); // (¹ÌÈ®Á¤) Shop ½ÇÁ¦ ÁøÀÔ ÇÔ¼ö¸í
+    // Shopì€ í´ë˜ìŠ¤ê°€ ì•„ë‹ˆë¼ ì´ë¦„ ë¬¸ìì—´ ê¸°ë°˜ ììœ  í•¨ìˆ˜ êµ¬ì¡° (Shop.h ì°¸ê³ )
+    // ViewShop(shop_name, name, player)ëŠ” ë‚´ë¶€ì ìœ¼ë¡œ ë‘ ë²ˆì§¸ ì¸ì(name)ë§Œ ì‹¤ì œ ì¡°íšŒì— ì‚¬ìš©í•¨
+    ViewShop(GetShopName(), GetShopName(), player);
 }
 
 void Dungeon::OnAltar(Player& player) {
@@ -136,19 +162,21 @@ void Dungeon::OnFountain(Player& player) {
 
 void Dungeon::OnBossFound() {
     bossFound_ = true;
-    std::cout << "º¸½º¹æÀ» ¹ß°ßÇß½À´Ï´Ù!\n";
+    std::cout << "ë³´ìŠ¤ë°©ì„ ë°œê²¬í–ˆìŠµë‹ˆë‹¤!\n";
 }
 
 void Dungeon::OnBossFight(Player& player) {
-    std::cout << GetName() << "ÀÇ º¸½º¹æ¿¡ ÀÔÀåÇÕ´Ï´Ù!\n";
-    Monster boss = Monster::CreateBoss(type_, player.GetLevel()); // (¹ÌÈ®Á¤) Monster ½ÇÁ¦ ÇÔ¼ö¸í
+    std::cout << GetName() << "ì˜ ë³´ìŠ¤ë°©ì— ì…ì¥í•©ë‹ˆë‹¤!\n";
+
+    // Monster / CombatSystemì€ ì•„ì§ ë¯¸í™•ì •ì´ë¼ ê¸°ì¡´ ì„ì‹œ í˜¸ì¶œ í˜•íƒœ ê·¸ëŒ€ë¡œ ìœ ì§€
+    Monster boss = Monster::CreateBoss(type_, player.GetPlayerLevel().at("current_level")); // (ë¯¸í™•ì •) Monster ì‹¤ì œ í•¨ìˆ˜ëª…
 
     CombatSystem combat;
     combat.Fight(player, boss);
 
-    if (player.IsAlive()) {
-        std::cout << GetName() << " Å¬¸®¾î! Åä¹ú Áõ¼­¸¦ È¹µæÇß½À´Ï´Ù.\n";
-        player.SetCleared(type_); // (¹ÌÈ®Á¤) Player ½ÇÁ¦ ÇÔ¼ö¸í
+    if (IsPlayerAlive(player)) {
+        std::cout << GetName() << " í´ë¦¬ì–´! í† ë²Œ ì¦ì„œë¥¼ íšë“í–ˆìŠµë‹ˆë‹¤.\n";
+        s_cleared[static_cast<int>(type_)] = true; // Playerì— í´ë¦¬ì–´ ì •ë³´ê°€ ì—†ì–´ Dungeonì´ staticìœ¼ë¡œ ìì²´ ê´€ë¦¬
         exitRequested_ = true;
     }
     else {
@@ -159,16 +187,16 @@ void Dungeon::OnBossFight(Player& player) {
 bool Dungeon::TryEscape(Player& player) {
     std::bernoulli_distribution fail(escapeFailPercent_ / 100.0);
     if (fail(rng_)) {
-        std::cout << "Å»Ãâ¿¡ ½ÇÆĞÇß½À´Ï´Ù! ¸ó½ºÅÍ¿Í ¸¶ÁÖÄ¨´Ï´Ù.\n";
+        std::cout << "íƒˆì¶œì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤! ëª¬ìŠ¤í„°ì™€ ë§ˆì£¼ì¹©ë‹ˆë‹¤.\n";
         OnMonster(player);
         return false;
     }
-    std::cout << "Å»Ãâ¿¡ ¼º°øÇß½À´Ï´Ù.\n";
+    std::cout << "íƒˆì¶œì— ì„±ê³µí–ˆìŠµë‹ˆë‹¤.\n";
     return true;
 }
 
 std::string Dungeon::GetBossRoomAnswer() const {
-    // (¹ÌÈ®Á¤) ´øÀüº° ½ÇÁ¦ ¹®Á¦/Á¤´ä
+    // (ë¯¸í™•ì •) ë˜ì „ë³„ ì‹¤ì œ ë¬¸ì œ/ì •ë‹µ
     switch (type_) {
     case DungeonType::Slime:  return "SLIME_ANSWER";
     case DungeonType::Zombie: return "ZOMBIE_ANSWER";
@@ -178,23 +206,23 @@ std::string Dungeon::GetBossRoomAnswer() const {
 }
 
 bool Dungeon::TryEnterBossRoom() const {
-    std::cout << "º¸½º¹æ ÀÔ±¸ÀÇ ¹®Á¦: Á¤´äÀ» ÀÔ·ÂÇÏ¼¼¿ä: ";
+    std::cout << "ë³´ìŠ¤ë°© ì…êµ¬ì˜ ë¬¸ì œ: ì •ë‹µì„ ì…ë ¥í•˜ì„¸ìš”: ";
     std::string answer;
     std::cin >> answer;
     return answer == GetBossRoomAnswer();
 }
 
 void Dungeon::OnDefeat(Player& player) {
-    std::cout << "¾²·¯Á³½À´Ï´Ù... ´øÀü¿¡¼­ °­Á¦·Î ¹Ğ·Á³³´Ï´Ù.\n";
+    std::cout << "ì“°ëŸ¬ì¡ŒìŠµë‹ˆë‹¤... ë˜ì „ì—ì„œ ê°•ì œë¡œ ë°€ë ¤ë‚©ë‹ˆë‹¤.\n";
 
-    player.ForceHpToOne(); // (¹ÌÈ®Á¤) Player ½ÇÁ¦ ÇÔ¼ö¸í
+    player.SetPlayerHp(1); // ì²´ë ¥ì„ 1ë¡œ ê°•ì œ ì¡°ì • (ê¸°ì¡´ ForceHpToOne ëŒ€ì²´)
 
-    std::uniform_int_distribution<int> goldLossRange(5, 20); // (¹ÌÈ®Á¤) °ñµå ¼Õ½Ç ¹üÀ§
-    int goldLoss = std::min(goldLossRange(rng_), player.GetGold());
-    player.SpendGold(goldLoss);
-    std::cout << "°ñµå " << goldLoss << "À»(¸¦) ÀÒ¾ú½À´Ï´Ù.\n";
+    std::uniform_int_distribution<int> goldLossRange(5, 20); // (ë¯¸í™•ì •) ê³¨ë“œ ì†ì‹¤ ë²”ìœ„
+    int goldLoss = std::min<int>(goldLossRange(rng_), player.GetPlayerGold());
+    player.DecreaseGold(static_cast<unsigned short>(goldLoss));
+    std::cout << "ê³¨ë“œ " << goldLoss << "ì„(ë¥¼) ìƒì—ˆìŠµë‹ˆë‹¤.\n";
 
-    auto items = player.GetInventory().ViewInventory();
+    auto items = g_player_inventory.ViewInventory();
     int removeCount = std::min<int>(2, static_cast<int>(items.size()));
 
     if (removeCount > 0) {
@@ -204,9 +232,9 @@ void Dungeon::OnDefeat(Player& player) {
         std::sample(indices.begin(), indices.end(), std::back_inserter(picked), removeCount, rng_);
 
         for (int idx : picked) {
-            RemoveItem(player.GetInventory(), items[idx].name_, items[idx].count_);
+            RemoveItem(g_player_inventory, items[idx].name_, items[idx].count_);
         }
-        std::cout << "¾ÆÀÌÅÛ " << removeCount << "Á¾·ù¸¦ ÀÒ¾ú½À´Ï´Ù.\n";
+        std::cout << "ì•„ì´í…œ " << removeCount << "ì¢…ë¥˜ë¥¼ ìƒì—ˆìŠµë‹ˆë‹¤.\n";
     }
 
     exitRequested_ = true;

@@ -4,6 +4,12 @@
 #include <iostream>
 
 void FountainEvent::Trigger(Player& player) {
-    std::cout << "»ý¸íÀÇ »ùÀ» ¹ß°ßÇß½À´Ï´Ù. Ã¼·ÂÀÌ ¸ðµÎ È¸º¹µË´Ï´Ù.\n";
-    player.Heal(player.GetMaxHP() - player.GetHP()); // (¹ÌÈ®Á¤) Player ½ÇÁ¦ ÇÔ¼ö¸í
+    std::cout << "ìƒëª…ì˜ ìƒ˜ì„ ë°œê²¬í–ˆìŠµë‹ˆë‹¤. ì²´ë ¥ì´ ëª¨ë‘ íšŒë³µë©ë‹ˆë‹¤.\n";
+
+    // PlayerëŠ” ìµœëŒ€/í˜„ìž¬ ì²´ë ¥ì„ GetPlayerHp() ë§µ í•˜ë‚˜ë¡œ ì œê³µ (max_hp / current_hp)
+    const auto hp = player.GetPlayerHp();
+    unsigned short missingHp = hp.at("max_hp") - hp.at("current_hp");
+    if (missingHp > 0) {
+        player.HpRecovery(missingHp);
+    }
 }

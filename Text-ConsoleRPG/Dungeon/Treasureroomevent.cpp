@@ -18,17 +18,17 @@ namespace {
         int weight;
     };
 
-    // (¹ÌÈ®Á¤) ½ÇÁ¦ ¾ÆÀÌÅÛ ÀÌ¸§/È®·üÀº ¾ÆÀÌÅÛ ´ã´çÀÚ µğÀÚÀÎÀ¸·Î ±³Ã¼
+    // (ë¯¸í™•ì •) ì‹¤ì œ ì•„ì´í…œ ì´ë¦„/í™•ë¥ ì€ ì•„ì´í…œ ë‹´ë‹¹ì ë””ìì¸ìœ¼ë¡œ êµì²´
     const std::vector<Reward> kRewardTable = {
-        { "¹«±â",     35 },
-        { "Àåºñ",     35 },
-        { "Æ÷¼Ç",     25 },
-        { "¿µ¾à",     5  }, // ³·Àº È®·ü, ´É·ÂÄ¡ ¿µ±¸ Áõ°¡¿ë (¹ÌÈ®Á¤)
+        { "ë¬´ê¸°",     35 },
+        { "ì¥ë¹„",     35 },
+        { "í¬ì…˜",     25 },
+        { "ì˜ì•½",      5 }, // ë‚®ì€ í™•ë¥ , ëŠ¥ë ¥ì¹˜ ì˜êµ¬ ì¦ê°€ìš© (ë¯¸í™•ì •)
     };
 }
 
 void TreasureRoomEvent::Trigger(Player& player) {
-    std::cout << "º¸¹° »óÀÚ¸¦ ¹ß°ßÇß½À´Ï´Ù!\n";
+    std::cout << "ë³´ë¬¼ ìƒìë¥¼ ë°œê²¬í–ˆìŠµë‹ˆë‹¤!\n";
 
     std::vector<double> weights;
     weights.reserve(kRewardTable.size());
@@ -39,6 +39,6 @@ void TreasureRoomEvent::Trigger(Player& player) {
     std::discrete_distribution<int> dist(weights.begin(), weights.end());
     const Reward& picked = kRewardTable[dist(Rng())];
 
-    AddItem(player.GetInventory(), picked.name, 1); // (¹ÌÈ®Á¤) Inventory ½ÇÁ¦ ÇÔ¼ö¸í
-    std::cout << picked.name << "À»(¸¦) È¹µæÇß½À´Ï´Ù.\n";
+    AddItem(g_player_inventory, picked.name, 1);
+    std::cout << picked.name << "ì„(ë¥¼) íšë“í–ˆìŠµë‹ˆë‹¤.\n";
 }
