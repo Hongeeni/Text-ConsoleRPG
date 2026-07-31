@@ -11,10 +11,13 @@ struct MonsterData {
     int hp;
     int atk;
     int def;
+    int spd;
+
     std::string dropName;
     std::string dropCategory;
     int dropPrice;
     int rewardExp;
+    
     bool isBoss;
 };
 

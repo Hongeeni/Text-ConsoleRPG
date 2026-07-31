@@ -1,6 +1,6 @@
 #include "monster.h"
 
-Monster::Monster(MonsterGroup group, string name, int hp, int atk, int def,
+Monster::Monster(MonsterGroup group, string name, int hp, int atk, int def, int spd,
     string dropName, string dropCategory, int dropPrice,
     int rewardExp, bool isBoss)
     : m_group(group), m_name(name), m_hp(hp), m_atk(atk), m_def(def),

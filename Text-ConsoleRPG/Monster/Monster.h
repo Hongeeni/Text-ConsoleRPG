@@ -9,7 +9,7 @@ enum class MonsterGroup {
 
 class Monster {
 public:
-    Monster(MonsterGroup group, std::string name, int hp, int atk, int def,
+    Monster(MonsterGroup group, std::string name, int hp, int atk, int def, int spd,
         std::string dropName, std::string dropCategory, int dropPrice,
         int rewardExp, bool isBoss);
 
@@ -21,6 +21,7 @@ public:
     int GetHP() const { return m_hp; }
     int GetATK() const { return m_atk; }
     int GetDEF() const { return m_def; }
+    int GetSpd() const { return m_spd; }
     bool IsAlive() const { return m_hp > 0; }
 
     // boss check
@@ -38,6 +39,7 @@ private:
     int m_hp;
     int m_atk;
     int m_def;
+    int m_spd;
 
     bool m_isBoss;
     MonsterGroup m_group;
