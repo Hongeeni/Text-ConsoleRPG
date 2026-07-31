@@ -11,59 +11,79 @@ protected:
     std::string player_name = "Nameless";
     std::string player_job = "Unemployed";
 
-    std::map<std::string, unsigned short> player_level = { {"current_level", 1}, {"max_level", 10} };
-    std::map<std::string, unsigned short> player_exp = { {"current_exp", 0}, {"max_exp", 100} };
-    std::map<std::string, unsigned short> player_life = { {"current_life", 3}, {"max_life", 3} };
-    std::map<std::string, unsigned short> player_hp = { {"current_hp", 200}, {"max_hp", 200} };
-    std::map<std::string, unsigned short> player_mp = { {"current_mp", 200}, {"max_mp", 200} };
-    std::map<std::string, unsigned short> player_status = { {"attack", 30}, {"defense", 30}, {"critical", 10}, {"speed", 10} };
+    int player_current_level = 1;
+    int player_current_life = 3;
+    int player_current_exp = 0;
+    int player_max_exp = 100;
+    int player_current_hp = 200;
+    int player_max_hp = 200;
+    int player_current_mp = 200;
+    int player_max_mp = 200;
+    int player_attack = 30;
+    int player_defense = 30;
+    int player_critical = 10;
+    int player_speed = 10;
+    int player_gold = 0;
 
-    const unsigned short kMaxExpIncreaseAmount = (player_exp.at("max_exp") * 3) / 2;
-    const unsigned short kAttackCost = 15;
-    const unsigned short kEmpty = 0;
-    unsigned short player_gold = 0;
+    // Construct Value
+    const int player_max_level = 10;
+    const int kMaxExpIncreaseAmount = (player_max_exp * 3) / 2;
+    const int kAttackCost = 15;
+    const int player_max_life = 3;
 
 public:
-    Player(const std::string new_player_name, const std::map<std::string, unsigned short> new_player_status);
+    Player(Player* player_info = nullptr);
 
     // Setter
     void SetPlayerName(std::string new_player_name);
     void SetPlayerJob(std::string new_player_job);
-    void SetPlayerLevel(unsigned short new_current_level);
-    void SetPlayerLevel(unsigned short new_current_level, unsigned short new_max_level);
-    void SetPlayerExp(unsigned short new_current_exp);
-    void SetPlayerExp(unsigned short new_current_exp, unsigned short new_max_exp);
-    void SetPlayerLife(unsigned short new_current_life);
-    void SetPlayerLife(unsigned short new_current_life, unsigned short new_max_exp);
-    void SetPlayerHp(unsigned short new_current_hp);
-    void SetPlayerHp(unsigned short new_current_hp, unsigned short new_max_hp);
-    void SetPlayerMp(unsigned short new_current_hp);
-    void SetPlayerMp(unsigned short new_current_hp, unsigned short new_max_hp);
-    void SetPlayerGold(unsigned short new_player_gold);
+    void SetPlayerLevel(int new_current_level);
+    void SetPlayerLife(int new_current_life);
+    void SetPlayerExp(int new_current_exp);
+    void SetPlayerExp(int new_current_exp, int new_max_exp);
+    void SetPlayerHp(int new_current_hp);
+    void SetPlayerHp(int new_current_hp, int new_max_hp);
+    void SetPlayerMp(int new_current_mp);
+    void SetPlayerMp(int new_current_mp, int new_max_mp);
+    void SetPlayerAttack(int new_player_attack);
+    void SetPlayerDefense(int new_player_defense);
+    void SetPlayerCritical(int new_player_critical);
+    void SetPlayerSpeed(int new_player_speed);
+    void SetPlayerGold(int new_player_gold);
 
     // Getter
     const std::string GetPlayerName(void);
     const std::string GetPlayerJob(void);
-    const std::map<std::string, unsigned short> GetPlayerLevel(void);
-    const std::map<std::string, unsigned short> GetPlayerExp(void);
-    const std::map<std::string, unsigned short> GetPlayerLife(void);
-    const std::map<std::string, unsigned short> GetPlayerHp(void);
-    const std::map<std::string, unsigned short> GetPlayerMp(void);
-    const std::map<std::string, unsigned short> GetPlayerStatus(void);
-    const unsigned short GetMaxExpIncreaseAmount(void);
-    const unsigned short GetAttackCost(void);
-    const unsigned short GetPlayerGold(void);
+    const int GetPlayerCurrentLevel(void);
+    const int GetPlayerCurrentLife(void);
+    const int GetPlayerCurrentExp(void);
+    const int GetPlayerMaxExp(void);
+    const int GetPlayerCurrentHp(void);
+    const int GetPlayerMaxHp(void);
+    const int GetPlayerCurrentMp(void);
+    const int GetPlayerMaxMp(void);
+    const int GetPlayrerAttack(void);
+    const int GetPlayrerDefense(void);
+    const int GetPlayrerCritical(void);
+    const int GetPlayrerSpeed(void);
+    const int GetPlayerGold(void);
+
+    // Construct Value Getter
+    const int GetMaxExpIncreaseAmount(void);
+    const int GetAttackCost(void);
+    const int GetPlayerMaxLevel(void);
+    const int GetPlayerMaxLife(void);
 
     // Player Function
-    bool PlayerAttack(unsigned short mp_reduction_amount);
-    bool PlayerDamage(unsigned short hp_reduction_amount);
-    void HpRecovery(unsigned short hp_increase_amount);
-    void MpRecovery(unsigned short mp_increase_amount);
-    void GainExp(unsigned short exp_increase_amount);
+    bool PlayerAttack(int mp_reduction_amount);
+    bool PlayerDamage(int hp_reduction_amount);
+    void HpRecovery(int hp_increase_amount);
+    void MpRecovery(int mp_increase_amount);
+    void GainExp(int exp_increase_amount);
 
     // Gold Function
-    void AddGold(unsigned short add_amount);
-    void DecreaseGold(unsigned short decrease_amount);
+    void AddGold(int add_amount);
+    void DecreaseGold(int decrease_amount);
     //bool SpendGold(int amount);                // 골드 부족하면 false
 
     // 소멸자를 순수 가상함수로 선언
@@ -73,7 +93,7 @@ private:
     // Private Player Function
     void PlayerLevelUp(void);
     void DecreaseLife(void);
-    bool IsAlive(unsigned short current_hp);
+    bool IsAlive(int current_hp);
 };
 
 #endif
