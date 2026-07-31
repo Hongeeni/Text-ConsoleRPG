@@ -1,4 +1,5 @@
 #include "EquipmentManager.h"
+#include "ItemData.h"
 #include <iomanip>
 #include <conio.h>
 #include <iostream>
@@ -60,7 +61,7 @@ bool UnequipGear(const std::string& answer) {
             _getch();
             return false;
         }
-        AddItem(g_player_armory, g_equip_slot..name_, 1);
+        AddItem(g_player_armory, g_equip_slot.armor.name_, 1);
         g_equip_slot.armor = {"", EquipType::None};
         std::cout << "방어구를 해제했습니다.\n";
         std::cout << "---------------------------------------------------------------------\n";
@@ -93,14 +94,15 @@ void DisplayEquipMenu() {
             UnequipGear("armor");
             continue;
         }
-        // ItemSearch result = FindItem(answer); !Need Function from Item
-        // if (!result.found) {
-        //     cout << "---------------------------------------------------------------------\n";
-        //     cout << "Can not find that name.\n";
-        //     cout << "---------------------------------------------------------------------\n";
-        //     Waitforseconds(1);
-        //     continue;
-        // }
+        ItemData item_data = FindItem(answer);
+        EquipType equip_type = EquipType::None;
+        if (!item_data.found) {
+            std::cout << "---------------------------------------------------------------------\n";
+            std::cout << "해당 아이템을 찾을 수 없습니다.\n";
+            std::cout << "---------------------------------------------------------------------\n";
+            _getch();
+            continue;
+        }
         if (!CheckItem(g_player_armory, answer, 1)) {
             std::cout << "---------------------------------------------------------------------\n";
             std::cout << "그 아이템을 가지고 있지 않습니다..\n";
@@ -108,13 +110,22 @@ void DisplayEquipMenu() {
             _getch();
             continue;
         }
-        // ItemInfo data = GetItemData(answer);   // 아직 없음
-        // EquipInfo equip_info{ data.name_, data.equip_type_ };
-        // EquipGear(equip_info);
-        // EquipGear(answer);
-        if (EquipGear(equip_info)) {
-            RemoveItem(g_player_armory, answer, 1);
+        if (item_data.category == "weapon") {
+            equip_type = EquipType::Weapon;
         }
+        else if (item_data.category == "armor") {
+            equip_type = EquipType::Armor;
+        }
+        else {
+            std::cout << "---------------------------------------------------------------------\n";
+            std::cout << "잘못된 아이템을 입력했습니다.\n";
+            std::cout << "---------------------------------------------------------------------\n";
+            _getch();
+            continue;
+        }
+        EquipInfo equip_info = { item_data.name, equip_type };
+        EquipGear(equip_info);
+        RemoveItem(g_player_armory, item_data.name, 1);
         _getch();
         continue;
     }

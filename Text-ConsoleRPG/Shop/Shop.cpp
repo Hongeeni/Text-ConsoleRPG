@@ -1,4 +1,5 @@
 #include "Shop.h"
+#include "ItemData.h"
 #include <iostream>
 #include <iomanip>
 #include <conio.h>
@@ -59,38 +60,33 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 		_getch();
 		return false;
 	}
-	// int d = FindItem(item_name); 
-	// ItemInfo data = GetItemData(d); !Need a function that bring item informations
-	// if (data.buy_value > playe.GetPlayerGold()) {
-	//	cout << "---------------------------------------------------------------------\n";
-	//	cout << "해당 아이템을 찾을 수 없습니다.\n";
-	//	cout << "---------------------------------------------------------------------\n";
-	//	
-	//	return false;
-	//}
-	//ItemInfo data = GetItemData[item_name]; !Need a function that bring item informations
-	// RemoveGoods(shop_name, data.name, 1);
-	// g_map_shop.at(shop_name);
-	// AddItem(inven, data.name, 1);
-	// player.DecreaseGold(data.);
-	// std::cout << "---------------------------------------------------------------------\n";
-	// std::cout << "[" << data.name << "]를 구매했습니다.\n";
-	// std::cout << "[" << data.buy_value << "]골드를 사용했습니다.\n";
-	// std::cout << "---------------------------------------------------------------------\n";
+	ItemData item_data = FindItem(item_name); 
+	if (item_data.price > player.GetPlayerGold()) {
+		cout << "---------------------------------------------------------------------\n";
+		cout << "골드가 충분하지 않습니다.\n";
+		cout << "---------------------------------------------------------------------\n";
+		_getch();
+		return false;
+	}
+	 RemoveGoods(shop_name, item_data.name, 1);
+	 AddItem(inven, item_data.name, 1);
+	 player.DecreaseGold(item_data.price);
+	 std::cout << "---------------------------------------------------------------------\n";
+	 std::cout << "[" << item_data.name << "]를 구매했습니다.\n";
+	 std::cout << "[" << item_data.price << "]골드를 사용했습니다.\n";
+	 std::cout << "---------------------------------------------------------------------\n";
 	 _getch();
 	 return true;
 }
 bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::string& item_name) {
-	// // ItemInfo data = FindItem(item_name); !Need a function that bring item informations
-
-	//  if (id == -1) {
-	//  	std::cout << "---------------------------------------------------------------------\n";
-	//  	std::cout << "해당 아이템을 찾을 수 없습니다.\n";
-	//  	std::cout << "---------------------------------------------------------------------\n";
-	//  	_getch();
-	//  	return false;
-	//  }
-	
+	ItemData item_data = FindItem(item_name);
+	 if (!item_data.found) {
+	 	std::cout << "---------------------------------------------------------------------\n";
+	 	std::cout << "해당 아이템을 찾을 수 없습니다.\n";
+	 	std::cout << "---------------------------------------------------------------------\n";
+	 	_getch();
+	 	return false;
+	 }
 	if (!CheckItem(inven, item_name, 1)) {
 	  	std::cout << "---------------------------------------------------------------------\n";
 	  	std::cout << "해당 아이템을 가지고 있지 않습니다.\n";
@@ -98,13 +94,13 @@ bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::strin
 	  	_getch();
 	  	return false;
 	  }
-	//  ItemInfo data = GetItemData(item_name);
-	//  cout << "---------------------------------------------------------------------\n";
-	//  cout << "[" << data.name << "]를 판매했습니다.\n";
-	//  cout << "[" << data.sell_value << "]골드를 얻었습니다.\n";
-	//  cout << "---------------------------------------------------------------------\n";
-	//removeItem(inven, data.name, 1);
-	// SetPlayerGold(GetPlayerGold() + data.buy_value);
+	int sell_value = item_data.price / 2;
+	 std::cout << "---------------------------------------------------------------------\n";
+	 std::cout << "[" << item_data.name << "]를 판매했습니다.\n";
+	 std::cout << "[" << sell_value << "]골드를 얻었습니다.\n";
+	 std::cout << "---------------------------------------------------------------------\n";
+	 RemoveItem(inven, item_data.name, 1);
+	 player.AddGold(sell_value);
 	 _getch();
 	 return true;
 }
@@ -148,8 +144,11 @@ void ViewShop(const std::string& shop_name, const std::string& name, Player& pla
 		if (answer == "0") { 
 			return; 
 		}
-
-		// BuyItems(inven, player, shop_name, answer); Need a function from itemdata
+		ItemData item_data = FindItem(answer);
+		Inventory<InventoryInfo>& inventype =
+			(item_data.category == "weapon" || item_data.category == "armor") ? g_player_armory : g_player_inventory;
+	
+		BuyItems(inventype, player, shop_name, answer); 
 		continue;
 	}
 }
