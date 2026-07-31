@@ -18,7 +18,8 @@ public:
     std::string GetName() const { return m_name; }
     std::string GetDesc() const { return m_desc; }
 
-    int GetPrice() const { return m_price; }
+    int GetBuyPrice() const { return m_price; }
+    int GetSellPrice() const { return m_price / 2; }
     int GetCount() const { return m_count; }
 
     int GetHealHPAmount() const { return m_healHp; }
@@ -47,7 +48,6 @@ public:
     void PrintInfo() const;
 
 private:
-    int m_id;
     std::string m_category;
 
     std::string m_name;
