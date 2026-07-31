@@ -9,7 +9,7 @@ enum class MonsterGroup {
 
 class Monster {
 public:
-    Monster(MonsterGroup group, int id, std::string name, int hp, int atk, int def,
+    Monster(MonsterGroup group, std::string name, int hp, int atk, int def,
         std::string dropName, std::string dropCategory, int dropPrice,
         int rewardExp, bool isBoss);
 
@@ -17,7 +17,6 @@ public:
     MonsterGroup GetGroup() const { return m_group; }
 
     // getter
-    int GetID() const { return m_id; }
     std::string GetName() const { return m_name; }
     int GetHP() const { return m_hp; }
     int GetATK() const { return m_atk; }
@@ -35,7 +34,6 @@ public:
     int GetRewardExp() const { return m_rewardExp; }
 
 private:
-    int m_id;
     std::string m_name;
     int m_hp;
     int m_atk;

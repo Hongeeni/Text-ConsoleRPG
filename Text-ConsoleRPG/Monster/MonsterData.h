@@ -7,7 +7,6 @@
 
 struct MonsterData {
     MonsterGroup group;
-    int id;
     std::string name;
     int hp;
     int atk;
