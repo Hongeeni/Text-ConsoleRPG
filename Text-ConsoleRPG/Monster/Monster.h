@@ -31,7 +31,7 @@ public:
     // item, exp
     std::string GetDropName() const { return m_dropName; }
     std::string GetDropCategory() const { return m_dropCategory; }
-    int GetDropPrice() const { return m_dropPrice; }
+    int GetDropGold() const { return m_dropGold; }
     int GetRewardExp() const { return m_rewardExp; }
 
 private:
@@ -46,6 +46,6 @@ private:
 
     std::string m_dropName;
     std::string m_dropCategory;
-    int m_dropPrice;
+    int m_dropGold;
     int m_rewardExp;
 };

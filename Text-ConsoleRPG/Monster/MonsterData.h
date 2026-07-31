@@ -15,7 +15,7 @@ struct MonsterData {
 
     std::string dropName;
     std::string dropCategory;
-    int dropPrice;
+    int dropGold;
     int rewardExp;
     
     bool isBoss;
