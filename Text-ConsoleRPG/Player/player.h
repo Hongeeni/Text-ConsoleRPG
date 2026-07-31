@@ -20,6 +20,7 @@ protected:
 
     const unsigned short kMaxExpIncreaseAmount = (player_exp.at("max_exp") * 3) / 2;
     const unsigned short kAttackCost = 15;
+    const unsigned short kEmpty = 0;
     unsigned short player_gold = 0;
 
 public:

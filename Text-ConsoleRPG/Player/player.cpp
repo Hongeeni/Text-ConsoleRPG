@@ -88,14 +88,14 @@ const unsigned short Player::GetPlayerGold(void) {
 
 // Player Function
 bool Player::PlayerAttack(unsigned short mp_decrease_amount) {
-	if (GetPlayerMp().at("current_mp") - mp_decrease_amount >= 0) {
+	if (GetPlayerMp().at("current_mp") - mp_decrease_amount >= this->kEmpty) {
 		SetPlayerMp(GetPlayerMp().at("current_mp") - mp_decrease_amount);
 		return true;
 	}
 	return false;
 }
 bool Player::PlayerDamage(unsigned short hp_decrease_amount) {
-	SetPlayerHp(std::min(GetPlayerHp().at("current_hp") - hp_decrease_amount, 0));
+	SetPlayerHp(std::min((unsigned short)(GetPlayerHp().at("current_hp") - hp_decrease_amount), this->kEmpty));
 	return IsAlive(GetPlayerHp().at("current_hp"));
 }
 void Player::HpRecovery(unsigned short hp_decrease_amount) {
@@ -119,7 +119,7 @@ void Player::AddGold(unsigned short add_amount) {
 	SetPlayerGold(GetPlayerGold() + add_amount);
 }
 void Player::DecreaseGold(unsigned short decrease_amount) {
-	SetPlayerGold(GetPlayerGold() - decrease_amount);
+	SetPlayerGold(std::min((unsigned short)(GetPlayerGold() - decrease_amount), this->kEmpty));
 }
 
 Player::~Player(void) {}
@@ -129,10 +129,10 @@ void Player::PlayerLevelUp(void) {
 	SetPlayerLevel(GetPlayerLevel().at("current_level") + 1);
 }
 void Player::DecreaseLife(void) {
-	SetPlayerLife(std::min(GetPlayerLife().at("current_life") - 1, 0));
+	SetPlayerLife(std::min((unsigned short)(GetPlayerLife().at("current_life") - 1), this->kEmpty));
 }
 bool Player::IsAlive(unsigned short current_hp) {
-	if (current_hp > 0) {
+	if (current_hp > this->kEmpty) {
 		return true;
 	}
 	DecreaseLife();
