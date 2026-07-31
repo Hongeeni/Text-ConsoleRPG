@@ -62,10 +62,10 @@ public:
     const int GetPlayerMaxHp(void);
     const int GetPlayerCurrentMp(void);
     const int GetPlayerMaxMp(void);
-    const int GetPlayrerAttack(void);
-    const int GetPlayrerDefense(void);
-    const int GetPlayrerCritical(void);
-    const int GetPlayrerSpeed(void);
+    const int GetPlayerAttack(void);
+    const int GetPlayerDefense(void);
+    const int GetPlayerCritical(void);
+    const int GetPlayerSpeed(void);
     const int GetPlayerGold(void);
 
     // Construct Value Getter
