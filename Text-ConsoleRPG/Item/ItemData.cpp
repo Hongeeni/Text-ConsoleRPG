@@ -85,3 +85,25 @@ Item CreateItem(string name, int count) {
         first.bonusHp, first.bonusMp, first.bonusAtk,
         first.bonusDef, first.bonusCrit, first.bonusSpd);
 }
+
+unordered_map<string, ItemData> GetItemMap() {
+    auto items = ItemList();
+    unordered_map<string, ItemData> itemMap;
+
+    for (const auto& i : items) {
+        itemMap[i.name] = i;    // 이름을 key로 저장
+    }
+
+    return itemMap;
+}
+
+ItemData FindItem(const string& name) {
+    auto itemMap = GetItemMap();
+    auto it = itemMap.find(name);
+
+    if (it != itemMap.end()) {
+        return it->second;      
+    }
+
+    return ItemList()[0];
+}
