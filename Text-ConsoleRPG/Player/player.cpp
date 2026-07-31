@@ -1,5 +1,6 @@
 #include "player.h"
 
+// Constructor
 Player::Player(Player* player_info = nullptr) {
 	if (player_info != nullptr) {
 		this->player_name = player_info->GetPlayerName();
@@ -116,7 +117,7 @@ const int Player::GetPlayerGold(void) {
 	return this->player_gold;
 }
 
-// Construct Value Getter
+// Constant Value Getter
 const int Player::GetMaxExpIncreaseAmount(void) {
 	return this->kMaxExpIncreaseAmount;
 }
@@ -165,8 +166,6 @@ void Player::AddGold(int add_amount) {
 void Player::DecreaseGold(int decrease_amount) {
 	SetPlayerGold(std::min((GetPlayerGold() - decrease_amount), 0));
 }
-
-Player::~Player(void) {}
 
 // Private Player Function
 void Player::PlayerLevelUp(void) {

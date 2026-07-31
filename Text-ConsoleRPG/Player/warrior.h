@@ -8,7 +8,7 @@ private:
 	const unsigned short kSpecialAttackCost = 20;
 
 public:
-	Warrior(const std::string new_player_name, const std::map<std::string, unsigned short> new_player_status);
+	Warrior(Player* player_info = nullptr);
 
 	const unsigned short GetSpecialAttackCost(void);
 

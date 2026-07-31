@@ -5,7 +5,7 @@
 
 class Farmer : public Player {
 public:
-	Farmer(const std::string new_player_name, const std::map<std::string, unsigned short> new_player_status);
+	Farmer(Player* player_info = nullptr);
 
 	~Farmer(void);
 };

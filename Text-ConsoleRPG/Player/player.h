@@ -32,6 +32,7 @@ protected:
     const int player_max_life = 3;
 
 public:
+    // Constructor
     Player(Player* player_info = nullptr);
 
     // Setter
@@ -68,7 +69,7 @@ public:
     const int GetPlayerSpeed(void);
     const int GetPlayerGold(void);
 
-    // Construct Value Getter
+    // Constant Value Getter
     const int GetMaxExpIncreaseAmount(void);
     const int GetAttackCost(void);
     const int GetPlayerMaxLevel(void);

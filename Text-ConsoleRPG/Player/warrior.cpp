@@ -1,6 +1,6 @@
 #include "warrior.h"
 
-Warrior::Warrior(const std::string new_player_name, const std::map<std::string, unsigned short> new_player_status): Player(new_player_name, new_player_status) {
+Warrior::Warrior(Player* player_info = nullptr) : Player(player_info) {
 	this->player_job = "Warrior";
 }
 
