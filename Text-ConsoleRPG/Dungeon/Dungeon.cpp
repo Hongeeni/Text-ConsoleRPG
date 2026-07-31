@@ -1,4 +1,4 @@
-#include "Dungeon.h"
+﻿#include "Dungeon.h"
 #include "Player.h"
 #include "Monster.h"
 #include "CombatSystem.h"
@@ -29,43 +29,43 @@ bool Dungeon::IsPlayerAlive(Player& player) const {
 
 std::string Dungeon::GetName() const {
     switch (type_) {
-    case DungeonType::Slime:  return "Slime Dungeon";
-    case DungeonType::Zombie: return "Undead Dungeon";
-    case DungeonType::Golem:  return "Golem Dungeon";
+    case DungeonType::Slime:  return "슬라임 던전";
+    case DungeonType::Undead: return "언데드 던전";
+    case DungeonType::Golem:  return "골렘 던전";
     }
-    return "Unknown Dungeon";
+    return "알 수 없는 던전";
 }
 
 std::string Dungeon::GetShopName() const {
     // Shop.cpp kShopList()에 정의된 실제 상점 이름과 매칭
     switch (type_) {
-    case DungeonType::Slime:  return "Slime Shop";
-    case DungeonType::Zombie: return "Undead Dungeon Shop";
-    case DungeonType::Golem:  return "Stone Shop";
+    case DungeonType::Slime:  return "슬라임 상점";
+    case DungeonType::Undead: return "언데드 상점";
+    case DungeonType::Golem:  return "골렘 상점";
     }
-    return "Normal Shop";
+    return "상점";
 }
 
 void Dungeon::ShowMenu() const {
     std::cout << "========== " << GetName() << " ==========\n";
-    std::cout << "1. Advance\n";
-    std::cout << "2. Inventory\n";
+    std::cout << "1. 전진\n";
+    std::cout << "2. 인벤토리\n";
     if (bossFound_) {
-        std::cout << "3. Go to Boss Room\n";
-        std::cout << "4. Escape Dungeon\n";
+        std::cout << "3. 보스룸으로\n";
+        std::cout << "0. 던전 탈출\n";
     }
     else {
-        std::cout << "3. Escape Dungeon\n";
+        std::cout << "0. 던전 탈출\n";
     }
-    std::cout << "Choice: ";
+    std::cout << "선택: ";
 }
 
 int Dungeon::GetChoice(int maxOption) const {
     int choice = -1;
-    while (!(std::cin >> choice) || choice < 1 || choice > maxOption) {
+    while (!(std::cin >> choice) || choice < 0 || choice > maxOption) {
         std::cin.clear();
         std::cin.ignore(10000, '\n');
-        std::cout << "Invalid input. Please choose again: ";
+        std::cout << "잘못된 입력입니다. 다시 선택하세요: ";
     }
     return choice;
 }
@@ -75,7 +75,7 @@ void Dungeon::Run(Player& player) {
 
     while (!exitRequested_) {
         ShowMenu();
-        int maxOption = bossFound_ ? 4 : 3;
+        int maxOption = bossFound_ ? 3 : 2;
         int choice = GetChoice(maxOption);
 
         if (choice == 1) {
@@ -89,7 +89,7 @@ void Dungeon::Run(Player& player) {
                 OnBossFight(player);
             }
             else {
-                std::cout << "Wrong answer. You cannot enter the boss room.\n";
+                std::cout << "정답이 틀렸습니다. 보스방에 들어갈 수 없습니다.\n";
             }
         }
         else {
@@ -127,7 +127,7 @@ void Dungeon::Resolve(Event e, Player& player) {
 }
 
 void Dungeon::OnMonster(Player& player) {
-    std::cout << "You encountered a monster!\n";
+    std::cout << "몬스터와 마주쳤습니다!\n";
 
     // Monster / CombatSystem은 아직 미확정이라 기존 임시 호출 형태 그대로 유지
     Monster monster = Monster::Create(type_, player.GetPlayerLevel().at("current_level")); // (미확정) Monster 실제 함수명
@@ -145,7 +145,7 @@ void Dungeon::OnTreasure(Player& player) {
 }
 
 void Dungeon::OnShop(Player& player) {
-    std::cout << "You met the dungeon merchant.\n";
+    std::cout << "던전 상인을 만났습니다.\n";
 
     // Shop은 클래스가 아니라 이름 문자열 기반 자유 함수 구조 (Shop.h 참고)
     // ViewShop(shop_name, name, player)는 내부적으로 두 번째 인자(name)만 실제 조회에 사용함
@@ -162,11 +162,11 @@ void Dungeon::OnFountain(Player& player) {
 
 void Dungeon::OnBossFound() {
     bossFound_ = true;
-    std::cout << "You discovered the boss room!\n";
+    std::cout << "보스방을 발견했습니다!\n";
 }
 
 void Dungeon::OnBossFight(Player& player) {
-    std::cout << "Entering the boss room of" << GetName() << "\n";
+    std::cout << << GetName() << "의 보스방에 입장합니다!\n";
 
     // Monster / CombatSystem은 아직 미확정이라 기존 임시 호출 형태 그대로 유지
     Monster boss = Monster::CreateBoss(type_, player.GetPlayerLevel().at("current_level")); // (미확정) Monster 실제 함수명
@@ -175,7 +175,7 @@ void Dungeon::OnBossFight(Player& player) {
     combat.Fight(player, boss);
 
     if (IsPlayerAlive(player)) {
-        std::cout << GetName() << " cleared! You obtained a Subjugation Certificate.\n";
+        std::cout << GetName() << " 클리어! 토벌 증서를 획득했습니다.\n";
         s_cleared[static_cast<int>(type_)] = true; // Player에 클리어 정보가 없어 Dungeon이 static으로 자체 관리
         exitRequested_ = true;
     }
@@ -187,11 +187,11 @@ void Dungeon::OnBossFight(Player& player) {
 bool Dungeon::TryEscape(Player& player) {
     std::bernoulli_distribution fail(escapeFailPercent_ / 100.0);
     if (fail(rng_)) {
-        std::cout << "Escape failed! You run into a monster.\n";
+        std::cout << "탈출에 실패했습니다! 몬스터와 마주칩니다.\n";
         OnMonster(player);
         return false;
     }
-    std::cout << "Escape succeeded.\n";
+    std::cout << "탈출에 성공했습니다.\n";
     return true;
 }
 
@@ -206,21 +206,21 @@ std::string Dungeon::GetBossRoomAnswer() const {
 }
 
 bool Dungeon::TryEnterBossRoom() const {
-    std::cout << "Boss room riddle \nenter the answer: ";
+    std::cout << "보스방 입구 문제 \n정답을 입력하세요: ";
     std::string answer;
     std::cin >> answer;
     return answer == GetBossRoomAnswer();
 }
 
 void Dungeon::OnDefeat(Player& player) {
-    std::cout << "You have fallen... You are forcibly ejected from the dungeon.\n";
+    std::cout << "쓰러졌습니다... 던전에서 강제로 추방됩니다.\n";
 
     player.SetPlayerHp(1); // 체력을 1로 강제 조정 (기존 ForceHpToOne 대체)
 
     std::uniform_int_distribution<int> goldLossRange(5, 20); // (미확정) 골드 손실 범위
     int goldLoss = std::min<int>(goldLossRange(rng_), player.GetPlayerGold());
     player.DecreaseGold(static_cast<unsigned short>(goldLoss));
-    std::cout << "You lost" << goldLoss << "gold.\n";
+    std::cout << "골드" << goldLoss << "을(를) 잃었습니다.\n";
 
     auto items = g_player_inventory.ViewInventory();
     int removeCount = std::min<int>(2, static_cast<int>(items.size()));
@@ -234,7 +234,7 @@ void Dungeon::OnDefeat(Player& player) {
         for (int idx : picked) {
             RemoveItem(g_player_inventory, items[idx].name_, items[idx].count_);
         }
-        std::cout << "You lost" << removeCount << "item(s).\n";
+        std::cout << "아이템" << removeCount << "종류를 잃었습니다.\n";
     }
 
     exitRequested_ = true;
