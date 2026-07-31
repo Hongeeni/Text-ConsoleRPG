@@ -4,7 +4,7 @@
 #include <iostream>
 
 void FountainEvent::Trigger(Player& player) {
-    std::cout << "생명의 샘을 발견했습니다. 체력이 모두 회복됩니다.\n";
+    std::cout << "You found the Fountain of Life. Your HP is fully restored.\n";
 
     // Player는 최대/현재 체력을 GetPlayerHp() 맵 하나로 제공 (max_hp / current_hp)
     const auto hp = player.GetPlayerHp();

@@ -1,3 +1,3 @@
 #pragma once
 
-enum class DungeonType { Slime, Zombie, Golem };
+enum class DungeonType { Slime, Undead, Golem };

@@ -12,7 +12,7 @@ namespace {
 }
 
 void AltarEvent::Trigger(Player& player) {
-    std::cout << "낡은 제단을 발견했습니다.\n";
+    std::cout << "You found an old altar.\n";
 
     // (미확정) 좋은/나쁜 효과 목록 - 우선 체력 증감 1종류씩만 구현
     const unsigned short kHealAmount = 20;   // (미확정)
@@ -21,10 +21,10 @@ void AltarEvent::Trigger(Player& player) {
     std::bernoulli_distribution isGood(0.5);
     if (isGood(Rng())) {
         player.HpRecovery(kHealAmount);
-        std::cout << "제단이 축복을 내렸습니다! (체력 " << kHealAmount << " 회복)\n";
+        std::cout << "The altar bestowed a blessing! (HP +" << kHealAmount << ")\n";
     }
     else {
         player.PlayerDamage(kDamageAmount);
-        std::cout << "제단이 저주를 내렸습니다! (체력 " << kDamageAmount << " 감소)\n";
+        std::cout << "The altar cast a curse! (HP -" << kDamageAmount << ")\n";
     }
 }
