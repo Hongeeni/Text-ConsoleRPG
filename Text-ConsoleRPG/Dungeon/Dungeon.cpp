@@ -199,7 +199,7 @@ std::string Dungeon::GetBossRoomAnswer() const {
     // (미확정) 던전별 실제 문제/정답
     switch (type_) {
     case DungeonType::Slime:  return "SLIME_ANSWER";
-    case DungeonType::Zombie: return "Undead_ANSWER";
+    case DungeonType::Undead: return "Undead_ANSWER";
     case DungeonType::Golem:  return "GOLEM_ANSWER";
     }
     return "";
