@@ -6,7 +6,6 @@
 #include "item.h"
 
 struct ItemData {
-    int id;
     std::string category;
 
     std::string name;
@@ -28,4 +27,4 @@ struct ItemData {
 std::vector<ItemData> ItemList();
 
 
-Item CreateItem(int id, int count = 1); // default count, 1
+Item CreateItem(string name, int count = 1); // default count, 1

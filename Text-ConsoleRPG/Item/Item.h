@@ -5,7 +5,7 @@
 
 class Item {
 public:
-    Item(int id, std::string category, 
+    Item(std::string category, 
         std::string name, std::string desc,
         int price, int count, 
         int healHp, int healMp,

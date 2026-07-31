@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Item::Item(int id, string category, 
+Item::Item(string category, 
     string name, string desc,
     int price, int count,
     int healHp, int healMp,
