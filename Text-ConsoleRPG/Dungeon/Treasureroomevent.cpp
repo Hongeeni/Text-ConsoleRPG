@@ -1,11 +1,10 @@
-﻿#include "TreasureRoomEvent.h"
+#include "TreasureRoomEvent.h"
 #include "Player.h"
 #include "Inventory.h"
 
 #include <random>
 #include <string>
 #include <vector>
-#include <iostream>
 
 namespace {
     std::mt19937& Rng() {
@@ -27,9 +26,7 @@ namespace {
     };
 }
 
-void TreasureRoomEvent::Trigger(Player& player) {
-    std::cout << "보물 상자를 발견했습니다!\n";
-
+TreasureResult TreasureRoomEvent::Trigger(Player& player) {
     std::vector<double> weights;
     weights.reserve(kRewardTable.size());
     for (const auto& reward : kRewardTable) {
@@ -40,5 +37,8 @@ void TreasureRoomEvent::Trigger(Player& player) {
     const Reward& picked = kRewardTable[dist(Rng())];
 
     AddItem(g_player_inventory, picked.name, 1);
-    std::cout << picked.name << "을(를) 획득했습니다.\n";
+
+    TreasureResult result;
+    result.itemName = picked.name;
+    return result;
 }

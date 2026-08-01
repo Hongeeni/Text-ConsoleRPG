@@ -2,7 +2,12 @@
 
 class Player;
 
+struct FountainResult {
+    unsigned short hpRestored = 0;
+    unsigned short mpRestored = 0;
+};
+
 class FountainEvent {
 public:
-    static void Trigger(Player& player);
+    static FountainResult Trigger(Player& player);
 };
