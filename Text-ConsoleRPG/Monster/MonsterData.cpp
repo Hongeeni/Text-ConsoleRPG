@@ -6,7 +6,7 @@ vector<MonsterData> MonsterList() {
     vector<MonsterData> monsters = {
 
 
-                        // group, name,          hp, atk, def, spd, dropitenname,    category, gold, exp, isboss
+                        // group, name,          hp, attack, def, spd, dropitenname,    category, gold, exp, isboss
         // Slime
         { MonsterGroup::Slime,  "작은 슬라임",   80,  15, 5, 0,  "슬라임 부산물",     "parts",  10, 20,  false },
         { MonsterGroup::Slime,  "슬라임 무리",        120, 20, 8, 0,  "슬라임 부산물"     "parts",  10, 30,  false },
@@ -41,7 +41,7 @@ Monster CreateMonster(int id) {
     auto monsters = MonsterList();
     for (const auto& m : monsters) {
         if (m.id == id) {
-            return Monster(m.group, m.name, m.hp, m.atk, m.def, m.spd,
+            return Monster(m.group, m.name, m.hp, m.attack, m.defence, m.speed,
                 m.dropName, m.dropCategory, m.dropGold,
                 m.rewardExp, m.isBoss);
         }
