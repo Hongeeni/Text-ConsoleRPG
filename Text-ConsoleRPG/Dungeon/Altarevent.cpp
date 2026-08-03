@@ -1,4 +1,4 @@
-#include "AltarEvent.h"
+﻿#include "AltarEvent.h"
 #include "Player.h"
 
 #include <random>
@@ -24,7 +24,7 @@ AltarResult AltarEvent::Trigger(Player& player) {
         result.amount = kHealAmount;
     }
     else {
-        player.PlayerDamage(kDamageAmount);
+        player.GetDamage(kDamageAmount);
         result.blessed = false;
         result.amount = kDamageAmount;
     }
