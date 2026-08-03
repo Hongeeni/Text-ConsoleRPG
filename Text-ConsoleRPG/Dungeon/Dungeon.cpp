@@ -1,17 +1,34 @@
 ﻿#include "Dungeon.h"
 #include "Player.h"
 #include "Monster.h"
-#include "CombatSystem.h"
+#include "MonsterData.h"
+#include "combat.h"
 #include "Shop.h"
 #include "Inventory.h"
-#include "TreasureRoomEvent.h"
-#include "AltarEvent.h"
-#include "FountainEvent.h"
 
 #include <iostream>
 #include <algorithm>
 #include <numeric>
 #include <array>
+#include <vector>
+
+namespace {
+    // DungeonType(0,1,2)과 MonsterGroup(1,2,3)은 값이 달라서 직접 변환
+    MonsterGroup ToMonsterGroup(DungeonType type) {
+        switch (type) {
+        case DungeonType::Slime:  return MonsterGroup::Slime;
+        case DungeonType::Undead: return MonsterGroup::Undead;
+        case DungeonType::Golem:  return MonsterGroup::Golem;
+        }
+        return MonsterGroup::Slime;
+    }
+
+    Monster MakeMonster(const MonsterData& data) {
+        return Monster(data.group, data.name, data.hp, data.attack, data.defence, data.speed,
+            data.dropName, data.dropCategory, data.dropGold,
+            data.rewardExp, data.isBoss);
+    }
+}
 
 Dungeon::Dungeon(DungeonType type) : type_(type) {}
 
@@ -22,9 +39,34 @@ bool Dungeon::IsCleared(DungeonType type) {
     return s_cleared[static_cast<int>(type)];
 }
 
-// Player::IsAlive()가 private라 외부에서 호출 불가 -> 일단 임시
+bool Dungeon::IsBossFound() const {
+    return bossFound_;
+}
+
+bool Dungeon::IsExitRequested() const {
+    return exitRequested_;
+}
+
+// ---- 제단 (발견과 발동이 분리되어 있다) ----
+
+bool Dungeon::IsAltarPending() const {
+    return altarPending_;
+}
+
+AltarResult Dungeon::TouchAltar(Player& player) {
+    if (!altarPending_) {
+        return AltarResult{};   // 제단 앞이 아니면 아무 일도 없음
+    }
+    altarPending_ = false;
+    return AltarEvent::Trigger(player);
+}
+
+void Dungeon::SkipAltar() {
+    altarPending_ = false;
+}
+
 bool Dungeon::IsPlayerAlive(Player& player) const {
-    return player.GetPlayerHp().at("current_hp") > 0;
+    return player.GetCurrentHp() > 0;
 }
 
 std::string Dungeon::GetName() const {
@@ -37,190 +79,204 @@ std::string Dungeon::GetName() const {
 }
 
 std::string Dungeon::GetShopName() const {
-    // Shop.cpp kShopList()에 정의된 실제 상점 이름과 매칭
     switch (type_) {
-    case DungeonType::Slime:  return "슬라임 상점";
-    case DungeonType::Undead: return "언데드 상점";
-    case DungeonType::Golem:  return "골렘 상점";
+    case DungeonType::Slime:  return "슬라임 상인";
+    case DungeonType::Undead: return "언데드 상인";
+    case DungeonType::Golem:  return "골렘 상인";
     }
-    return "상점";
+    return "일반 상점";
 }
 
-void Dungeon::ShowMenu() const {
-    std::cout << "========== " << GetName() << " ==========\n";
-    std::cout << "1. 전진\n";
-    std::cout << "2. 인벤토리\n";
-    if (bossFound_) {
-        std::cout << "3. 보스룸으로\n";
-        std::cout << "0. 던전 탈출\n";
-    }
-    else {
-        std::cout << "0. 던전 탈출\n";
-    }
-    std::cout << "선택: ";
+// ---- 입력 수신 전용 ----
+
+int Dungeon::ReadIntInput() {
+    int value = 0;
+    std::cin >> value;
+    return value;
 }
 
-int Dungeon::GetChoice(int maxOption) const {
-    int choice = -1;
-    while (!(std::cin >> choice) || choice < 0 || choice > maxOption) {
-        std::cin.clear();
-        std::cin.ignore(10000, '\n');
-        std::cout << "잘못된 입력입니다. 다시 선택하세요: ";
-    }
-    return choice;
+std::string Dungeon::ReadLineInput() {
+    std::string value;
+    std::cin >> value;
+    return value;
 }
 
-void Dungeon::Run(Player& player) {
-    exitRequested_ = false;
+// ---- 몬스터 선택 ----
 
-    while (!exitRequested_) {
-        ShowMenu();
-        int maxOption = bossFound_ ? 3 : 2;
-        int choice = GetChoice(maxOption);
+Monster Dungeon::PickBoss() const {
+    const MonsterGroup group = ToMonsterGroup(type_);
 
-        if (choice == 1) {
-            Resolve(RollEvent(), player);
-        }
-        else if (choice == 2) {
-            ViewInventory(g_player_inventory); // 전역 인벤토리 사용
-        }
-        else if (bossFound_ && choice == 3) {
-            if (TryEnterBossRoom()) {
-                OnBossFight(player);
-            }
-            else {
-                std::cout << "정답이 틀렸습니다. 보스방에 들어갈 수 없습니다.\n";
-            }
-        }
-        else {
-            // bossFound_가 false면 3, true면 4가 이 분기(탈출 시도)로 들어옴
-            if (TryEscape(player)) {
-                exitRequested_ = true;
-            }
+    for (const auto& data : MonsterList()) {
+        if (data.group == group && data.isBoss) {
+            return MakeMonster(data);
         }
     }
+    return MakeMonster(MonsterList()[0]);   // 데이터 누락 방어
 }
 
-Dungeon::Event Dungeon::RollEvent() {
-    // (미확정) 몬스터 조우 외 5개 항목 상대 비율
+Monster Dungeon::PickNormalMonster() {
+    const MonsterGroup group = ToMonsterGroup(type_);
+
+    std::vector<MonsterData> candidates;
+    for (const auto& data : MonsterList()) {
+        if (data.group == group && !data.isBoss) {
+            candidates.push_back(data);
+        }
+    }
+    if (candidates.empty()) {
+        return MakeMonster(MonsterList()[0]);
+    }
+
+    std::uniform_int_distribution<int> pick(0, static_cast<int>(candidates.size()) - 1);
+    return MakeMonster(candidates[pick(rng_)]);
+}
+
+// ---- 전투 ----
+
+MonsterFightResult Dungeon::FightMonster(Player& player, Monster& monster) {
+    MonsterFightResult result;
+    result.monsterName = monster.GetName();
+
+    CombatSystem combat(player, monster);
+    combat.StartBattle();
+
+    if (!monster.IsAlive()) {
+        result.monsterDefeated = true;
+        result.dropName = monster.GetDropName();
+        AddItem(g_player_inventory, monster.GetDropName(), 1);
+    }
+    return result;
+}
+
+// ---- 이벤트 진행 ----
+
+DungeonEvent Dungeon::RollEvent() {
+    const bool canFindBoss = !bossFound_ && !IsCleared(type_);
+
     std::vector<double> weights = {
-        40.0,                       // Monster
-        12.0,                       // Treasure
-        12.0,                       // Shop
-        12.0,                       // Altar
-        12.0,                       // Fountain
-        bossFound_ ? 0.0 : 12.0     // BossFound
+        60.0,                        // Monster
+        8.0,                        // Treasure
+        8.0,                        // Shop
+        8.0,                        // Altar
+        8.0,                        // Fountain
+        canFindBoss ? 8.0 : 0.0     // BossFound
     };
     std::discrete_distribution<int> dist(weights.begin(), weights.end());
-    return static_cast<Event>(dist(rng_));
+    return static_cast<DungeonEvent>(dist(rng_));
 }
 
-void Dungeon::Resolve(Event e, Player& player) {
+AdvanceResult Dungeon::Resolve(DungeonEvent e, Player& player) {
+    AdvanceResult result;
+    result.event = e;
+
     switch (e) {
-    case Event::Monster:   OnMonster(player);  break;
-    case Event::Treasure:  OnTreasure(player); break;
-    case Event::Shop:      OnShop(player);     break;
-    case Event::Altar:     OnAltar(player);    break;
-    case Event::Fountain:  OnFountain(player); break;
-    case Event::BossFound: OnBossFound();      break;
+    case DungeonEvent::Monster: {
+        Monster monster = PickNormalMonster();
+        result.monster = FightMonster(player, monster);
+        if (!IsPlayerAlive(player)) {
+            result.playerDefeated = true;
+            result.defeat = OnDefeat(player);
+        }
+        break;
     }
-}
-
-void Dungeon::OnMonster(Player& player) {
-    std::cout << "몬스터와 마주쳤습니다!\n";
-
-    // Monster / CombatSystem은 아직 미확정이라 기존 임시 호출 형태 그대로 유지
-    Monster monster = Monster::Create(type_, player.GetPlayerLevel().at("current_level")); // (미확정) Monster 실제 함수명
-
-    CombatSystem combat;
-    combat.Fight(player, monster); // (미확정) CombatSystem 실제 함수명
-
-    if (!IsPlayerAlive(player)) {
-        OnDefeat(player);
+    case DungeonEvent::Treasure:
+        result.treasure = TreasureRoomEvent::Trigger(player, type_);
+        break;
+    case DungeonEvent::Shop:
+        ViewShop(GetShopName(), GetShopName(), player);
+        break;
+    case DungeonEvent::Altar:
+        // game.cpp가 "만진다/지나친다" 선택을 받은 뒤 TouchAltar() / SkipAltar()를 호출한다.
+        altarPending_ = true;
+        break;
+    case DungeonEvent::Fountain:
+        result.fountain = FountainEvent::Trigger(player);
+        break;
+    case DungeonEvent::BossFound:
+        bossFound_ = true;
+        break;
     }
+    return result;
 }
 
-void Dungeon::OnTreasure(Player& player) {
-    TreasureRoomEvent::Trigger(player);
+AdvanceResult Dungeon::Advance(Player& player) {
+    // 이전 제단에서 선택을 안 하고 넘어왔으면 지나친 것으로 처리한다
+    altarPending_ = false;
+    return Resolve(RollEvent(), player);
 }
 
-void Dungeon::OnShop(Player& player) {
-    std::cout << "던전 상인을 만났습니다.\n";
+EscapeResult Dungeon::TryEscape(Player& player) {
+    EscapeResult result;
 
-    // Shop은 클래스가 아니라 이름 문자열 기반 자유 함수 구조 (Shop.h 참고)
-    // ViewShop(shop_name, name, player)는 내부적으로 두 번째 인자(name)만 실제 조회에 사용함
-    ViewShop(GetShopName(), GetShopName(), player);
-}
-
-void Dungeon::OnAltar(Player& player) {
-    AltarEvent::Trigger(player);
-}
-
-void Dungeon::OnFountain(Player& player) {
-    FountainEvent::Trigger(player);
-}
-
-void Dungeon::OnBossFound() {
-    bossFound_ = true;
-    std::cout << "보스방을 발견했습니다!\n";
-}
-
-void Dungeon::OnBossFight(Player& player) {
-    std::cout << << GetName() << "의 보스방에 입장합니다!\n";
-
-    // Monster / CombatSystem은 아직 미확정이라 기존 임시 호출 형태 그대로 유지
-    Monster boss = Monster::CreateBoss(type_, player.GetPlayerLevel().at("current_level")); // (미확정) Monster 실제 함수명
-
-    CombatSystem combat;
-    combat.Fight(player, boss);
-
-    if (IsPlayerAlive(player)) {
-        std::cout << GetName() << " 클리어! 토벌 증서를 획득했습니다.\n";
-        s_cleared[static_cast<int>(type_)] = true; // Player에 클리어 정보가 없어 Dungeon이 static으로 자체 관리
-        exitRequested_ = true;
-    }
-    else {
-        OnDefeat(player);
-    }
-}
-
-bool Dungeon::TryEscape(Player& player) {
     std::bernoulli_distribution fail(escapeFailPercent_ / 100.0);
     if (fail(rng_)) {
-        std::cout << "탈출에 실패했습니다! 몬스터와 마주칩니다.\n";
-        OnMonster(player);
-        return false;
+        result.success = false;
+
+        Monster monster = PickNormalMonster();   // 탈출 실패는 항상 일반 몬스터
+        result.monster = FightMonster(player, monster);
+
+        if (!IsPlayerAlive(player)) {
+            result.playerDefeated = true;
+            result.defeat = OnDefeat(player);
+        }
+        return result;
     }
-    std::cout << "탈출에 성공했습니다.\n";
-    return true;
+
+    result.success = true;
+    exitRequested_ = true;
+    return result;
 }
 
+// ---- 보스방 ----
+
 std::string Dungeon::GetBossRoomAnswer() const {
-    // (미확정) 던전별 실제 문제/정답
     switch (type_) {
-    case DungeonType::Slime:  return "SLIME_ANSWER";
-    case DungeonType::Undead: return "Undead_ANSWER";
-    case DungeonType::Golem:  return "GOLEM_ANSWER";
+    case DungeonType::Slime:  return "김동현";
+    case DungeonType::Undead: return "문승호";
+    case DungeonType::Golem:  return "손승현";
     }
     return "";
 }
 
-bool Dungeon::TryEnterBossRoom() const {
-    std::cout << "보스방 입구 문제 \n정답을 입력하세요: ";
-    std::string answer;
-    std::cin >> answer;
-    return answer == GetBossRoomAnswer();
+BossRoomResult Dungeon::EnterBossRoom(const std::string& answer, Player& player) {
+    BossRoomResult result;
+
+    if (IsCleared(type_)) {
+        result.alreadyCleared = true;
+        return result;
+    }
+
+    result.correctAnswer = (answer == GetBossRoomAnswer());
+    if (!result.correctAnswer) {
+        return result;
+    }
+
+    Monster boss = PickBoss();
+    result.monster = FightMonster(player, boss);
+
+    if (IsPlayerAlive(player)) {
+        result.cleared = true;
+        s_cleared[static_cast<int>(type_)] = true;
+        exitRequested_ = true;
+    }
+    else {
+        result.playerDefeated = true;
+        result.defeat = OnDefeat(player);
+    }
+    return result;
 }
 
-void Dungeon::OnDefeat(Player& player) {
-    std::cout << "쓰러졌습니다... 던전에서 강제로 추방됩니다.\n";
+// ---- 패배 처리 ----
 
-    player.SetPlayerHp(1); // 체력을 1로 강제 조정 (기존 ForceHpToOne 대체)
+DefeatResult Dungeon::OnDefeat(Player& player) {
+    DefeatResult result;
 
-    std::uniform_int_distribution<int> goldLossRange(5, 20); // (미확정) 골드 손실 범위
-    int goldLoss = std::min<int>(goldLossRange(rng_), player.GetPlayerGold());
-    player.DecreaseGold(static_cast<unsigned short>(goldLoss));
-    std::cout << "골드" << goldLoss << "을(를) 잃었습니다.\n";
+    player.SetHp(1);   // 체력을 1로 강제 조정
+
+    std::uniform_int_distribution<int> goldLossRange(5, 20);
+    int goldLoss = std::min<int>(goldLossRange(rng_), player.GetGold());
+    player.DecreaseGold(goldLoss);
+    result.goldLost = goldLoss;
 
     auto items = g_player_inventory.ViewInventory();
     int removeCount = std::min<int>(2, static_cast<int>(items.size()));
@@ -234,8 +290,9 @@ void Dungeon::OnDefeat(Player& player) {
         for (int idx : picked) {
             RemoveItem(g_player_inventory, items[idx].name_, items[idx].count_);
         }
-        std::cout << "아이템" << removeCount << "종류를 잃었습니다.\n";
+        result.itemsLost = removeCount;
     }
 
     exitRequested_ = true;
+    return result;
 }
