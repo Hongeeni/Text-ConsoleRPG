@@ -53,7 +53,10 @@ void MainMenu(){
 }
 
 void Ending(){
-    std::cout << " ending " << std::endl;
+    std::cout << "                   마왕이 쓰러졌다.\n\n";
+    std::cout << "         구름이 걷히고 오랜만에 햇빛이 들었다.\n";
+    std::cout << "  농사는 검을 내려놓고 다시 호미를 챙겨 밭으로 돌아간다.\n\n";
+    std::cout << "                   - 게임 클리어 -\n";
     system("pause");
     system("cls");
 }
@@ -90,5 +93,8 @@ void ShopLog() {
 void PrintStatus() {}
 void HpRecoveryLog() {}
 void GameOverScreen() {
-    std::cout << "GAME OVER\n";
+    std::cout << "===============================\n";
+    std::cout << "         게 임 오 버\n";
+    std::cout << "   목숨이 모두 소진되었습니다.\n";
+    std::cout << "===============================\n";
 }

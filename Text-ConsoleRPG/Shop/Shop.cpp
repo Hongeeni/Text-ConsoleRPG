@@ -114,7 +114,7 @@ void ViewShop(const std::string& shop_name, const std::string& name, Player& pla
 		std::cout << "[" << shop_data.shop_name_ << "]\n";
 		std::cout << shop_data.greet_ << std::endl;
 		std::cout << "---------------------------------------------------------\n";
-		std::cout << std::left << std::setw(5) << "[No]"
+		std::cout << std::left << std::setw(5) << "[번호]"
 			<< std::left << std::setw(12) << "[::이름::]"
 			<< std::left << std::setw(12) << "[::갯수::]"
 			<< std::endl;

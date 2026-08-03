@@ -1,4 +1,4 @@
-#include "Inventory.h"
+﻿#include "Inventory.h"
 #include <iomanip>
 #include <iostream>
 
@@ -17,9 +17,9 @@ bool CheckItem(const Inventory<InventoryInfo>& inven, const std::string name, in
 }
 void ViewInventory(const Inventory<InventoryInfo>& inven) {
 	std::cout << "=========================================================\n";
-	std::cout << std::left << std::setw(5) << "[No]"
-		<< std::left << std::setw(12) << "[Name]"
-		<< std::left << std::setw(12) << "[Count]"
+	std::cout << std::left << std::setw(5) << "[번호]"
+		<< std::left << std::setw(12) << "[이름]"
+		<< std::left << std::setw(12) << "[개수]"
 		<< std::endl;
 	std::cout << "---------------------------------------------------------\n";
 	int number = 1;

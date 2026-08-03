@@ -6,7 +6,6 @@
 
 Player::Player(void) {
 	// 플레이어에게 이름을 입력받는 Log 함수 필요.
-	std::cout << "what's your name?: ";
 	std::cin >> this->name;
 }
 
