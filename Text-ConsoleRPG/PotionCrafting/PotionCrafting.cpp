@@ -29,7 +29,13 @@ namespace {
 const std::vector<CraftRecipe>& PotionCrafting::RecipeList() {
     static const std::vector<CraftRecipe> recipes = {
         //   재료 1,       ,  재료 2.            결과 포션, 갯수
-        { { "슬라임 부산물", "슬라임 부산물" }, "힐링 포션", 1 },
+
+        // 포션
+        { { "붉은 허브",       "슬라임 부산물" },    "힐링 포션",   1 },
+        { { "붉은 허브",       "언데드 부산물" },    "힐링 포션",   3 },
+        { { "푸른 허브",       "언데드 부산물" },    "마나 포션",   1 },
+        { { "푸른 허브",       "골렘의 핵" },    "마나 포션",   3 },
+
     };
     return recipes;
 }

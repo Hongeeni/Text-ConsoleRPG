@@ -1,4 +1,4 @@
-#include "Shop.h"
+ï»¿#include "Shop.h"
 #include "ItemData.h"
 #include <iostream>
 #include <iomanip>
@@ -6,21 +6,21 @@
 
 std::vector<ShopData> kShopList() {
 	std::vector<ShopData> shops = {
-		{"ÀÏ¹İ »óÁ¡", "¾î¼­¿À¼¼¿ä.", "¸¶À» »óÁ¡",  1,{
-			{"Èú¸µ Æ÷¼Ç", 5},
-			{"¸¶³ª Æ÷¼Ç", 5},
+		{"ì¼ë°˜ ìƒì ", "ì–´ì„œì˜¤ì„¸ìš”.", "ë§ˆì„ ìƒì ",  1,{
+			{"íë§ í¬ì…˜", 5},
+			{"ë§ˆë‚˜ í¬ì…˜", 5},
 		}},
-		{"½½¶óÀÓ »óÀÎ", "½½¶óÀÓ½½¶óÀÓ", "½½¶óÀÓ ´øÀü »óÁ¡", 1.5,{
-			{"Èú¸µ Æ÷¼Ç", 5},
-			{"¸¶³ª Æ÷¼Ç", 5},
+		{"ìŠ¬ë¼ì„ ìƒì¸", "ìŠ¬ë¼ì„ìŠ¬ë¼ì„", "ìŠ¬ë¼ì„ ë˜ì „ ìƒì ", 1.5,{
+			{"íë§ í¬ì…˜", 5},
+			{"ë§ˆë‚˜ í¬ì…˜", 5},
 		}},
-		{"¾ğµ¥µå »óÀÎ", "¾ğµ¥µå¾ğµ¥µå", "¾ğµ¥µå ´øÀü »óÁ¡",  2, {
-			{"Èú¸µ Æ÷¼Ç", 5},
-			{"¸¶³ª Æ÷¼Ç", 5},
+		{"ì–¸ë°ë“œ ìƒì¸", "ì–¸ë°ë“œì–¸ë°ë“œ", "ì–¸ë°ë“œ ë˜ì „ ìƒì ",  2, {
+			{"íë§ í¬ì…˜", 5},
+			{"ë§ˆë‚˜ í¬ì…˜", 5},
 		}},
-		{"°ñ·½ »óÀÎ", "°ñ°ñ·½·½.", "°ñ·½ ´øÀü »óÁ¡.",  2,{
-			{"Èú¸µ Æ÷¼Ç", 5},
-			{"¸¶³ª Æ÷¼Ç", 5},
+		{"ê³¨ë ˜ ìƒì¸", "ê³¨ê³¨ë ˜ë ˜.", "ê³¨ë ˜ ë˜ì „ ìƒì .",  2,{
+			{"íë§ í¬ì…˜", 5},
+			{"ë§ˆë‚˜ í¬ì…˜", 5},
 		}}
 	};
 	return shops;
@@ -55,7 +55,7 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 	bool existed = CheckGoods(shop_name, item_name, 1);
 	if (!existed) {
 		std::cout << "---------------------------------------------------------------------\n";
-		std::cout << "ÇØ´ç ¾ÆÀÌÅÛÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.\n";
+		std::cout << "í•´ë‹¹ ì•„ì´í…œì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n";
 		std::cout << "---------------------------------------------------------------------\n";
 		_getch();
 		return false;
@@ -63,7 +63,7 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 	ItemData item_data = FindItem(item_name); 
 	if (item_data.price > player.GetPlayerGold()) {
 		cout << "---------------------------------------------------------------------\n";
-		cout << "°ñµå°¡ ÃæºĞÇÏÁö ¾Ê½À´Ï´Ù.\n";
+		cout << "ê³¨ë“œê°€ ì¶©ë¶„í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n";
 		cout << "---------------------------------------------------------------------\n";
 		_getch();
 		return false;
@@ -72,8 +72,8 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 	 AddItem(inven, item_data.name, 1);
 	 player.DecreaseGold(item_data.price);
 	 std::cout << "---------------------------------------------------------------------\n";
-	 std::cout << "[" << item_data.name << "]¸¦ ±¸¸ÅÇß½À´Ï´Ù.\n";
-	 std::cout << "[" << item_data.price << "]°ñµå¸¦ »ç¿ëÇß½À´Ï´Ù.\n";
+	 std::cout << "[" << item_data.name << "]ë¥¼ êµ¬ë§¤í–ˆìŠµë‹ˆë‹¤.\n";
+	 std::cout << "[" << item_data.price << "]ê³¨ë“œë¥¼ ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤.\n";
 	 std::cout << "---------------------------------------------------------------------\n";
 	 _getch();
 	 return true;
@@ -82,22 +82,22 @@ bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::strin
 	ItemData item_data = FindItem(item_name);
 	 if (!item_data.found) {
 	 	std::cout << "---------------------------------------------------------------------\n";
-	 	std::cout << "ÇØ´ç ¾ÆÀÌÅÛÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.\n";
+	 	std::cout << "í•´ë‹¹ ì•„ì´í…œì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n";
 	 	std::cout << "---------------------------------------------------------------------\n";
 	 	_getch();
 	 	return false;
 	 }
 	if (!CheckItem(inven, item_name, 1)) {
 	  	std::cout << "---------------------------------------------------------------------\n";
-	  	std::cout << "ÇØ´ç ¾ÆÀÌÅÛÀ» °¡Áö°í ÀÖÁö ¾Ê½À´Ï´Ù.\n";
+	  	std::cout << "í•´ë‹¹ ì•„ì´í…œì„ ê°€ì§€ê³  ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.\n";
 	  	std::cout << "---------------------------------------------------------------------\n";
 	  	_getch();
 	  	return false;
 	  }
 	int sell_value = item_data.price / 2;
 	 std::cout << "---------------------------------------------------------------------\n";
-	 std::cout << "[" << item_data.name << "]¸¦ ÆÇ¸ÅÇß½À´Ï´Ù.\n";
-	 std::cout << "[" << sell_value << "]°ñµå¸¦ ¾ò¾ú½À´Ï´Ù.\n";
+	 std::cout << "[" << item_data.name << "]ë¥¼ íŒë§¤í–ˆìŠµë‹ˆë‹¤.\n";
+	 std::cout << "[" << sell_value << "]ê³¨ë“œë¥¼ ì–»ì—ˆìŠµë‹ˆë‹¤.\n";
 	 std::cout << "---------------------------------------------------------------------\n";
 	 RemoveItem(inven, item_data.name, 1);
 	 player.AddGold(sell_value);
@@ -114,8 +114,8 @@ void ViewShop(const std::string& shop_name, const std::string& name, Player& pla
 		std::cout << shop_data.greet_ << std::endl;
 		std::cout << "---------------------------------------------------------\n";
 		std::cout << std::left << std::setw(5) << "[No]"
-			<< std::left << std::setw(12) << "[::ÀÌ¸§::]"
-			<< std::left << std::setw(12) << "[::°¹¼ö::]"
+			<< std::left << std::setw(12) << "[::ì´ë¦„::]"
+			<< std::left << std::setw(12) << "[::ê°¯ìˆ˜::]"
 			<< std::endl;
 		std::cout << "---------------------------------------------------------\n";
 		int number = 1;
@@ -127,9 +127,9 @@ void ViewShop(const std::string& shop_name, const std::string& name, Player& pla
 			++number;
 		}
 		std::cout << "---------------------------------------------------------\n";
-		std::cout << "°ñµå: [" << player.GetPlayerGold() << "]\n";
+		std::cout << "ê³¨ë“œ: [" << player.GetPlayerGold() << "]\n";
 		std::cout << "---------------------------------------------------------\n";
-		std::cout << "[¾ÆÀÌÅÛ ÀÌ¸§: ±¸¸Å] [[1]: ¾ÆÀÌÅÛ ÆÇ¸Å] [[2]: Àåºñ ÆÇ¸Å] [[0]: µÚ·Î]\n";
+		std::cout << "[ì•„ì´í…œ ì´ë¦„: êµ¬ë§¤] [[1]: ì•„ì´í…œ íŒë§¤] [[2]: ì¥ë¹„ íŒë§¤] [[0]: ë’¤ë¡œ]\n";
 		std::string answer;
 		std::cin.clear();
 		getline(std::cin >> std::ws, answer);
@@ -158,7 +158,7 @@ bool SellItemMenu(Inventory<InventoryInfo>& inven, Player& player) {
 		system("cls");
 		ViewInventory(inven);
 		std::cout << "---------------------------------------------------------\n";
-		std::cout << "[¾ÆÀÌÅÛ ÀÌ¸§: ÆÇ¸Å] [[0]: µÚ·Î]\n";
+		std::cout << "[ì•„ì´í…œ ì´ë¦„: íŒë§¤] [[0]: ë’¤ë¡œ]\n";
 		std::string answer;
 		getline(std::cin >> std::ws, answer);
 		if (answer == "0") { 
