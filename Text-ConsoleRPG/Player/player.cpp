@@ -182,8 +182,6 @@ void Player::GainExp(int exp_increase_amount) {
 	if (this->GetCurrentLevel() < this->GetMaxLevel()) {
 		this->SetExp(GetCurrentExp() + exp_increase_amount);
 		if ((this->GetCurrentExp() + exp_increase_amount) >= this->GetMaxExp()) {
-			int new_max_exp = (status[PlayerInfo::max_exp] * 3) / 2;
-			this->SetExp((this->GetCurrentExp() - this->GetMaxExp()), new_max_exp);
 			this->LevelUp();
 		}
 	}
@@ -203,7 +201,16 @@ Player::~Player(void) {
 
 // Private Player Function
 void Player::LevelUp(void) {
+	int new_max_exp = (status[PlayerInfo::max_exp] * 3) / 2;
+
 	this->SetLevel(std::min(this->GetCurrentLevel() + 1, this->GetMaxLevel()));
+	this->SetExp((this->GetCurrentExp() - this->GetMaxExp()), new_max_exp);
+	this->SetHp((this->GetMaxHp() * 4) / 3, (this->GetMaxHp() * 4) / 3);
+	this->SetMp((this->GetMaxMp() * 4) / 3, (this->GetMaxMp() * 4) / 3);
+	this->SetPower((this->GetPower() * 5) / 4);
+	this->SetDefense((this->GetDefense() * 5) / 4);
+	this->SetCritical(this->GetCritical() + 1);
+	this->SetSpeed(this->GetSpeed() + 1);
 }
 void Player::DecreaseLife(void) {
 	this->SetLife(std::max((this->GetCurrentLife() - 1), 0));

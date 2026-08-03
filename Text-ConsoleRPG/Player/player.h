@@ -19,13 +19,6 @@ namespace PlayerInfo {
         critical,
         speed,
     };
-
-    enum StatusValue {
-        max_level,
-        max_life,
-        max_gold,
-
-    };
 }
 
 enum class JobType {
