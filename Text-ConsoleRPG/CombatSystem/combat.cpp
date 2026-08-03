@@ -6,7 +6,7 @@
 
 CombatSystem::CombatSystem(Player& player, Monster& monster)
     : player(player), monster(monster) {
-    this->attack_token = player.GetSpeed() - monster.GetSpeed();
+    this->attack_token = player.GetSpeed() - monster.GetSpd();
 }
 
 bool CombatSystem::IsFirstAttack() const {
@@ -98,7 +98,7 @@ bool CombatSystem::PlayerBehavior(const BehaviorType now_behavior, bool& kill_mo
 }
 
 bool CombatSystem::MonsterBehavior(bool& kill_player) {
-    kill_player = player.GetDamage(AttackCalculation(monster.GetPower(), player.GetDefense(), monster.GetCritical()));
+    kill_player = player.GetDamage(AttackCalculation(monster.GetAttack(), player.GetDefense(), monster.GetCritical()));
     return kill_player;
 }
 
@@ -106,7 +106,7 @@ void CombatSystem::GetResult(void) const {
     //CombatLog.PlayerWin();
 
     //CombatLog.ExpReward();
-    player.GainExp(monster.GetExp());
+    player.GainExp(monster.GetRewardExp());
     //CombatLog.GoldReward();
-    player.AddGold(monster.GetGold());
+    player.AddGold(monster.GetDropGold());
 }
