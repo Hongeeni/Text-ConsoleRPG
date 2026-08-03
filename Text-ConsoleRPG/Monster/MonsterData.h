@@ -12,6 +12,7 @@ struct MonsterData {
     int attack;
     int defence;
     int speed;
+	int critical;
 
     std::string dropName;
     std::string dropCategory;
