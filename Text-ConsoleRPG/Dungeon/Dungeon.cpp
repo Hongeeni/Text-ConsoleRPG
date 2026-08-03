@@ -222,9 +222,9 @@ EscapeResult Dungeon::TryEscape(Player& player) {
 std::string Dungeon::GetBossRoomAnswer() const {
     // (미확정) 종이 3장의 힌트로 유추할 실제 정답
     switch (type_) {
-    case DungeonType::Slime:  return "SLIME_ANSWER";
-    case DungeonType::Undead: return "UNDEAD_ANSWER";
-    case DungeonType::Golem:  return "GOLEM_ANSWER";
+    case DungeonType::Slime:  return "김동현";
+    case DungeonType::Undead: return "문승호";
+    case DungeonType::Golem:  return "손승현";
     }
     return "";
 }
