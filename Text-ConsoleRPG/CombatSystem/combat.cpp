@@ -1,4 +1,4 @@
-﻿#include "A:\VisualStudio_C++\Text-ConsoleRPG_Solution\Text-ConsoleRPG\CombatSystem\combat.h"
+﻿#include "CombatSystem\combat.h"
 
 #include <algorithm>
 #include <cstdlib>

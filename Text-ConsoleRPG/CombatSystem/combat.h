@@ -1,8 +1,8 @@
 ﻿#ifndef _COMBAT_H_
 #define _COMBAT_H_
 
-#include "A:\VisualStudio_C++\Text-ConsoleRPG_Solution\Text-ConsoleRPG\Player\player.h"
-#include "A:\VisualStudio_C++\Text-ConsoleRPG_Solution\Text-ConsoleRPG\Monster\Monster.h"
+#include "Player\Player.h"
+#include "Monster\Monster.h"
 
 enum class BehaviorType {
     use_item,

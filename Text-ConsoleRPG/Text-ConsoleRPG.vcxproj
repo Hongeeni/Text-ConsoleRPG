@@ -42,8 +42,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -143,6 +143,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CombatSystem\combat.cpp" />
     <ClCompile Include="Dungeon\Altarevent.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Dungeon\Fountainevent.h" />
     <ClInclude Include="Dungeon\Treasureroomevent.h" />
     <ClInclude Include="Equipment\EquipmentManager.h" />
+    <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Inventory\Inventory.h" />
     <ClInclude Include="Inventory\TemplateInventory.h" />
     <ClInclude Include="Item\Item.h" />
