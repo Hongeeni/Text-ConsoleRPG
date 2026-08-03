@@ -60,7 +60,7 @@ private:
 
     int m_bonusHp;
     int m_bonusMp;
-    int m_bonusAttack;
+    int m_bonusPower;
     int m_bonusDefense;
     int m_bonusCritical;
     int m_bonusSpeed;

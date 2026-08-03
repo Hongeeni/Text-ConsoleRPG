@@ -4,7 +4,7 @@ using namespace std;
 
 vector<ItemData> ItemList() {
     vector<ItemData> items = {
-        // category, name,              description,               price, healHp, healMp,      hp, mp, Attack, Defense, Critical, Speed
+        // category, name,              description,               price, healHp, healMp,      hp, mp, Power, Defense, Critical, Speed
 
         //other
         { "other", "정체를 알 수 없는 종이 #1", "아셨쬬?",              0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -92,7 +92,7 @@ Item CreateItem(string name, int count) {
             return Item(i.category, i.name, i.description,
                 i.price, count,
                 i.healHp, i.healMp,
-                i.bonusHp, i.bonusMp, i.bonusAttack,
+                i.bonusHp, i.bonusMp, i.bonusPower,
                 i.bonusDefense, i.bonusCritical, i.bonusSpeed);
         }
     }
@@ -100,7 +100,7 @@ Item CreateItem(string name, int count) {
     return Item(first.category, first.name, first.description,
         first.price, count,
         first.healHp, first.healMp,
-        first.bonusHp, first.bonusMp, first.bonusAttack,
+        first.bonusHp, first.bonusMp, first.bonusPower,
         first.bonusDefense, first.bonusCritical, first.bonusSpeed);
 }
 

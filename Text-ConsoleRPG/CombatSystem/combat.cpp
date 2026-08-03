@@ -93,13 +93,13 @@ bool CombatSystem::PlayerBehavior(const BehaviorType now_behavior, bool& kill_mo
             }
         }
 
-        kill_monster = (monster.GetDamage(AttackCalculation(power, monster.GetDefence(), player.GetCritical())));
+        kill_monster = !(monster.GetDamage(AttackCalculation(power, monster.GetDefence(), player.GetCritical())));
     }
     return (this->behavior_token < 1);
 }
 
 bool CombatSystem::MonsterBehavior(bool& kill_player) {
-    kill_player = player.GetDamage(AttackCalculation(monster.GetAttack(), player.GetDefense(), monster.GetCritical()));
+    kill_player = !(player.GetDamage(AttackCalculation(monster.GetAttack(), player.GetDefense(), monster.GetCritical())));
     return kill_player;
 }
 

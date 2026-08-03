@@ -9,7 +9,7 @@ struct MonsterData {
     MonsterGroup group;
     std::string name;
     int hp;
-    int attack;
+    int power;
     int defence;
     int speed;
 	int critical;
