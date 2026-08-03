@@ -1,4 +1,4 @@
-#ifndef _PLAYER_H_
+﻿#ifndef _PLAYER_H_
 #define _PLAYER_H_
 
 #include <string>
@@ -28,8 +28,6 @@ enum class JobType {
 
 class Player {
 protected:
-    //PlayerLog log;
-
     // Constant
     const int kMaxLevel = 10;
     const int kMaxLife = 3;
@@ -45,7 +43,6 @@ protected:
     int gold = 0;
 
 public:
-    // Constructor
     Player(void);
 
     // Setter
