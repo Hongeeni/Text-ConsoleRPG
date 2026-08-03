@@ -1,15 +1,21 @@
-﻿#include "FountainEvent.h"
+#include "FountainEvent.h"
 #include "Player.h"
 
-#include <iostream>
+FountainResult FountainEvent::Trigger(Player& player) {
+    FountainResult result;
 
-void FountainEvent::Trigger(Player& player) {
-    std::cout << "생명의 샘을 발견했습니다. 체력이 모두 회복됩니다.\n";
-
-    // Player는 최대/현재 체력을 GetPlayerHp() 맵 하나로 제공 (max_hp / current_hp)
-    const auto hp = player.GetPlayerHp();
-    unsigned short missingHp = hp.at("max_hp") - hp.at("current_hp");
+    int missingHp = player.GetPlayerMaxHp() - player.GetPlayerCurrentHp();
     if (missingHp > 0) {
         player.HpRecovery(missingHp);
+        result.hpRestored = missingHp;
     }
+
+    // 전투 시스템 개편으로 매 턴 MP 자동 회복이 사라져서, 생명의 샘에서 MP도 함께 회복
+    int missingMp = player.GetPlayerMaxMp() - player.GetPlayerCurrentMp();
+    if (missingMp > 0) {
+        player.MpRecovery(missingMp);
+        result.mpRestored = missingMp;
+    }
+
+    return result;
 }

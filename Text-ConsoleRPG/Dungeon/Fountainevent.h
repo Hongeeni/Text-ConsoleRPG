@@ -2,7 +2,12 @@
 
 class Player;
 
+struct FountainResult {
+    int hpRestored = 0;
+    int mpRestored = 0;
+};
+
 class FountainEvent {
 public:
-    static void Trigger(Player& player);
+    static FountainResult Trigger(Player& player);
 };

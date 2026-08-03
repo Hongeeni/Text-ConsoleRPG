@@ -1,8 +1,14 @@
 #pragma once
 
+#include <string>
+
 class Player;
+
+struct TreasureResult {
+    std::string itemName;
+};
 
 class TreasureRoomEvent {
 public:
-    static void Trigger(Player& player);
+    static TreasureResult Trigger(Player& player);
 };
