@@ -28,8 +28,6 @@ enum class JobType {
 
 class Player {
 protected:
-    //PlayerLog log;
-
     // Constant
     const int kMaxLevel = 10;
     const int kMaxLife = 3;
@@ -45,6 +43,8 @@ protected:
     int gold = 0;
 
 public:
+    Player(void);
+
     // Setter
     void SetName(std::string new_player_name);
     void SetJob(std::string new_player_job);

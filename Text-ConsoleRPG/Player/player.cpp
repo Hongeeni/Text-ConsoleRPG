@@ -4,6 +4,11 @@
 #include <iostream>
 #include <map>
 
+Player::Player(void) {
+	std::cout << "what's your name?: ";
+	std::cin >> this->name;
+}
+
 // Setter
 void Player::SetName(std::string new_name) {
 	this->name = new_name;
@@ -215,7 +220,7 @@ void Player::DecreaseLife(void) {
 	this->SetLife(std::max((this->GetCurrentLife() - 1), 0));
 }
 bool Player::IsAlive(int current_hp) {
-	if (current_hp > 1) {
+	if (current_hp > 0) {
 		return true;
 	}
 	DecreaseLife();
