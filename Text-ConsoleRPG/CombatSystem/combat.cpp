@@ -12,6 +12,7 @@
 CombatSystem::CombatSystem(Player& player, Monster& monster)
     : player(player), monster(monster) {
     this->attack_token = player.GetSpeed() - monster.GetSpeed();
+    this->monster_max_hp = monster.GetHP();
 }
 
 bool CombatSystem::IsFirstAttack() {
@@ -28,7 +29,7 @@ bool CombatSystem::IsFirstAttack() {
 }
 
 BehaviorType CombatSystem::AskPlayerBehavior() {
-    BattleMenu(this->behavior_token, player.GetCurrentMp(), player.GetSkillCost());
+    BattleScreen(player, monster.GetName(), monster.GetHP(), this->monster_max_hp, this->behavior_token);
 
     int choice = 0;
     std::cin >> choice;
@@ -47,9 +48,6 @@ BehaviorType CombatSystem::AskPlayerBehavior() {
 void CombatSystem::PlayerTurn(bool& kill_monster) {
     // 라운드가 시작될 때마다 토큰을 채운다
     this->behavior_token = this->token_maximum;
-
-    BattleStatus(player.GetName(), player.GetCurrentHp(), player.GetMaxHp(),
-        player.GetCurrentMp(), player.GetMaxMp(), monster.GetName(), monster.GetHP());
 
     while (this->behavior_token >= 1 && monster.IsAlive()) {
         BehaviorType behavior = this->AskPlayerBehavior();

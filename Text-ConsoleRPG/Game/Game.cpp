@@ -142,11 +142,12 @@ namespace {
 			if (answer == "0") return;
 
 			if (UseItemOnPlayer(g_player_inventory, player, answer)) {
-				ItemUseLog(answer);
+				std::cout << "[" << answer << "]을(를) 사용했습니다.\n";
 			}
 			else {
-				ItemUseFailLog();
+				std::cout << "사용할 수 없는 아이템입니다.\n";
 			}
+			PauseScreen();
 		}
 	}
 
@@ -154,6 +155,7 @@ namespace {
 		LoadShop();
 		Dungeon dungeon(type);
 
+		ClearLog();
 		if (Dungeon::IsCleared(type)) {
 			EmptyDungeon();
 		}
@@ -163,7 +165,7 @@ namespace {
 				return;
 			}
 
-			DungeonMenu();
+			DungeonScreen(dungeon.GetName(), player, dungeon.IsBossFound());
 
 			const int maxOption = dungeon.IsBossFound() ? 3 : 2;
 			const int choice = ReadChoice(0, maxOption);
@@ -243,6 +245,7 @@ namespace {
 
 	void RunPotionCrafting() {
 		while (true) {
+			ClearScreen();
 			const std::vector<CraftRecipe>& recipes = PotionCrafting::RecipeList();
 			const std::vector<MaterialInfo>  owned = PotionCrafting::OwnedMaterials();
 			const std::vector<int>           craftable = PotionCrafting::CraftableRecipes();
@@ -294,6 +297,7 @@ namespace {
 			else {
 				std::cout << "재료가 부족합니다.\n";
 			}
+			PauseScreen();
 		}
 	}
 }
@@ -302,7 +306,7 @@ void RunGame(Player& player) {
 	bool running = true;
 
 	while (running) {
-		MainMenu();
+		MainScreen(player);
 		const int choice = ReadChoice(0, 6);
 
 		switch (choice) {

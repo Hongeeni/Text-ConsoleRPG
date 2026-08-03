@@ -20,6 +20,19 @@ enum class MapType {
 	RandomHealEvent//제단
 };
 
+// 화면 제어 / 로그 버퍼
+void ClearScreen(); // 화면 지우기
+void PushLog(const std::string& line); // 로그 1줄 적재
+void ClearLog(); // 로그 버퍼 비우기
+void SetLogLimit(int lines); // 화면에 유지할 로그 줄 수
+void DrawLog(); // 버퍼 내용 출력
+void PauseScreen(); // 아무 키 대기
+
+// 고정 화면
+void MainScreen(Player& player); // 메인 메뉴 화면
+void DungeonScreen(const std::string& dungeonName, Player& player, bool bossFound); // 던전 화면
+void BattleScreen(Player& player, const std::string& monsterName, int monsterHp, int monsterMaxHp, int token); // 전투 화면
+
 // 화면
 void MapScreen(); // 맵(배경) 화면
 void TitleScreen(); // 시작 메뉴
