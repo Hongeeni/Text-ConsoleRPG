@@ -42,16 +42,53 @@ void StoryScreen(){
 void MainMenu(){
     std::cout << "============== 메인 메뉴 ==============\n";
     std::cout << "1. 던전\n";
-    std::cout << "2. 장비\n";
+    std::cout << "2. 스탯\n";
     std::cout << "3. 인벤토리\n";
-    std::cout << "4. 상점\n";
+    std::cout << "4. 장비\n";
+    std::cout << "5. 상점\n";
+    std::cout << "6. 포션 제작\n";
     std::cout << "0. 게임 종료\n";
     std::cout << "======================================";
     ;
 }
 
-void ending(){
+void Ending(){
     std::cout << " ending " << std::endl;
     system("pause");
     system("cls");
+}
+
+//임시
+void NameInputScreen() {
+    std::cout << "이름을 입력하세요: ";
+}
+void Tutorial() {}
+void MapScreen() {
+    std::cout << "1. 슬라임 던전\n2. 언데드 던전\n3. 골렘 던전\n";
+    std::cout << "4. 마왕의 성\n0. 돌아가기\n선택: ";
+}
+void DungeonMenu() {
+    std::cout << "1. 전진\n2. 인벤토리\n3. 보스룸\n0. 탈출\n선택: ";
+}
+void DungeonEventMenu() {
+    std::cout << "1. 제단을 만진다\n0. 지나친다\n선택: ";
+}
+void EmptyDungeon() {
+    std::cout << "이미 토벌을 마친 던전입니다.\n";
+}
+void BattleVictory() {
+    std::cout << "승리했습니다!\n";
+}
+void BattleDefeat() {
+    std::cout << "패배했습니다...\n";
+}
+void EquipmentMenu() {}
+void InventoryScreen() {}
+void ShopLog() {
+    std::cout << "어서오세요!\n";
+}
+void PrintStatus() {}
+void HpRecoveryLog() {}
+void GameOverScreen() {
+    std::cout << "GAME OVER\n";
 }

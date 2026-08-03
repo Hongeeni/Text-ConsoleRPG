@@ -1,5 +1,4 @@
-﻿
-#include "monster.h"
+﻿#include "monster.h"
 
 
 Monster::Monster(MonsterGroup group, std::string name, int hp, int power, int defence, int speed, int critical,

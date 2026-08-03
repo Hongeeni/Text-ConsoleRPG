@@ -47,7 +47,7 @@ vector<MonsterData> MonsterList() {
     return monsters;
 }
 
-
+/*
 // and then return Monster 
 Monster CreateMonster(string name) {
     auto monsters = MonsterList();
@@ -58,6 +58,10 @@ Monster CreateMonster(string name) {
                 m.rewardExp, m.isBoss);
         }
 
-    } return std::nullopt;
+    }
+    const MonsterData& f = monsters[0];
+    return Monster(f.group, f.name, f.hp, f.power, f.defence, f.speed, f.critical,
+        f.dropName, f.dropCategory, f.dropGold, f.rewardExp, f.isBoss);
 
 }
+*/

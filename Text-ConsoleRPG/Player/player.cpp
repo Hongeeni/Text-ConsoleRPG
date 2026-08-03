@@ -1,4 +1,4 @@
-#include "Player\Player.h"
+﻿#include "Player\Player.h"
 
 #include <algorithm>
 #include <iostream>
@@ -226,3 +226,4 @@ bool Player::IsAlive(int current_hp) {
 	}
 	DecreaseLife();
 	return false;
+}

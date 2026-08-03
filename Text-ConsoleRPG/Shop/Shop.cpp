@@ -81,7 +81,7 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 }
 bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::string& item_name) {
 	ItemData item_data = FindItem(item_name);
-	 if (!item_data.has_value()) {
+	 if (!item_data.found) {
 	 	std::cout << "---------------------------------------------------------------------\n";
 	 	std::cout << "해당 아이템을 찾을 수 없습니다.\n";
 	 	std::cout << "---------------------------------------------------------------------\n";

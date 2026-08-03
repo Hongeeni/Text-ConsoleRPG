@@ -28,7 +28,7 @@ public:
     // equip bonus
     int GetBonusHp() const { return m_bonusHp; }
     int GetBonusMp() const { return m_bonusMp; }
-    int GetBonusAttack() const { return m_bonusAttack; }
+    int GetBonusAttack() const { return m_bonusPower; }
     int GetBonusDefense() const { return m_bonusDefense; }
     int GetBonusCritical() const { return m_bonusCritical; }
     int GetBonusSpeed() const { return m_bonusSpeed; }

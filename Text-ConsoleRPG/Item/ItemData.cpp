@@ -120,8 +120,11 @@ ItemData FindItem(const string& name) {
     auto it = itemMap.find(name);
 
     if (it != itemMap.end()) {
-        return it->second;      
+		ItemData data = it->second;
+		data.found = true; // 아이템을 찾았음을 표시
+        return data;      
     }
 
-    return std::nullopt;
+    ItemData empty{};
+    return empty;
 }

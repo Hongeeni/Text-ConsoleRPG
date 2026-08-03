@@ -24,7 +24,7 @@ namespace {
     }
 
     Monster MakeMonster(const MonsterData& data) {
-        return Monster(data.group, data.name, data.hp, data.attack, data.defence, data.speed,
+		return Monster(data.group, data.name, data.hp, data.power, data.defence, data.speed, data.critical,
             data.dropName, data.dropCategory, data.dropGold,
             data.rewardExp, data.isBoss);
     }
