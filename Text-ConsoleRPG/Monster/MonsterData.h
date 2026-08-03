@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <string>
 #include <vector>
@@ -12,6 +12,7 @@ struct MonsterData {
     int attack;
     int defence;
     int speed;
+	int critical;
 
     std::string dropName;
     std::string dropCategory;
@@ -22,4 +23,5 @@ struct MonsterData {
 };
 
 std::vector<MonsterData> MonsterList();
-Monster CreateMonster(int id);
+Monster CreateMonster(std::string name);
+
