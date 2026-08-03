@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<string>
 
 enum class MapType {
@@ -13,34 +13,34 @@ enum class MapType {
 	SlimeDungeon,
 	UndeadDungeon,
 	GolemDungeon,
-	HealEvent, // »ı¸íÀÇ»ù
-	RandomHealEvent//Á¦´Ü
+	HealEvent, // ìƒëª…ì˜ìƒ˜
+	RandomHealEvent//ì œë‹¨
 };
 
-void MapScreen(); // ¸Ê(¹è°æ) È­¸é 
-void TitleScreen(); // ½ÃÀÛ ¸Ş´º
-void StoryScreen(); // ÀÎÆ®·ÎºÎºĞ ½ºÅä¸®
-void NameInputScreen(); // ÀÌ¸§ ÀÔ·Â
-void Tutorial(); // Æ©Åä¸®¾ó(½Ã°£³ª¸é ±¸»ó)
-void MainMenu();// ¸ŞÀÎ ¸Ş´º
-void DungeonMenu(); // ´øÀü ¸Ş´º
-void DungeonEventMenu(); // ´øÀü ³» ÇÃ·¹ÀÌ¾î ¼±ÅÃÁö
-void EmptyDungeon(); // ´øÀü Å¬¸®¾î ÀÌÈÄ Ãâ·Â
-void Battle(); // ÀüÅõ ÀÔ·Â
-void BattleMenu(); // ÀüÅõ ½Ã ÇÃ·¹ÀÌ¾î ¼±ÅÃ¸Ş´º
-void BattleVictory(); // ¹èÆ²½Â¸®
-void BattleDefeat(); // ¹èÆ²ÆĞ¹è 
-void EquipmentMenu(); // Àåºñ
-void WeaponScreen(); // Àåºñ - ¹«±â
-void ArmorScreen(); // Àåºñ - ¹æ¾î±¸
-void InventoryScreen(); // ÀÎº¥Åä¸®
-void ShopLog(); // »óÁ¡ ÀÔÀå½Ã ÀÎ»ñ¸»
-void ShopMenu(); // »óÁ¡ ¸Ş´º
-void ShopBuyScreen();// »óÁ¡ ±¸¸Å È­¸é
-void ShopSellScreen(); // »óÁ¡ ÆÇ¸Å È­¸é
-void PrintStatus(); // ½ºÅÈ Ãâ·Â
-void Ending(); // ¿£µù 
-void HpRecoveryLog(); // Ã¼·Â È¸º¹ Ãâ·Â
-void MaxLevelLog(); // ÃÖ´ë ·¹¹ß µµ´Ş½Ã Ãâ·Â
-void MaxExpLog();// ÃÖ´ë ·¹¹ß µµ´Ş½Ã °æÇèÄ¡ ¾òÀ»¶§ Ãâ·Â
-void GameOverScreen(); // °ÔÀÓ¿À¹ö
+void MapScreen(); // ë§µ(ë°°ê²½) í™”ë©´ 
+void TitleScreen(); // ì‹œì‘ ë©”ë‰´
+void StoryScreen(); // ì¸íŠ¸ë¡œë¶€ë¶„ ìŠ¤í† ë¦¬
+void NameInputScreen(); // ì´ë¦„ ì…ë ¥
+void Tutorial(); // íŠœí† ë¦¬ì–¼(ì‹œê°„ë‚˜ë©´ êµ¬ìƒ)
+void MainMenu();// ë©”ì¸ ë©”ë‰´
+void DungeonMenu(); // ë˜ì „ ë©”ë‰´
+void DungeonEventMenu(); // ë˜ì „ ë‚´ í”Œë ˆì´ì–´ ì„ íƒì§€
+void EmptyDungeon(); // ë˜ì „ í´ë¦¬ì–´ ì´í›„ ì¶œë ¥
+void Battle(); // ì „íˆ¬ ì…ë ¥
+void BattleMenu(); // ì „íˆ¬ ì‹œ í”Œë ˆì´ì–´ ì„ íƒë©”ë‰´
+void BattleVictory(); // ë°°í‹€ìŠ¹ë¦¬
+void BattleDefeat(); // ë°°í‹€íŒ¨ë°° 
+void EquipmentMenu(); // ì¥ë¹„
+void WeaponScreen(); // ì¥ë¹„ - ë¬´ê¸°
+void ArmorScreen(); // ì¥ë¹„ - ë°©ì–´êµ¬
+void InventoryScreen(); // ì¸ë²¤í† ë¦¬
+void ShopLog(); // ìƒì  ì…ì¥ì‹œ ì¸ì‚¿ë§
+void ShopMenu(); // ìƒì  ë©”ë‰´
+void ShopBuyScreen();// ìƒì  êµ¬ë§¤ í™”ë©´
+void ShopSellScreen(); // ìƒì  íŒë§¤ í™”ë©´
+void PrintStatus(); // ìŠ¤íƒ¯ ì¶œë ¥
+void Ending(); // ì—”ë”© 
+void HpRecoveryLog(); // ì²´ë ¥ íšŒë³µ ì¶œë ¥
+void MaxLevelLog(); // ìµœëŒ€ ë ˆë°œ ë„ë‹¬ì‹œ ì¶œë ¥
+void MaxExpLog();// ìµœëŒ€ ë ˆë°œ ë„ë‹¬ì‹œ ê²½í—˜ì¹˜ ì–»ì„ë•Œ ì¶œë ¥
+void GameOverScreen(); // ê²Œì„ì˜¤ë²„

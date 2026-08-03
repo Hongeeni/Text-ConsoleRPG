@@ -1,4 +1,4 @@
-#include "monsterdata.h"
+ï»¿#include "monsterdata.h"
 
 using namespace std;
 
@@ -8,28 +8,28 @@ vector<MonsterData> MonsterList() {
 
                         // group, name,          hp, attack, def, spd, dropitenname,    category, gold, exp, isboss
         // Slime
-        { MonsterGroup::Slime,  "ÀÛÀº ½½¶óÀÓ",   80,  15, 5, 0,  "½½¶óÀÓ ºÎ»ê¹°",     "parts",  10, 20,  false },
-        { MonsterGroup::Slime,  "½½¶óÀÓ ¹«¸®",        120, 20, 8, 0,  "½½¶óÀÓ ºÎ»ê¹°"     "parts",  10, 30,  false },
-        { MonsterGroup::Slime,  "ºÒÅ¸´Â ½½¶óÀÓ",   150, 25, 8, 0, "½½¶óÀÓ ºÎ»ê¹°",      "parts",  10, 40,  false },
-        { MonsterGroup::Slime,  "°ËÀº ½½¶óÀÓ",   180, 30, 10, 0, "½½¶óÀÓ ºÎ»ê¹°",      "parts",  10, 50,  false },
-        { MonsterGroup::Slime,  "½½¶óÀÓ Å·",    300, 40, 15, 0, "Åä¹ú Áõ¼­",     "license",  10, 100, true  },
+        { MonsterGroup::Slime,  "ì‘ì€ ìŠ¬ë¼ì„",   80,  15, 5, 0,  "ìŠ¬ë¼ì„ ë¶€ì‚°ë¬¼",     "parts",  10, 20,  false },
+        { MonsterGroup::Slime,  "ìŠ¬ë¼ì„ ë¬´ë¦¬",        120, 20, 8, 0,  "ìŠ¬ë¼ì„ ë¶€ì‚°ë¬¼"     "parts",  10, 30,  false },
+        { MonsterGroup::Slime,  "ë¶ˆíƒ€ëŠ” ìŠ¬ë¼ì„",   150, 25, 8, 0, "ìŠ¬ë¼ì„ ë¶€ì‚°ë¬¼",      "parts",  10, 40,  false },
+        { MonsterGroup::Slime,  "ê²€ì€ ìŠ¬ë¼ì„",   180, 30, 10, 0, "ìŠ¬ë¼ì„ ë¶€ì‚°ë¬¼",      "parts",  10, 50,  false },
+        { MonsterGroup::Slime,  "ìŠ¬ë¼ì„ í‚¹",    300, 40, 15, 0, "í† ë²Œ ì¦ì„œ",     "license",  10, 100, true  },
 
         // Undead 
-        { MonsterGroup::Undead,  "Á×Àº »õ",  100, 20, 5, 0, "¾ğµ¥µå ºÎ»ê¹°",   "parts",  15, 25,  false },
-        { MonsterGroup::Undead,  "Á»ºñ",  140, 25, 10, 0, "¾ğµ¥µå ºÎ»ê¹°",     "parts",  15, 35,  false },
-        { MonsterGroup::Undead,  "Á»ºñ ¹«¸®",       170, 30, 10, 0, "¾ğµ¥µå ºÎ»ê¹°",   "parts",  15, 45,  false },
-        { MonsterGroup::Undead,  "ÇØ°ñ",     200, 35, 12, 0, "¾ğµ¥µå ºÎ»ê¹°",       "parts",  15, 55,  false },
-        { MonsterGroup::Undead,  "Å©¸®Ã³",  350, 45, 18, 0, "Åä¹ú Áõ¼­",     "license",  90, 120, true  },
+        { MonsterGroup::Undead,  "ì£½ì€ ìƒˆ",  100, 20, 5, 0, "ì–¸ë°ë“œ ë¶€ì‚°ë¬¼",   "parts",  15, 25,  false },
+        { MonsterGroup::Undead,  "ì¢€ë¹„",  140, 25, 10, 0, "ì–¸ë°ë“œ ë¶€ì‚°ë¬¼",     "parts",  15, 35,  false },
+        { MonsterGroup::Undead,  "ì¢€ë¹„ ë¬´ë¦¬",       170, 30, 10, 0, "ì–¸ë°ë“œ ë¶€ì‚°ë¬¼",   "parts",  15, 45,  false },
+        { MonsterGroup::Undead,  "í•´ê³¨",     200, 35, 12, 0, "ì–¸ë°ë“œ ë¶€ì‚°ë¬¼",       "parts",  15, 55,  false },
+        { MonsterGroup::Undead,  "í¬ë¦¬ì²˜",  350, 45, 18, 0, "í† ë²Œ ì¦ì„œ",     "license",  90, 120, true  },
 
         // Golem 
-        { MonsterGroup::Golem,  "ÁøÈë °ñ·½",     130, 18, 15, 0, "°ñ·½ÀÇ ÇÙ",    "parts",  35, 30,  false },
-        { MonsterGroup::Golem,  "¸ğ·¡ °ñ·½",    160, 22, 18, 0, "°ñ·½ÀÇ ÇÙ",     "parts",  35, 40,  false },
-        { MonsterGroup::Golem,  "³ª¹« °ñ·½",    190, 28, 20, 0, "°ñ·½ÀÇ ÇÙ",     "parts",  35, 50,  false },
-        { MonsterGroup::Golem,  "¹ÙÀ§ °ñ·½",   230, 35, 25, 0, "°ñ·½ÀÇ ÇÙ",      "parts",  35, 65,  false },
-        { MonsterGroup::Golem,  "°Å´ë °ñ·½",      400, 50, 30, 0, "Åä¹ú Áõ¼­",   "license", 100, 150, true  },
+        { MonsterGroup::Golem,  "ì§„í™ ê³¨ë ˜",     130, 18, 15, 0, "ê³¨ë ˜ì˜ í•µ",    "parts",  35, 30,  false },
+        { MonsterGroup::Golem,  "ëª¨ë˜ ê³¨ë ˜",    160, 22, 18, 0, "ê³¨ë ˜ì˜ í•µ",     "parts",  35, 40,  false },
+        { MonsterGroup::Golem,  "ë‚˜ë¬´ ê³¨ë ˜",    190, 28, 20, 0, "ê³¨ë ˜ì˜ í•µ",     "parts",  35, 50,  false },
+        { MonsterGroup::Golem,  "ë°”ìœ„ ê³¨ë ˜",   230, 35, 25, 0, "ê³¨ë ˜ì˜ í•µ",      "parts",  35, 65,  false },
+        { MonsterGroup::Golem,  "ê±°ëŒ€ ê³¨ë ˜",      400, 50, 30, 0, "í† ë²Œ ì¦ì„œ",   "license", 100, 150, true  },
 
         //finalboss
-        { MonsterGroup::finalboss,  "¸¶¿Õ",      1000, 250, 200, 50, "Åä¹ú Áõ¼­",   "license", 1000, 300, true  },
+        { MonsterGroup::finalboss,  "ë§ˆì™•",      1000, 250, 200, 50, "í† ë²Œ ì¦ì„œ",   "license", 1000, 300, true  },
 
     };
     return monsters;
