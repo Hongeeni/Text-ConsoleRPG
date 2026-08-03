@@ -1,4 +1,4 @@
-#ifndef _COMBAT_H_
+﻿#ifndef _COMBAT_H_
 #define _COMBAT_H_
 
 #include "monster.h"

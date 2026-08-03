@@ -1,4 +1,4 @@
-#include "combat.h"
+﻿#include "combat.h"
 
 #include <algorithm>
 #include <cstdlib>

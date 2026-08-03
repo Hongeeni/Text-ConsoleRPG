@@ -1,4 +1,4 @@
-#include <algorithm>
+ï»¿#include <algorithm>
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
@@ -11,7 +11,7 @@
 
 int main(void) {
 #ifdef _WIN32
-    // ÄÜ¼Ö ÇÑ±Û(UTF-8) Ãâ·Â + ANSI »ö»ó(VT) È°¼ºÈ­
+    // ì½˜ì†” í•œê¸€(UTF-8) ì¶œë ¥ + ANSI ìƒ‰ìƒ(VT) í™œì„±í™”
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);

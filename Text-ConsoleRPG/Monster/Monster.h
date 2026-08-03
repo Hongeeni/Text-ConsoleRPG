@@ -1,0 +1,55 @@
+#pragma once
+#include <string>
+
+enum class MonsterGroup {
+    Slime = 1,
+    Undead = 2,
+    Golem = 3
+};
+
+class Monster {
+public:
+    Monster(MonsterGroup group, std::string name, int hp, int attack, int defence, int speed,
+        std::string dropName, std::string dropCategory, int dropPrice,
+        int rewardExp, bool isBoss);
+
+    // group
+    MonsterGroup GetGroup() const { return m_group; }
+
+    // getter
+    std::string GetName() const { return m_name; }
+    int GetHP() const { return m_hp; }
+    int GetAttack() const { return m_attack; }
+    int GetDefence() const { return m_defence; }
+    int GetSpeed() const { return m_speed; }
+    bool IsAlive() const { return m_hp > 0; }
+
+    // boss check
+    bool IsBoss() const { return m_isBoss; }
+
+
+    // item, exp
+    std::string GetDropName() const { return m_dropName; }
+    std::string GetDropCategory() const { return m_dropCategory; }
+    int GetDropGold() const { return m_dropGold; }
+    int GetRewardExp() const { return m_rewardExp; }
+
+    // damage
+    bool GetDamage(int damageAmount);
+
+
+private:
+    std::string m_name;
+    int m_hp;
+    int m_attack;
+    int m_defence;
+    int m_speed;
+
+    bool m_isBoss;
+    MonsterGroup m_group;
+
+    std::string m_dropName;
+    std::string m_dropCategory;
+    int m_dropGold;
+    int m_rewardExp;
+};

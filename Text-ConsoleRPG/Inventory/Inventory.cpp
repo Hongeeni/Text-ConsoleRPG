@@ -2,8 +2,9 @@
 #include <iomanip>
 #include <iostream>
 
-Inventory<InventoryInfo> g_player_inventory;
+
 Inventory<InventoryInfo> g_player_armory;
+Inventory<InventoryInfo> g_player_inventory;
 
 void AddItem(Inventory<InventoryInfo>& inven, const std::string name, int count) {
 	inven.Add(name, count);

@@ -4,6 +4,13 @@
 template <typename I>
 class Inventory {
 public:
+	Inventory() = default;
+
+	Inventory(std::initializer_list<I> item_list) {
+		for (const auto& item : item_list) {
+			Add(item.name_, item.count_);
+		}
+	}
 	void Add(const std::string& name, int count) {
 		for (auto& item : items_) {
 			if (item.name_ == name) {
