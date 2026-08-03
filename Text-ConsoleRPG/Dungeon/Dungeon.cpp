@@ -161,11 +161,11 @@ DungeonEvent Dungeon::RollEvent() {
 
     std::vector<double> weights = {
         60.0,                        // Monster
-        8.0,                        // Treasure
-        8.0,                        // Shop
-        8.0,                        // Altar
-        8.0,                        // Fountain
-        canFindBoss ? 8.0 : 0.0     // BossFound
+        9.5,                        // Treasure
+        9.5,                        // Shop
+        9.5,                        // Altar
+        9.5,                        // Fountain
+        canFindBoss ? 2.0 : 0.0     // BossFound
     };
     std::discrete_distribution<int> dist(weights.begin(), weights.end());
     return static_cast<DungeonEvent>(dist(rng_));
