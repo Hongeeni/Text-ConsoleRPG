@@ -4,7 +4,7 @@ using namespace std;
 
 vector<ItemData> ItemList() {
     vector<ItemData> items = {
-        // category, name,              desc,               price, healHp, healMp,      hp, mp, atk, def, crit, spd
+        // category, name,              description,               price, healHp, healMp,      hp, mp, Attack, Defense, Critical, Speed
 
         // Potions
         { "potion", "힐링 포션", "HP를 회복합니다. (+50)",       50, 50, 0,            0, 0, 0, 0, 0, 0 },
@@ -71,19 +71,19 @@ Item CreateItem(string name, int count) {
     auto items = ItemList();
     for (const auto& i : items) {
         if (i.name == name) {
-            return Item(i.category, i.name, i.desc,
+            return Item(i.category, i.name, i.description,
                 i.price, count,
                 i.healHp, i.healMp,
-                i.bonusHp, i.bonusMp, i.bonusAtk,
-                i.bonusDef, i.bonusCrit, i.bonusSpd);
+                i.bonusHp, i.bonusMp, i.bonusAttack,
+                i.bonusDefense, i.bonusCritical, i.bonusSpeed);
         }
     }
     auto first = items[0];
-    return Item(first.category, first.name, first.desc,
+    return Item(first.category, first.name, first.description,
         first.price, count,
         first.healHp, first.healMp,
-        first.bonusHp, first.bonusMp, first.bonusAtk,
-        first.bonusDef, first.bonusCrit, first.bonusSpd);
+        first.bonusHp, first.bonusMp, first.bonusAttack,
+        first.bonusDefense, first.bonusCritical, first.bonusSpeed);
 }
 
 unordered_map<string, ItemData> GetItemMap() {

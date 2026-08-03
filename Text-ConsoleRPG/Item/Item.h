@@ -6,17 +6,16 @@
 class Item {
 public:
     Item(std::string category, 
-        std::string name, std::string desc,
+        std::string name, std::string description,
         int price, int count, 
         int healHp, int healMp,
-        int bonusHp, int bonusMp, int bonusAtk, int bonusDef, int bonusCrit, int bonusSpd);
+        int bonusHp, int bonusMp, int bonusAttack, int bonusDefense, int bonusCritical, int bonusSpeed);
 
     // getter
-    int GetID() const { return m_id; }
     std::string GetCategory() const { return m_category; }
 
     std::string GetName() const { return m_name; }
-    std::string GetDesc() const { return m_desc; }
+    std::string Getdescription() const { return m_description; }
 
     int GetBuyPrice() const { return m_price; }
     int GetSellPrice() const { return m_price / 2; }
@@ -29,10 +28,10 @@ public:
     // equip bonus
     int GetBonusHp() const { return m_bonusHp; }
     int GetBonusMp() const { return m_bonusMp; }
-    int GetBonusAtk() const { return m_bonusAtk; }
-    int GetBonusDef() const { return m_bonusDef; }
-    int GetBonusCrit() const { return m_bonusCrit; }
-    int GetBonusSpd() const { return m_bonusSpd; }
+    int GetBonusAttack() const { return m_bonusAttack; }
+    int GetBonusDefense() const { return m_bonusDefense; }
+    int GetBonusCritical() const { return m_bonusCritical; }
+    int GetBonusSpeed() const { return m_bonusSpeed; }
 
     // setter
     void AddCount(int amount) { m_count += amount; }
@@ -51,7 +50,7 @@ private:
     std::string m_category;
 
     std::string m_name;
-    std::string m_desc;
+    std::string m_description;
 
     int m_price;
     int m_count;
@@ -61,8 +60,8 @@ private:
 
     int m_bonusHp;
     int m_bonusMp;
-    int m_bonusAtk;
-    int m_bonusDef;
-    int m_bonusCrit;
-    int m_bonusSpd;
+    int m_bonusAttack;
+    int m_bonusDefense;
+    int m_bonusCritical;
+    int m_bonusSpeed;
 };
