@@ -1,10 +1,11 @@
-#pragma once
+﻿#pragma once
 #include <string>
 
 enum class MonsterGroup {
     Slime = 1,
     Undead = 2,
-    Golem = 3
+    Golem = 3,
+    finalboss = 4
 };
 
 class Monster {
