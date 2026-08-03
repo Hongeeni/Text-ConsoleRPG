@@ -61,10 +61,10 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 		return false;
 	}
 	ItemData item_data = FindItem(item_name); 
-	if (item_data.price > player.GetPlayerGold()) {
-		cout << "---------------------------------------------------------------------\n";
-		cout << "골드가 충분하지 않습니다.\n";
-		cout << "---------------------------------------------------------------------\n";
+	if (item_data.price > player.GetGold()) {
+		std::cout << "---------------------------------------------------------------------\n";
+		std::cout << "골드가 충분하지 않습니다.\n";
+		std::cout << "---------------------------------------------------------------------\n";
 		_getch();
 		return false;
 	}
@@ -80,7 +80,7 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 }
 bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::string& item_name) {
 	ItemData item_data = FindItem(item_name);
-	 if (!item_data.found) {
+	 if (!item_data.has_value()) {
 	 	std::cout << "---------------------------------------------------------------------\n";
 	 	std::cout << "해당 아이템을 찾을 수 없습니다.\n";
 	 	std::cout << "---------------------------------------------------------------------\n";
@@ -127,7 +127,7 @@ void ViewShop(const std::string& shop_name, const std::string& name, Player& pla
 			++number;
 		}
 		std::cout << "---------------------------------------------------------\n";
-		std::cout << "골드: [" << player.GetPlayerGold() << "]\n";
+		std::cout << "골드: [" << player.GetGold() << "]\n";
 		std::cout << "---------------------------------------------------------\n";
 		std::cout << "[아이템 이름: 구매] [[1]: 아이템 판매] [[2]: 장비 판매] [[0]: 뒤로]\n";
 		std::string answer;

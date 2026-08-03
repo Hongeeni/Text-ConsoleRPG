@@ -96,7 +96,7 @@ void DisplayEquipMenu() {
         }
         ItemData item_data = FindItem(answer);
         EquipType equip_type = EquipType::None;
-        if (!item_data.found) {
+        if (!item_data.has_value()) {
             std::cout << "---------------------------------------------------------------------\n";
             std::cout << "해당 아이템을 찾을 수 없습니다.\n";
             std::cout << "---------------------------------------------------------------------\n";
