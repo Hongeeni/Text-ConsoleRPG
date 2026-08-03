@@ -9,9 +9,9 @@ struct MonsterData {
     MonsterGroup group;
     std::string name;
     int hp;
-    int atk;
-    int def;
-    int spd;
+    int attack;
+    int defence;
+    int speed;
 
     std::string dropName;
     std::string dropCategory;
