@@ -77,6 +77,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)CombatSystem;$(ProjectDir)Dungeon;$(ProjectDir)Equipment;$(ProjectDir)Inventory;$(ProjectDir)Item;$(ProjectDir)Logger;$(ProjectDir)Monster;$(ProjectDir)Player;$(ProjectDir)PotionCrafting;$(ProjectDir)Shop;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -95,6 +96,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)CombatSystem;$(ProjectDir)Dungeon;$(ProjectDir)Equipment;$(ProjectDir)Inventory;$(ProjectDir)Item;$(ProjectDir)Logger;$(ProjectDir)Monster;$(ProjectDir)Player;$(ProjectDir)PotionCrafting;$(ProjectDir)Shop;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,6 +113,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)CombatSystem;$(ProjectDir)Dungeon;$(ProjectDir)Equipment;$(ProjectDir)Inventory;$(ProjectDir)Item;$(ProjectDir)Logger;$(ProjectDir)Monster;$(ProjectDir)Player;$(ProjectDir)PotionCrafting;$(ProjectDir)Shop;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,6 +132,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)CombatSystem;$(ProjectDir)Dungeon;$(ProjectDir)Equipment;$(ProjectDir)Inventory;$(ProjectDir)Item;$(ProjectDir)Logger;$(ProjectDir)Monster;$(ProjectDir)Player;$(ProjectDir)PotionCrafting;$(ProjectDir)Shop;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,6 +144,40 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="CombatSystem\combat.cpp" />
+    <ClCompile Include="Dungeon\Altarevent.cpp" />
+    <ClCompile Include="Dungeon\Dungeon.cpp" />
+    <ClCompile Include="Dungeon\Fountainevent.cpp" />
+    <ClCompile Include="Dungeon\Treasureroomevent.cpp" />
+    <ClCompile Include="Equipment\EquipmentManager.cpp" />
+    <ClCompile Include="Inventory\Inventory.cpp" />
+    <ClCompile Include="Item\Item.cpp" />
+    <ClCompile Include="Item\ItemData.cpp" />
+    <ClCompile Include="Logger\Logger.cpp" />
+    <ClCompile Include="Monster\Monster.cpp" />
+    <ClCompile Include="Monster\MonsterData.cpp" />
+    <ClCompile Include="Player\player.cpp" />
+    <ClCompile Include="PotionCrafting\PotionCrafting.cpp" />
+    <ClCompile Include="Shop\Shop.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CombatSystem\combat.h" />
+    <ClInclude Include="Dungeon\Altarevent.h" />
+    <ClInclude Include="Dungeon\Dungeon.h" />
+    <ClInclude Include="Dungeon\DungeonType.h" />
+    <ClInclude Include="Dungeon\Fountainevent.h" />
+    <ClInclude Include="Dungeon\Treasureroomevent.h" />
+    <ClInclude Include="Equipment\EquipmentManager.h" />
+    <ClInclude Include="Inventory\Inventory.h" />
+    <ClInclude Include="Inventory\TemplateInventory.h" />
+    <ClInclude Include="Item\Item.h" />
+    <ClInclude Include="Item\Itemdata.h" />
+    <ClInclude Include="Logger\Logger.h" />
+    <ClInclude Include="Monster\Monster.h" />
+    <ClInclude Include="Monster\MonsterData.h" />
+    <ClInclude Include="Player\player.h" />
+    <ClInclude Include="PotionCrafting\PotionCrafting.h" />
+    <ClInclude Include="Shop\Shop.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
