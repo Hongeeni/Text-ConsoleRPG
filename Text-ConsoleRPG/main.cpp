@@ -20,4 +20,4 @@ int main(void) {
         SetConsoleMode(h, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 #endif
 	return 0;
-}x
+}
