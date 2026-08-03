@@ -1,83 +1,112 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#include <algorithm>
-#include <iostream>
-#include <map>
 #include <string>
+#include <vector>
+
+namespace PlayerInfo {
+    enum StatusType {
+        current_level,
+        current_life,
+        current_exp,
+        max_exp,
+        current_hp,
+        max_hp,
+        current_mp,
+        max_mp,
+        power,
+        defense,
+        critical,
+        speed,
+    };
+
+    enum StatusValue {
+        max_level,
+        max_life,
+        max_gold,
+
+    };
+}
+
+enum class JobType {
+    Warrior,
+    Mage
+};
 
 class Player {
 protected:
-    std::string player_name = "Nameless";
-    std::string player_job = "Unemployed";
+    //PlayerLog log;
 
-    int player_current_level = 1;
-    int player_current_life = 3;
-    int player_current_exp = 0;
-    int player_max_exp = 100;
-    int player_current_hp = 200;
-    int player_max_hp = 200;
-    int player_current_mp = 200;
-    int player_max_mp = 200;
-    int player_attack = 30;
-    int player_defense = 30;
-    int player_critical = 10;
-    int player_speed = 10;
-    int player_gold = 0;
-
-    // Construct Value
-    const int player_max_level = 10;
-    const int kMaxExpIncreaseAmount = (player_max_exp * 3) / 2;
+    // Constant
+    const int kMaxLevel = 10;
+    const int kMaxLife = 3;
+    const int kMaxGold = 99999;
     const int kAttackCost = 15;
-    const int player_max_life = 3;
+    const int kSkillCost = 20;
+
+    // Variable
+    std::string name = "Nameless";
+    std::string job = "Farmer";
+    std::vector<int> status = { 1, 3, 0, 100, 200, 200, 200, 200, 10, 10, 10, 10 };
+    bool arousal = false;
+    int gold = 0;
 
 public:
     // Constructor
     Player(void);
 
     // Setter
-    void SetPlayerName(std::string new_player_name);
-    void SetPlayerJob(std::string new_player_job);
-    void SetPlayerLevel(int new_current_level);
-    void SetPlayerLife(int new_current_life);
-    void SetPlayerExp(int new_current_exp);
-    void SetPlayerExp(int new_current_exp, int new_max_exp);
-    void SetPlayerHp(int new_current_hp);
-    void SetPlayerHp(int new_current_hp, int new_max_hp);
-    void SetPlayerMp(int new_current_mp);
-    void SetPlayerMp(int new_current_mp, int new_max_mp);
-    void SetPlayerAttack(int new_player_attack);
-    void SetPlayerDefense(int new_player_defense);
-    void SetPlayerCritical(int new_player_critical);
-    void SetPlayerSpeed(int new_player_speed);
-    void SetPlayerGold(int new_player_gold);
+    void SetName(std::string new_player_name);
+    void SetJob(std::string new_player_job);
+    void SetStatus(std::vector<int> new_status);
+    void SetLevel(int new_current_level);
+    void SetLife(int new_current_life);
+    void SetExp(int new_current_exp);
+    void SetExp(int new_current_exp, int new_max_exp);
+    void SetHp(int new_current_hp);
+    void SetHp(int new_current_hp, int new_max_hp);
+    void SetMp(int new_current_mp);
+    void SetMp(int new_current_mp, int new_max_mp);
+    void SetPower(int new_player_power);
+    void SetDefense(int new_player_defense);
+    void SetCritical(int new_player_critical);
+    void SetSpeed(int new_player_speed);
+
+    void SetArousal(bool new_arousal);
+    void SetGold(int new_player_gold);
 
     // Getter
-    const std::string GetPlayerName(void);
-    const std::string GetPlayerJob(void);
-    const int GetPlayerCurrentLevel(void);
-    const int GetPlayerCurrentLife(void);
-    const int GetPlayerCurrentExp(void);
-    const int GetPlayerMaxExp(void);
-    const int GetPlayerCurrentHp(void);
-    const int GetPlayerMaxHp(void);
-    const int GetPlayerCurrentMp(void);
-    const int GetPlayerMaxMp(void);
-    const int GetPlayerAttack(void);
-    const int GetPlayerDefense(void);
-    const int GetPlayerCritical(void);
-    const int GetPlayerSpeed(void);
-    const int GetPlayerGold(void);
+    const std::string GetName(void);
+    const std::string GetJob(void);
+    const std::vector<int> GetStatus(void);
+    const int GetCurrentLevel(void);
+    const int GetCurrentLife(void);
+    const int GetCurrentExp(void);
+    const int GetMaxExp(void);
+    const int GetCurrentHp(void);
+    const int GetMaxHp(void);
+    const int GetCurrentMp(void);
+    const int GetMaxMp(void);
+    const int GetPower(void);
+    const int GetDefense(void);
+    const int GetCritical(void);
+    const int GetSpeed(void);
+
+    const bool GetArousal(void);
+    const int GetGold(void);
 
     // Constant Value Getter
-    const int GetMaxExpIncreaseAmount(void);
+    const int GetMaxLevel(void);
+    const int GetMaxLife(void);
+    const int GetMaxGold(void);
     const int GetAttackCost(void);
-    const int GetPlayerMaxLevel(void);
-    const int GetPlayerMaxLife(void);
+    const int GetSkillCost(void);
 
     // Player Function
-    bool PlayerAttack(int mp_reduction_amount);
-    bool PlayerDamage(int hp_reduction_amount);
+    void PlayerAwaken(void);
+
+    bool ToAttack(int mp_reduction_amount);
+    bool GetDamage(int hp_reduction_amount);
     void HpRecovery(int hp_increase_amount);
     void MpRecovery(int mp_increase_amount);
     void GainExp(int exp_increase_amount);
@@ -86,11 +115,11 @@ public:
     void AddGold(int add_amount);
     void DecreaseGold(int decrease_amount);
 
-    virtual ~Player(void);
+    ~Player(void);
 
 private:
     // Private Player Function
-    void PlayerLevelUp(void);
+    void LevelUp(void);
     void DecreaseLife(void);
     bool IsAlive(int current_hp);
 };
