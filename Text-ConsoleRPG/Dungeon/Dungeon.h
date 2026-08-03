@@ -32,7 +32,6 @@ struct AdvanceResult {
 
     MonsterFightResult monster;      // event == Monster일 때만 유효
     TreasureResult treasure;         // event == Treasure일 때만 유효
-    AltarResult altar;               // event == Altar일 때만 유효
     FountainResult fountain;         // event == Fountain일 때만 유효
 };
 
@@ -52,8 +51,6 @@ struct BossRoomResult {
     DefeatResult defeat;
 };
 
-// 입력 수신과 순수 로직만 담당. 출력은 하지 않는다.
-// 결과는 전부 구조체로 반환하며, 화면 표시는 Logger / 전체 흐름은 game.cpp가 담당한다.
 class Dungeon {
 public:
     explicit Dungeon(DungeonType type);
@@ -67,6 +64,12 @@ public:
     EscapeResult TryEscape(Player& player);
     BossRoomResult EnterBossRoom(const std::string& answer, Player& player);
 
+    // event == Altar로 나오면 IsAltarPending()이 true가 되고,
+    // game.cpp가 "만진다/지나친다"를 물어본 뒤 아래 둘 중 하나를 호출
+    bool IsAltarPending() const;
+    AltarResult TouchAltar(Player& player);
+    void SkipAltar();
+
     // 입력 수신 전용 (검증/재입력은 game.cpp가 반복 호출로 처리)
     static int ReadIntInput();
     static std::string ReadLineInput();
@@ -75,6 +78,7 @@ private:
     DungeonType type_;
     bool bossFound_ = false;
     bool exitRequested_ = false;
+    bool altarPending_ = false;      // 제단을 발견했지만 아직 선택하지 않은 상태
     std::mt19937 rng_{ std::random_device{}() };
 
     int escapeFailPercent_ = 20;
@@ -83,12 +87,12 @@ private:
     static std::array<bool, 3> s_cleared;
 
     std::string GetShopName() const;       // Shop.cpp kShopList()의 실제 이름과 일치해야 함
-    std::string GetBossRoomAnswer() const; // 보스방 정답 (미확정)
+    std::string GetBossRoomAnswer() const; // 보스방 정답
 
     DungeonEvent RollEvent();
     AdvanceResult Resolve(DungeonEvent e, Player& player);
 
-    Monster PickBoss() const;                     // 던전당 1마리 고정
+    Monster PickBoss() const;
     Monster PickNormalMonster();                  // 일반 몬스터 랜덤
     MonsterFightResult FightMonster(Player& player, Monster& monster);
 

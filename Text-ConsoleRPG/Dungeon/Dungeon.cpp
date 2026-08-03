@@ -13,7 +13,7 @@
 #include <vector>
 
 namespace {
-    // DungeonType(0,1,2)과 MonsterGroup(1,2,3)은 값이 달라서 직접 변환한다
+    // DungeonType(0,1,2)과 MonsterGroup(1,2,3)은 값이 달라서 직접 변환
     MonsterGroup ToMonsterGroup(DungeonType type) {
         switch (type) {
         case DungeonType::Slime:  return MonsterGroup::Slime;
@@ -47,7 +47,24 @@ bool Dungeon::IsExitRequested() const {
     return exitRequested_;
 }
 
-// Player::IsAlive()가 private라 외부에서 호출 불가 -> HP 값으로 직접 판정
+// ---- 제단 (발견과 발동이 분리되어 있다) ----
+
+bool Dungeon::IsAltarPending() const {
+    return altarPending_;
+}
+
+AltarResult Dungeon::TouchAltar(Player& player) {
+    if (!altarPending_) {
+        return AltarResult{};   // 제단 앞이 아니면 아무 일도 없음
+    }
+    altarPending_ = false;
+    return AltarEvent::Trigger(player);
+}
+
+void Dungeon::SkipAltar() {
+    altarPending_ = false;
+}
+
 bool Dungeon::IsPlayerAlive(Player& player) const {
     return player.GetCurrentHp() > 0;
 }
@@ -62,7 +79,6 @@ std::string Dungeon::GetName() const {
 }
 
 std::string Dungeon::GetShopName() const {
-    // Shop.cpp kShopList()에 등록된 이름과 정확히 일치해야 한다 ("상점"이 아니라 "상인")
     switch (type_) {
     case DungeonType::Slime:  return "슬라임 상인";
     case DungeonType::Undead: return "언데드 상인";
@@ -87,8 +103,6 @@ std::string Dungeon::ReadLineInput() {
 
 // ---- 몬스터 선택 ----
 
-// 던전당 보스는 1마리 고정.
-// 마왕(finalboss)은 MonsterGroup이 달라서 여기 걸리지 않는다.
 Monster Dungeon::PickBoss() const {
     const MonsterGroup group = ToMonsterGroup(type_);
 
@@ -126,8 +140,6 @@ MonsterFightResult Dungeon::FightMonster(Player& player, Monster& monster) {
     CombatSystem combat(player, monster);
     combat.StartBattle();
 
-    // 경험치/골드 지급은 CombatSystem::GetResult()가 담당한다.
-    // 던전은 드랍 아이템만 처리한다. (보스 드랍이 "토벌 증서")
     if (!monster.IsAlive()) {
         result.monsterDefeated = true;
         result.dropName = monster.GetDropName();
@@ -139,18 +151,15 @@ MonsterFightResult Dungeon::FightMonster(Player& player, Monster& monster) {
 // ---- 이벤트 진행 ----
 
 DungeonEvent Dungeon::RollEvent() {
-    // 이미 클리어한 던전은 보스방이 다시 등장하지 않는다.
-    // 토벌 증서 3종이 전부 같은 이름이라, 한 던전 반복으로 3개를 모으는 걸 막기 위함.
     const bool canFindBoss = !bossFound_ && !IsCleared(type_);
 
-    // (미확정) 이벤트 상대 비율
     std::vector<double> weights = {
-        40.0,                        // Monster
-        12.0,                        // Treasure
-        12.0,                        // Shop
-        12.0,                        // Altar
-        12.0,                        // Fountain
-        canFindBoss ? 12.0 : 0.0     // BossFound
+        60.0,                        // Monster
+        8.0,                        // Treasure
+        8.0,                        // Shop
+        8.0,                        // Altar
+        8.0,                        // Fountain
+        canFindBoss ? 8.0 : 0.0     // BossFound
     };
     std::discrete_distribution<int> dist(weights.begin(), weights.end());
     return static_cast<DungeonEvent>(dist(rng_));
@@ -174,12 +183,11 @@ AdvanceResult Dungeon::Resolve(DungeonEvent e, Player& player) {
         result.treasure = TreasureRoomEvent::Trigger(player, type_);
         break;
     case DungeonEvent::Shop:
-        // Shop은 클래스가 아니라 이름 문자열 기반 자유 함수 구조 (Shop.h 참고)
-        // ViewShop(shop_name, name, player)는 내부적으로 두 번째 인자(name)만 실제 조회에 사용함
         ViewShop(GetShopName(), GetShopName(), player);
         break;
     case DungeonEvent::Altar:
-        result.altar = AltarEvent::Trigger(player);
+        // game.cpp가 "만진다/지나친다" 선택을 받은 뒤 TouchAltar() / SkipAltar()를 호출한다.
+        altarPending_ = true;
         break;
     case DungeonEvent::Fountain:
         result.fountain = FountainEvent::Trigger(player);
@@ -192,6 +200,8 @@ AdvanceResult Dungeon::Resolve(DungeonEvent e, Player& player) {
 }
 
 AdvanceResult Dungeon::Advance(Player& player) {
+    // 이전 제단에서 선택을 안 하고 넘어왔으면 지나친 것으로 처리한다
+    altarPending_ = false;
     return Resolve(RollEvent(), player);
 }
 
@@ -220,7 +230,6 @@ EscapeResult Dungeon::TryEscape(Player& player) {
 // ---- 보스방 ----
 
 std::string Dungeon::GetBossRoomAnswer() const {
-    // (미확정) 종이 3장의 힌트로 유추할 실제 정답
     switch (type_) {
     case DungeonType::Slime:  return "김동현";
     case DungeonType::Undead: return "문승호";
@@ -232,7 +241,6 @@ std::string Dungeon::GetBossRoomAnswer() const {
 BossRoomResult Dungeon::EnterBossRoom(const std::string& answer, Player& player) {
     BossRoomResult result;
 
-    // 클리어한 던전의 보스는 다시 잡을 수 없다 (토벌 증서 중복 획득 차단)
     if (IsCleared(type_)) {
         result.alreadyCleared = true;
         return result;
@@ -240,14 +248,13 @@ BossRoomResult Dungeon::EnterBossRoom(const std::string& answer, Player& player)
 
     result.correctAnswer = (answer == GetBossRoomAnswer());
     if (!result.correctAnswer) {
-        return result;   // 오답이면 보스방 앞에 그대로 남는다
+        return result;
     }
 
     Monster boss = PickBoss();
     result.monster = FightMonster(player, boss);
 
     if (IsPlayerAlive(player)) {
-        // 보스 드랍이 "토벌 증서"라 FightMonster()에서 이미 인벤토리에 들어갔다
         result.cleared = true;
         s_cleared[static_cast<int>(type_)] = true;
         exitRequested_ = true;
@@ -266,7 +273,7 @@ DefeatResult Dungeon::OnDefeat(Player& player) {
 
     player.SetHp(1);   // 체력을 1로 강제 조정
 
-    std::uniform_int_distribution<int> goldLossRange(5, 20);   // (미확정) 골드 손실 범위
+    std::uniform_int_distribution<int> goldLossRange(5, 20);
     int goldLoss = std::min<int>(goldLossRange(rng_), player.GetGold());
     player.DecreaseGold(goldLoss);
     result.goldLost = goldLoss;
