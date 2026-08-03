@@ -1,10 +1,8 @@
 ﻿#ifndef _COMBAT_H_
 #define _COMBAT_H_
 
-#include "monster.h"
-#include "player.h"
-
-#include <random>
+#include "A:\VisualStudio_C++\Text-ConsoleRPG_Solution\Text-ConsoleRPG\Player\player.h"
+#include "A:\VisualStudio_C++\Text-ConsoleRPG_Solution\Text-ConsoleRPG\Monster\Monster.h"
 
 enum class BehaviorType {
     use_item,

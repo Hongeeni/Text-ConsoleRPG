@@ -1,12 +1,13 @@
-﻿#include "combat.h"
+﻿#include "A:\VisualStudio_C++\Text-ConsoleRPG_Solution\Text-ConsoleRPG\CombatSystem\combat.h"
 
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
+#include <random>
 
 CombatSystem::CombatSystem(Player& player, Monster& monster)
     : player(player), monster(monster) {
-    this->attack_token = player.GetSpeed() - monster.GetSpd();
+    this->attack_token = player.GetSpeed() - monster.GetSpeed();
 }
 
 bool CombatSystem::IsFirstAttack() const {
@@ -92,7 +93,7 @@ bool CombatSystem::PlayerBehavior(const BehaviorType now_behavior, bool& kill_mo
             }
         }
 
-        kill_monster = (monster.GetDamage(AttackCalculation(power, monster.GetDefense(), player.GetCritical())));
+        kill_monster = (monster.GetDamage(AttackCalculation(power, monster.GetDefence(), player.GetCritical())));
     }
     return (this->behavior_token < 1);
 }

@@ -45,9 +45,6 @@ protected:
     int gold = 0;
 
 public:
-    // Constructor
-    Player(void);
-
     // Setter
     void SetName(std::string new_player_name);
     void SetJob(std::string new_player_job);
