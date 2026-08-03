@@ -1,9 +1,12 @@
-#pragma once
+﻿#pragma once
+
+#include <string>
 
 class Player;
 
 struct AltarResult {
-    bool blessed = false;   // true = 축복(회복), false = 저주(피해)
+    bool blessed = false;   // true = 축복, false = 저주
+    std::string target;
     int amount = 0;
 };
 
