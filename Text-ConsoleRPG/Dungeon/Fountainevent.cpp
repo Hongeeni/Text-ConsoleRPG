@@ -4,16 +4,14 @@
 FountainResult FountainEvent::Trigger(Player& player) {
     FountainResult result;
 
-    // Player는 최대/현재 체력을 GetPlayerHp() 맵 하나로 제공 (max_hp / current_hp)
-    const auto hp = player.GetPlayerHp();
-    unsigned short missingHp = hp.at("max_hp") - hp.at("current_hp");
+    int missingHp = player.GetPlayerMaxHp() - player.GetPlayerCurrentHp();
     if (missingHp > 0) {
         player.HpRecovery(missingHp);
         result.hpRestored = missingHp;
     }
 
-    const auto mp = player.GetPlayerMp();
-    unsigned short missingMp = mp.at("max_mp") - mp.at("current_mp");
+    // 전투 시스템 개편으로 매 턴 MP 자동 회복이 사라져서, 생명의 샘에서 MP도 함께 회복
+    int missingMp = player.GetPlayerMaxMp() - player.GetPlayerCurrentMp();
     if (missingMp > 0) {
         player.MpRecovery(missingMp);
         result.mpRestored = missingMp;

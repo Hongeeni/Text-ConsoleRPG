@@ -3,8 +3,8 @@
 class Player;
 
 struct FountainResult {
-    unsigned short hpRestored = 0;
-    unsigned short mpRestored = 0;
+    int hpRestored = 0;
+    int mpRestored = 0;
 };
 
 class FountainEvent {

@@ -40,14 +40,13 @@ struct BossRoomResult {
     DefeatResult defeat;
 };
 
-// 이 클래스는 입력 수신(ReadIntInput/ReadLineInput)과 순수 로직/데이터만 담당한다.
-// 문자열 메시지를 만들거나 반환하지 않는다 - 모든 결과는 구조체(값/플래그)로만 전달하며,
-// 그 값을 어떤 문구로 화면에 보여줄지는 전적으로 game.cpp/log.cpp가 결정한다.
+// 입력 수신과 순수 로직만 담당. 출력은 하지 않는다.
+// 결과는 전부 구조체로 반환하며, 화면 표시는 log.cpp / 전체 흐름은 game.cpp가 담당한다.
 class Dungeon {
 public:
     explicit Dungeon(DungeonType type);
 
-    std::string GetName() const; // 던전 이름표(식별용 데이터, 메시지 아님)
+    std::string GetName() const;
     bool IsBossFound() const;
     bool IsExitRequested() const;
     static bool IsCleared(DungeonType type);
@@ -56,6 +55,7 @@ public:
     EscapeResult TryEscape(Player& player);
     BossRoomResult EnterBossRoom(const std::string& answer, Player& player);
 
+    // 입력 수신 전용 (검증/재입력은 game.cpp가 반복 호출로 처리)
     static int ReadIntInput();
     static std::string ReadLineInput();
 
@@ -67,10 +67,11 @@ private:
 
     int escapeFailPercent_ = 20;
 
+    // 던전 타입별 클리어 여부 (인덱스 = static_cast<int>(DungeonType))
     static std::array<bool, 3> s_cleared;
 
-    std::string GetShopName() const;
-    std::string GetBossRoomAnswer() const;
+    std::string GetShopName() const;       // 던전별 실제 상점 이름 (Shop.cpp kShopList() 기준)
+    std::string GetBossRoomAnswer() const; // 보스방 정답 (미확정)
 
     DungeonEvent RollEvent();
     AdvanceResult Resolve(DungeonEvent e, Player& player);
@@ -82,5 +83,5 @@ private:
     MonsterFightOutcome FightMonster(Player& player);
 
     DefeatResult OnDefeat(Player& player);
-    bool IsPlayerAlive(Player& player) const;
+    bool IsPlayerAlive(Player& player) const; // Player::IsAlive()가 private라 HP 값으로 직접 판정
 };

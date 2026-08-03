@@ -14,8 +14,8 @@ AltarResult AltarEvent::Trigger(Player& player) {
     AltarResult result;
 
     // (미확정) 좋은/나쁜 효과 목록 - 우선 체력 증감 1종류씩만 구현
-    const unsigned short kHealAmount = 20;   // (미확정)
-    const unsigned short kDamageAmount = 20; // (미확정)
+    const int kHealAmount = 20;   // (미확정)
+    const int kDamageAmount = 20; // (미확정)
 
     std::bernoulli_distribution isGood(0.5);
     if (isGood(Rng())) {

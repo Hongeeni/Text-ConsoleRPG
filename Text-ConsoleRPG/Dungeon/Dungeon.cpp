@@ -1,4 +1,4 @@
-﻿#include "Dungeon.h"
+#include "Dungeon.h"
 #include "Player.h"
 #include "Monster.h"
 #include "CombatSystem.h"
@@ -30,7 +30,7 @@ bool Dungeon::IsExitRequested() const {
 
 // Player::IsAlive()가 private라 외부에서 호출 불가 -> HP 값으로 직접 판정
 bool Dungeon::IsPlayerAlive(Player& player) const {
-    return player.GetPlayerHp().at("current_hp") > 0;
+    return player.GetPlayerCurrentHp() > 0;
 }
 
 std::string Dungeon::GetName() const {
@@ -43,6 +43,7 @@ std::string Dungeon::GetName() const {
 }
 
 std::string Dungeon::GetShopName() const {
+    // Shop.cpp kShopList()에 정의된 실제 상점 이름과 매칭
     switch (type_) {
     case DungeonType::Slime:  return "슬라임 상점";
     case DungeonType::Undead: return "언데드 상점";
@@ -65,7 +66,10 @@ std::string Dungeon::ReadLineInput() {
     return value;
 }
 
+// ---- 이벤트 진행 ----
+
 DungeonEvent Dungeon::RollEvent() {
+    // (미확정) 몬스터 조우 외 5개 항목 상대 비율
     std::vector<double> weights = {
         40.0,                       // Monster
         12.0,                       // Treasure
@@ -82,7 +86,7 @@ Dungeon::MonsterFightOutcome Dungeon::FightMonster(Player& player) {
     MonsterFightOutcome outcome;
 
     // Monster / CombatSystem은 아직 미확정이라 기존 임시 호출 형태 그대로 유지
-    Monster monster = Monster::Create(type_, player.GetPlayerLevel().at("current_level")); // (미확정) Monster 실제 함수명
+    Monster monster = Monster::Create(type_, player.GetPlayerCurrentLevel()); // (미확정) Monster 실제 함수명
 
     CombatSystem combat;
     combat.Fight(player, monster); // (미확정) CombatSystem 실제 함수명
@@ -109,6 +113,8 @@ AdvanceResult Dungeon::Resolve(DungeonEvent e, Player& player) {
         result.treasure = TreasureRoomEvent::Trigger(player);
         break;
     case DungeonEvent::Shop:
+        // Shop은 클래스가 아니라 이름 문자열 기반 자유 함수 구조 (Shop.h 참고)
+        // ViewShop(shop_name, name, player)는 내부적으로 두 번째 인자(name)만 실제 조회에 사용함
         ViewShop(GetShopName(), GetShopName(), player);
         break;
     case DungeonEvent::Altar:
@@ -163,7 +169,7 @@ BossRoomResult Dungeon::EnterBossRoom(const std::string& answer, Player& player)
     }
 
     // Monster / CombatSystem은 아직 미확정이라 기존 임시 호출 형태 그대로 유지
-    Monster boss = Monster::CreateBoss(type_, player.GetPlayerLevel().at("current_level")); // (미확정) Monster 실제 함수명
+    Monster boss = Monster::CreateBoss(type_, player.GetPlayerCurrentLevel()); // (미확정) Monster 실제 함수명
 
     CombatSystem combat;
     combat.Fight(player, boss); // (미확정) CombatSystem 실제 함수명
@@ -187,7 +193,7 @@ DefeatResult Dungeon::OnDefeat(Player& player) {
 
     std::uniform_int_distribution<int> goldLossRange(5, 20); // (미확정) 골드 손실 범위
     int goldLoss = std::min<int>(goldLossRange(rng_), player.GetPlayerGold());
-    player.DecreaseGold(static_cast<unsigned short>(goldLoss));
+    player.DecreaseGold(goldLoss);
     result.goldLost = goldLoss;
 
     auto items = g_player_inventory.ViewInventory();
