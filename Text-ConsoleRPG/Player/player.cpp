@@ -1,11 +1,14 @@
-﻿#include "player.h"
+#include "Player\Player.h"
 
 #include <algorithm>
 #include <iostream>
 #include <map>
 
-// Constructor
-Player::Player(void) {}
+Player::Player(void) {
+	// 플레이어에게 이름을 입력받는 Log 함수 필요.
+	std::cout << "what's your name?: ";
+	std::cin >> this->name;
+}
 
 // Setter
 void Player::SetName(std::string new_name) {
@@ -166,7 +169,9 @@ void Player::PlayerAwaken(void) {
 bool Player::ToAttack(int mp_decrease_amount) {
 	if ((this->GetCurrentMp() - mp_decrease_amount) >= 0) {
 		this->SetMp(this->GetCurrentMp() - mp_decrease_amount);
+		return true;
 	}
+	return false;
 }
 bool Player::GetDamage(int hp_decrease_amount) {
 	this->SetHp(std::max((this->GetCurrentHp() - hp_decrease_amount), 0));
@@ -221,4 +226,3 @@ bool Player::IsAlive(int current_hp) {
 	}
 	DecreaseLife();
 	return false;
-}

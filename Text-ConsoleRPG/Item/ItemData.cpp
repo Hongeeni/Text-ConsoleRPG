@@ -4,7 +4,7 @@ using namespace std;
 
 vector<ItemData> ItemList() {
     vector<ItemData> items = {
-        // category, name,              description,               price, healHp, healMp,      hp, mp, Attack, Defense, Critical, Speed
+        // category, name,              description,               price, healHp, healMp,      hp, mp, Power, Defense, Critical, Speed
 
         //other
         { "other", "정체를 알 수 없는 종이 #1", "아셨쬬?",              0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -32,6 +32,10 @@ vector<ItemData> ItemList() {
         { "parts", "언데드 부산물", "언데드의 일부입니다.",        15, 0, 0,            0, 0, 0, 0, 0, 0 },
         { "parts", "크리처의 심장",   "크리처의 심장입니다.",    90, 0, 0,            0, 0, 0, 0, 0, 0 },
         { "parts", "골렘의 핵",  "골렘의 핵입니다.",         35, 0, 0,            0, 0, 0, 0, 0, 0 },
+
+        // 포션 제작 재료
+        { "parts", "붉은 허브",       "포션 제작에 사용됩니다.",       10, 0, 0,    0, 0, 0, 0, 0, 0 },
+        { "parts", "푸른 허브",       "포션 제작에 사용됩니다.",       10, 0, 0,    0, 0, 0, 0, 0, 0 },
 
         // Weapon
         { "weapon", "호미",        "공격력을 올려줍니다. (+5)",              120, 0, 0,    0, 0, 5, 0, 0, 0 },
@@ -88,7 +92,7 @@ Item CreateItem(string name, int count) {
             return Item(i.category, i.name, i.description,
                 i.price, count,
                 i.healHp, i.healMp,
-                i.bonusHp, i.bonusMp, i.bonusAttack,
+                i.bonusHp, i.bonusMp, i.bonusPower,
                 i.bonusDefense, i.bonusCritical, i.bonusSpeed);
         }
     }
@@ -96,7 +100,7 @@ Item CreateItem(string name, int count) {
     return Item(first.category, first.name, first.description,
         first.price, count,
         first.healHp, first.healMp,
-        first.bonusHp, first.bonusMp, first.bonusAttack,
+        first.bonusHp, first.bonusMp, first.bonusPower,
         first.bonusDefense, first.bonusCritical, first.bonusSpeed);
 }
 
@@ -119,5 +123,5 @@ ItemData FindItem(const string& name) {
         return it->second;      
     }
 
-    return ItemList()[0];
+    return std::nullopt;
 }

@@ -19,7 +19,7 @@ struct ItemData {
     
     int bonusHp;
     int bonusMp;
-    int bonusAttack;
+    int bonusPower;
     int bonusDefense;
     int bonusCritical;
     int bonusSpeed;

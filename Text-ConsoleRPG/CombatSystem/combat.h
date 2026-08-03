@@ -1,10 +1,8 @@
 ﻿#ifndef _COMBAT_H_
 #define _COMBAT_H_
 
-#include "monster.h"
-#include "player.h"
-
-#include <random>
+#include "Player\Player.h"
+#include "Monster\Monster.h"
 
 enum class BehaviorType {
     use_item,

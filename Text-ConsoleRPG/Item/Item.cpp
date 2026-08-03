@@ -6,7 +6,7 @@ Item::Item(string category,
     string name, string description,
     int price, int count,
     int healHp, int healMp,
-    int bonusHp, int bonusMp, int bonusAttack, int bonusDefense, 
+    int bonusHp, int bonusMp, int bonusPower, int bonusDefense, 
     int bonusCritical, int bonusSpeed)
 
     : m_category(category), 
@@ -14,7 +14,7 @@ Item::Item(string category,
     m_price(price), m_count(count),
     m_healHp(healHp), m_healMp(healMp), 
     m_bonusHp(bonusHp), m_bonusMp(bonusMp), 
-    m_bonusAttack(bonusAttack), m_bonusDefense(bonusDefense), 
+    m_bonusPower(bonusPower), m_bonusDefense(bonusDefense), 
     m_bonusCritical(bonusCritical), m_bonusSpeed(bonusSpeed)
 {
 }

@@ -1,4 +1,4 @@
-#include "EquipmentManager.h"
+ï»¿#include "EquipmentManager.h"
 #include "ItemData.h"
 #include <iomanip>
 #include <conio.h>
@@ -10,11 +10,11 @@ bool EquipGear(const EquipInfo& answer) {
     std::cout << "---------------------------------------------------------------------\n";
     if (answer.type_ == EquipType::Weapon) {
         if (!g_equip_slot.weapon.is_empty_()) {
-            std::cout << "[" << g_equip_slot.weapon.name_ << "]¹«±â¸¦ ÇØÁ¦Çß½À´Ï´Ù.\n";
+            std::cout << "[" << g_equip_slot.weapon.name_ << "]ë¬´ê¸°ë¥¼ í•´ì œí–ˆìŠµë‹ˆë‹¤.\n";
             AddItem(g_player_armory, g_equip_slot.weapon.name_, 1);
         }
         g_equip_slot.weapon = answer;
-        std::cout << "[" << g_equip_slot.weapon.name_ << "]¹«±â¸¦ ÀåÂøÇß½À´Ï´Ù.\n";
+        std::cout << "[" << g_equip_slot.weapon.name_ << "]ë¬´ê¸°ë¥¼ ìž¥ì°©í–ˆìŠµë‹ˆë‹¤.\n";
         
     
         std::cout << "---------------------------------------------------------------------\n";
@@ -22,17 +22,17 @@ bool EquipGear(const EquipInfo& answer) {
     }
     if (answer.type_ == EquipType::Armor) {
         if (!g_equip_slot.armor.is_empty_()) {
-            std::cout << "[" << g_equip_slot.armor.name_ << "]¹æ¾î±¸¸¦ ÇØÁ¦Çß½À´Ï´Ù.\n";
+            std::cout << "[" << g_equip_slot.armor.name_ << "]ë°©ì–´êµ¬ë¥¼ í•´ì œí–ˆìŠµë‹ˆë‹¤.\n";
             AddItem(g_player_armory, g_equip_slot.armor.name_, 1);
         }
         g_equip_slot.armor = answer;
-        std::cout << "[" << g_equip_slot.armor.name_ << "]¹æ¾î±¸¸¦ ÀåÂøÇß½À´Ï´Ù.\n";
+        std::cout << "[" << g_equip_slot.armor.name_ << "]ë°©ì–´êµ¬ë¥¼ ìž¥ì°©í–ˆìŠµë‹ˆë‹¤.\n";
         
         std::cout << "---------------------------------------------------------------------\n";
         return true;
     }
     
-    std::cout << "ÇØ´ç ¾ÆÀÌÅÛÀº ÀåÂøÇÒ ¼ö ¾ø½À´Ï´Ù.\n";
+    std::cout << "í•´ë‹¹ ì•„ì´í…œì€ ìž¥ì°©í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n";
     std::cout << "-------------------------------------------------------------------\n";
     return false;
 }
@@ -41,14 +41,14 @@ bool UnequipGear(const std::string& answer) {
     std::cout << "---------------------------------------------------------------------\n";
     if (answer == "weapon") {
         if (g_equip_slot.weapon.is_empty_()) {
-            std::cout << "ÇØÁ¦ÇÒ ¹«±â°¡ ¾ø½À´Ï´Ù.\n";
+            std::cout << "í•´ì œí•  ë¬´ê¸°ê°€ ì—†ìŠµë‹ˆë‹¤.\n";
             std::cout << "---------------------------------------------------------------------\n";
             _getch();
             return false;
         }
         AddItem(g_player_armory, g_equip_slot.weapon.name_, 1);
         g_equip_slot.weapon = {"", EquipType::None};
-        std::cout << "¹«±â¸¦ ÇØÁ¦Çß½À´Ï´Ù.\n";
+        std::cout << "ë¬´ê¸°ë¥¼ í•´ì œí–ˆìŠµë‹ˆë‹¤.\n";
         
         std::cout << "---------------------------------------------------------------------\n";
         _getch();
@@ -56,20 +56,20 @@ bool UnequipGear(const std::string& answer) {
     }
     if (answer == "armor") {
         if (g_equip_slot.armor.is_empty_()) {
-            std::cout << "ÇØÁ¦ÇÒ ¹æ¾î±¸°¡ ¾ø½À´Ï´Ù.\n";
+            std::cout << "í•´ì œí•  ë°©ì–´êµ¬ê°€ ì—†ìŠµë‹ˆë‹¤.\n";
             std::cout << "---------------------------------------------------------------------\n";
             _getch();
             return false;
         }
         AddItem(g_player_armory, g_equip_slot.armor.name_, 1);
         g_equip_slot.armor = {"", EquipType::None};
-        std::cout << "¹æ¾î±¸¸¦ ÇØÁ¦Çß½À´Ï´Ù.\n";
+        std::cout << "ë°©ì–´êµ¬ë¥¼ í•´ì œí–ˆìŠµë‹ˆë‹¤.\n";
         std::cout << "---------------------------------------------------------------------\n";
         _getch();
         return true;
     }
 
-    std::cout << "ÇØÁ¦ÇÒ ¾ÆÀÌÅÛÀÌ ¾ø½À´Ï´Ù.\n";
+    std::cout << "í•´ì œí•  ì•„ì´í…œì´ ì—†ìŠµë‹ˆë‹¤.\n";
     std::cout << "-------------------------------------------------------------------\n";
     _getch();
     return false;
@@ -79,18 +79,18 @@ void DisplayEquipMenu() {
     while (true) {
         system("cls");
         ViewInventory(g_player_armory);
-        std::cout << "[Àåºñ ÀÌ¸§: ÀåÂø] [¹«±â/¹æ¾î±¸: ÇØÁ¦] [[0]: µ¹¾Æ°¡±â]" << std::endl;
+        std::cout << "[ìž¥ë¹„ ì´ë¦„: ìž¥ì°©] [ë¬´ê¸°/ë°©ì–´êµ¬: í•´ì œ] [[0]: ëŒì•„ê°€ê¸°]" << std::endl;
         std::cout << ":: ";
         std::string answer;
         getline(std::cin, answer);
         if (answer == "0") {
             break;
         }
-        if (answer == "¹«±â") { 
+        if (answer == "ë¬´ê¸°") { 
             UnequipGear("weapon");
             continue;
         }
-        else if (answer == "¹æ¾î±¸") { 
+        else if (answer == "ë°©ì–´êµ¬") { 
             UnequipGear("armor");
             continue;
         }
@@ -98,14 +98,14 @@ void DisplayEquipMenu() {
         EquipType equip_type = EquipType::None;
         if (!item_data.has_value()) {
             std::cout << "---------------------------------------------------------------------\n";
-            std::cout << "ÇØ´ç ¾ÆÀÌÅÛÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.\n";
+            std::cout << "í•´ë‹¹ ì•„ì´í…œì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n";
             std::cout << "---------------------------------------------------------------------\n";
             _getch();
             continue;
         }
         if (!CheckItem(g_player_armory, answer, 1)) {
             std::cout << "---------------------------------------------------------------------\n";
-            std::cout << "±× ¾ÆÀÌÅÛÀ» °¡Áö°í ÀÖÁö ¾Ê½À´Ï´Ù..\n";
+            std::cout << "ê·¸ ì•„ì´í…œì„ ê°€ì§€ê³  ìžˆì§€ ì•ŠìŠµë‹ˆë‹¤..\n";
             std::cout << "---------------------------------------------------------------------\n";
             _getch();
             continue;
@@ -118,7 +118,7 @@ void DisplayEquipMenu() {
         }
         else {
             std::cout << "---------------------------------------------------------------------\n";
-            std::cout << "Àß¸øµÈ ¾ÆÀÌÅÛÀ» ÀÔ·ÂÇß½À´Ï´Ù.\n";
+            std::cout << "ìž˜ëª»ëœ ì•„ì´í…œì„ ìž…ë ¥í–ˆìŠµë‹ˆë‹¤.\n";
             std::cout << "---------------------------------------------------------------------\n";
             _getch();
             continue;

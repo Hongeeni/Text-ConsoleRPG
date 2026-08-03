@@ -1,4 +1,4 @@
-#include "monsterdata.h"
+ï»¿#include "monsterdata.h"
 
 using namespace std;
 
@@ -6,30 +6,42 @@ vector<MonsterData> MonsterList() {
     vector<MonsterData> monsters = {
 
 
-                        // group, name,          hp, attack, def, spd, dropitenname,    category, gold, exp, isboss
-        // Slime
-        { MonsterGroup::Slime,  "ÀÛÀº ½½¶óÀÓ",   80,  15, 5, 0,  "½½¶óÀÓ ºÎ»ê¹°",     "parts",  10, 20,  false },
-        { MonsterGroup::Slime,  "½½¶óÀÓ ¹«¸®",        120, 20, 8, 0,  "½½¶óÀÓ ºÎ»ê¹°"     "parts",  10, 30,  false },
-        { MonsterGroup::Slime,  "ºÒÅ¸´Â ½½¶óÀÓ",   150, 25, 8, 0, "½½¶óÀÓ ºÎ»ê¹°",      "parts",  10, 40,  false },
-        { MonsterGroup::Slime,  "°ËÀº ½½¶óÀÓ",   180, 30, 10, 0, "½½¶óÀÓ ºÎ»ê¹°",      "parts",  10, 50,  false },
-        { MonsterGroup::Slime,  "½½¶óÀÓ Å·",    300, 40, 15, 0, "Åä¹ú Áõ¼­",     "license",  10, 100, true  },
+        // group, name,          hp, power, def, spd, crit, dropitemname,    category, gold, exp, isboss
+// Slime
+{ MonsterGroup::Slime,  "ì‘ì€ ìŠ¬ë¼ì„",    80,  15,  5,  5, 10, "ìŠ¬ë¼ì„ ë¶€ì‚°ë¬¼",  "parts",  10,  20, false },
+{ MonsterGroup::Slime,  "ë… ìŠ¬ë¼ì„",     100,  18,  5, 10, 10, "ë¶‰ì€ í—ˆë¸Œ",      "parts",  12,  25, false },
+{ MonsterGroup::Slime,  "ìŠ¬ë¼ì„ ë¬´ë¦¬",   120,  20,  8,  5, 10, "ë¶‰ì€ í—ˆë¸Œ",      "parts",  10,  30, false },
+{ MonsterGroup::Slime,  "ì–¼ìŒ ìŠ¬ë¼ì„",   130,  22,  8, 10, 10, "í‘¸ë¥¸ í—ˆë¸Œ",      "parts",  12,  35, false },
+{ MonsterGroup::Slime,  "í•˜ì–€ ìŠ¬ë¼ì„",   140,  20, 10, 10, 10, "í‘¸ë¥¸ í—ˆë¸Œ",      "parts",  14,  38, false },
+{ MonsterGroup::Slime,  "ë¶ˆíƒ€ëŠ” ìŠ¬ë¼ì„", 150,  25,  8, 15, 10, "ìŠ¬ë¼ì„ ë¶€ì‚°ë¬¼",    "parts",  10,  40, false },
+{ MonsterGroup::Slime,  "ê²€ì€ ìŠ¬ë¼ì„",   180,  30, 10, 15, 10, "ìŠ¬ë¼ì„ ë¶€ì‚°ë¬¼",      "parts",  10,  50, false },
+{ MonsterGroup::Slime,  "ë©”íƒˆ ìŠ¬ë¼ì„",    60,  10, 30, 30, 10, "ìŠ¬ë¼ì„ ë¶€ì‚°ë¬¼",      "parts",  50,  60, false },
+{ MonsterGroup::Slime,  "ìŠ¬ë¼ì„ í‚¹",     300,  40, 15, 20, 30, "í† ë²Œ ì¦ì„œ",     "license",10, 100, true  },
 
-        // Undead 
-        { MonsterGroup::Undead,  "Á×Àº »õ",  100, 20, 5, 0, "¾ğµ¥µå ºÎ»ê¹°",   "parts",  15, 25,  false },
-        { MonsterGroup::Undead,  "Á»ºñ",  140, 25, 10, 0, "¾ğµ¥µå ºÎ»ê¹°",     "parts",  15, 35,  false },
-        { MonsterGroup::Undead,  "Á»ºñ ¹«¸®",       170, 30, 10, 0, "¾ğµ¥µå ºÎ»ê¹°",   "parts",  15, 45,  false },
-        { MonsterGroup::Undead,  "ÇØ°ñ",     200, 35, 12, 0, "¾ğµ¥µå ºÎ»ê¹°",       "parts",  15, 55,  false },
-        { MonsterGroup::Undead,  "Å©¸®Ã³",  350, 45, 18, 0, "Åä¹ú Áõ¼­",     "license",  90, 120, true  },
+// Undead 
+{ MonsterGroup::Undead, "ì£½ì€ ìƒˆ",       100,  20,  5, 30, 10, "ë¶‰ì€ í—ˆë¸Œ",  "parts",  15,  25, false },
+{ MonsterGroup::Undead, "ì¢€ë¹„",          140,  25, 10, 20, 10, "ë¶‰ì€ í—ˆë¸Œ",  "parts",  15,  35, false },
+{ MonsterGroup::Undead, "ì¢€ë¹„ ë¬´ë¦¬",     170,  30, 10, 20, 30, "ì–¸ë°ë“œ ë¶€ì‚°ë¬¼",   "parts",  15,  45, false },
+{ MonsterGroup::Undead, "í•´ê³¨",          200,  35, 12, 25, 30, "ì–¸ë°ë“œ ë¶€ì‚°ë¬¼",    "parts",  15,  55, false },
+{ MonsterGroup::Undead, "í•´ê³¨ ê¶ìˆ˜",     180,  40,  8, 30, 30, "ì–¸ë°ë“œ ë¶€ì‚°ë¬¼",      "parts",  20,  50, false },
+{ MonsterGroup::Undead, "ë§ë ¹",          160,  28, 10, 25, 10, "ì–¸ë°ë“œ ë¶€ì‚°ë¬¼",   "parts",  18,  42, false },
+{ MonsterGroup::Undead, "êµ¬ìš¸",          220,  30, 15, 15, 30, "í‘¸ë¥¸ í—ˆë¸Œ",        "parts",  25,  60, false },
+{ MonsterGroup::Undead, "ë¦¬ì¹˜",          250,  38, 10, 20, 30, "ì–¸ë°ë“œ ë¶€ì‚°ë¬¼",    "parts",  40,  70, false },
+{ MonsterGroup::Undead, "í¬ë¦¬ì²˜",        350,  45, 18, 30, 40, "í† ë²Œ ì¦ì„œ",      "license",90, 120, true  },
 
-        // Golem 
-        { MonsterGroup::Golem,  "ÁøÈë °ñ·½",     130, 18, 15, 0, "°ñ·½ÀÇ ÇÙ",    "parts",  35, 30,  false },
-        { MonsterGroup::Golem,  "¸ğ·¡ °ñ·½",    160, 22, 18, 0, "°ñ·½ÀÇ ÇÙ",     "parts",  35, 40,  false },
-        { MonsterGroup::Golem,  "³ª¹« °ñ·½",    190, 28, 20, 0, "°ñ·½ÀÇ ÇÙ",     "parts",  35, 50,  false },
-        { MonsterGroup::Golem,  "¹ÙÀ§ °ñ·½",   230, 35, 25, 0, "°ñ·½ÀÇ ÇÙ",      "parts",  35, 65,  false },
-        { MonsterGroup::Golem,  "°Å´ë °ñ·½",      400, 50, 30, 0, "Åä¹ú Áõ¼­",   "license", 100, 150, true  },
+// Golem 
+ { MonsterGroup::Golem,  "ì§„í™ ê³¨ë ˜",     130,  18, 15, 20, 10, "ê³¨ë ˜ì˜ í•µ",      "parts",  35,  30, false },
+ { MonsterGroup::Golem,  "ë‚˜ë¬´ ê³¨ë ˜",     190,  28, 20, 20, 10, "ë¶‰ì€ í—ˆë¸Œ",      "parts",  35,  50, false },
+ { MonsterGroup::Golem,  "ëª¨ë˜ ê³¨ë ˜",     160,  22, 18, 20, 10, "ê³¨ë ˜ì˜ í•µ",   "parts",  35,  40, false },
+ { MonsterGroup::Golem,  "ì´ë¼ ê³¨ë ˜",     170,  20, 20, 15, 20, "ë¶‰ì€ í—ˆë¸Œ",      "parts",  30,  45, false },
+ { MonsterGroup::Golem,  "ë°”ìœ„ ê³¨ë ˜",     230,  35, 25, 30, 20, "ë¶‰ì€ í—ˆë¸Œ",      "parts",  35,  65, false },
+ { MonsterGroup::Golem,  "ìˆ˜ì • ê³¨ë ˜",     200,  25, 22, 15, 20, "ë¶‰ì€ í—ˆë¸Œ",    "parts",  45,  55, false },
+ { MonsterGroup::Golem,  "ì²  ê³¨ë ˜",       260,  40, 28, 10, 30, "í‘¸ë¥¸ í—ˆë¸Œ",        "parts",  50,  75, false },
+ { MonsterGroup::Golem,  "ê±°ëŒ€ ê³¨ë ˜",     400,  50, 30, 15, 30, "í† ë²Œ ì¦ì„œ",      "license",100,150, true  },
 
-        //finalboss
-        { MonsterGroup::finalboss,  "¸¶¿Õ",      1000, 250, 200, 50, "Åä¹ú Áõ¼­",   "license", 1000, 300, true  },
+
+ //finalboss
+     { MonsterGroup::finalboss,  "ë§ˆì™•",      1000, 250, 200, 50, 30, "í† ë²Œ ì¦ì„œ",   "license", 1000, 300, true  },
 
     };
     return monsters;
@@ -37,12 +49,15 @@ vector<MonsterData> MonsterList() {
 
 
 // and then return Monster 
-Monster CreateMonster(int id) {
+Monster CreateMonster(string name) {
     auto monsters = MonsterList();
     for (const auto& m : monsters) {
-        if (m.id == id) {
-            return Monster(m.group, m.name, m.hp, m.attack, m.defence, m.speed,
+        if (m.name == name) {
+            return Monster(m.group, m.name, m.hp, m.power, m.defence, m.speed, m.critical,
                 m.dropName, m.dropCategory, m.dropGold,
                 m.rewardExp, m.isBoss);
         }
+
+    } return std::nullopt;
+
 }

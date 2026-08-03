@@ -14,8 +14,6 @@ namespace {
         return rng;
     }
 
-    // ItemList()는 호출할 때마다 벡터를 새로 만들어 반환한다.
-    // 후보를 포인터로 들고 있어야 해서 한 번만 복사해두고 재사용한다.
     const std::vector<ItemData>& AllItems() {
         static const std::vector<ItemData> items = ItemList();
         return items;

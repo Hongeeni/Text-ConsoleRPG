@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <string>
 #include <iostream>
@@ -37,7 +37,7 @@ public:
     void AddCount(int amount) { m_count += amount; }
     void UseItem()         
         {
-            if (m_category == "license") return;  // license Ä«Å×°í¸®´Â »ç¿ë ºÒ°¡ (°³¼ö°¡ ÁÙ¾îµéÁö ¾ÊÀ½)
+            if (m_category == "license") return;  // license ì¹´í…Œê³ ë¦¬ëŠ” ì‚¬ìš© ë¶ˆê°€ (ê°œìˆ˜ê°€ ì¤„ì–´ë“¤ì§€ ì•ŠìŒ)
             if (m_count > 0) m_count--;
         }
 
@@ -60,7 +60,7 @@ private:
 
     int m_bonusHp;
     int m_bonusMp;
-    int m_bonusAttack;
+    int m_bonusPower;
     int m_bonusDefense;
     int m_bonusCritical;
     int m_bonusSpeed;

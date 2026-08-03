@@ -28,13 +28,11 @@ enum class JobType {
 
 class Player {
 protected:
-    //PlayerLog log;
-
     // Constant
     const int kMaxLevel = 10;
     const int kMaxLife = 3;
     const int kMaxGold = 99999;
-    const int kAttackCost = 15;
+    const int kAttackCost = 10;
     const int kSkillCost = 20;
 
     // Variable
@@ -45,7 +43,6 @@ protected:
     int gold = 0;
 
 public:
-    // Constructor
     Player(void);
 
     // Setter

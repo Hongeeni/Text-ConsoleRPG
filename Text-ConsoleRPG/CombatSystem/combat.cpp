@@ -1,12 +1,13 @@
-﻿#include "combat.h"
+﻿#include "CombatSystem\combat.h"
 
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
+#include <random>
 
 CombatSystem::CombatSystem(Player& player, Monster& monster)
     : player(player), monster(monster) {
-    this->attack_token = player.GetSpeed() - monster.GetSpd();
+    this->attack_token = player.GetSpeed() - monster.GetSpeed();
 }
 
 bool CombatSystem::IsFirstAttack() const {
@@ -92,13 +93,13 @@ bool CombatSystem::PlayerBehavior(const BehaviorType now_behavior, bool& kill_mo
             }
         }
 
-        kill_monster = (monster.GetDamage(AttackCalculation(power, monster.GetDefense(), player.GetCritical())));
+        kill_monster = !(monster.GetDamage(AttackCalculation(power, monster.GetDefence(), player.GetCritical())));
     }
     return (this->behavior_token < 1);
 }
 
 bool CombatSystem::MonsterBehavior(bool& kill_player) {
-    kill_player = player.GetDamage(AttackCalculation(monster.GetAttack(), player.GetDefense(), monster.GetCritical()));
+    kill_player = !(player.GetDamage(AttackCalculation(monster.GetAttack(), player.GetDefense(), monster.GetCritical())));
     return kill_player;
 }
 

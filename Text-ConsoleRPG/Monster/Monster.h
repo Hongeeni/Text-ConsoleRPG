@@ -1,15 +1,16 @@
-#pragma once
+﻿#pragma once
 #include <string>
 
 enum class MonsterGroup {
     Slime = 1,
     Undead = 2,
-    Golem = 3
+    Golem = 3,
+    finalboss = 4
 };
 
 class Monster {
 public:
-    Monster(MonsterGroup group, std::string name, int hp, int attack, int defence, int speed,
+    Monster(MonsterGroup group, std::string name, int hp, int power, int defence, int speed, int critical,
         std::string dropName, std::string dropCategory, int dropPrice,
         int rewardExp, bool isBoss);
 
@@ -19,9 +20,10 @@ public:
     // getter
     std::string GetName() const { return m_name; }
     int GetHP() const { return m_hp; }
-    int GetAttack() const { return m_attack; }
+    int GetPower() const { return m_power; }
     int GetDefence() const { return m_defence; }
     int GetSpeed() const { return m_speed; }
+	int GetCritical() const { return m_critical; }
     bool IsAlive() const { return m_hp > 0; }
 
     // boss check
@@ -41,9 +43,10 @@ public:
 private:
     std::string m_name;
     int m_hp;
-    int m_attack;
+    int m_power;
     int m_defence;
     int m_speed;
+	int m_critical;
 
     bool m_isBoss;
     MonsterGroup m_group;
