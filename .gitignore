@@ -361,5 +361,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Text-ConsoleRPG/Item/Item.cpp
-/Text-ConsoleRPG/Item/Item.h
