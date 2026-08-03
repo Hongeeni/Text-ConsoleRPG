@@ -10,7 +10,7 @@ struct ItemData {
     std::string category;
 
     std::string name;
-    std::string desc;
+    std::string description;
     
     int price;
     
@@ -19,10 +19,10 @@ struct ItemData {
     
     int bonusHp;
     int bonusMp;
-    int bonusAtk;
-    int bonusDef;
-    int bonusCrit;
-    int bonusSpd;
+    int bonusAttack;
+    int bonusDefense;
+    int bonusCritical;
+    int bonusSpeed;
 };
 
 std::vector<ItemData> ItemList();
