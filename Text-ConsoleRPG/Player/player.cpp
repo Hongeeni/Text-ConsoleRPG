@@ -1,11 +1,8 @@
-﻿#include "player.h"
+﻿#include "A:\VisualStudio_C++\Text-ConsoleRPG_Solution\Text-ConsoleRPG\Player\player.h"
 
 #include <algorithm>
 #include <iostream>
 #include <map>
-
-// Constructor
-Player::Player(void) {}
 
 // Setter
 void Player::SetName(std::string new_name) {
@@ -166,7 +163,9 @@ void Player::PlayerAwaken(void) {
 bool Player::ToAttack(int mp_decrease_amount) {
 	if ((this->GetCurrentMp() - mp_decrease_amount) >= 0) {
 		this->SetMp(this->GetCurrentMp() - mp_decrease_amount);
+		return true;
 	}
+	return false;
 }
 bool Player::GetDamage(int hp_decrease_amount) {
 	this->SetHp(std::max((this->GetCurrentHp() - hp_decrease_amount), 0));
