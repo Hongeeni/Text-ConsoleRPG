@@ -1,13 +1,14 @@
-﻿#include <algorithm>
-#include <cstdlib>
-#include <ctime>
-#include <iostream>
-#include <map>
+﻿#include <iostream>
 #include <string>
-#include <vector>
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
+
+#include "Game/Game.h"
+#include "Logger/Logger.h"
+#include "Player/Player.h"
+#include "Shop/Shop.h"
 
 int main(void) {
 #ifdef _WIN32
@@ -19,5 +20,24 @@ int main(void) {
     if (h != INVALID_HANDLE_VALUE && GetConsoleMode(h, &mode))
         SetConsoleMode(h, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 #endif
+    
+    LoadShop();
+
+    TitleScreen();
+    StoryScreen();
+
+    Player player;
+
+    NameInputScreen();
+    std::string name;
+    std::getline(std::cin, name);
+    if (!name.empty()) {
+        player.SetName(name);
+    }
+
+    Tutorial();
+
+    RunGame(player);
+
     return 0;
 }
