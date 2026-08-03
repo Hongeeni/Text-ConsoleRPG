@@ -4,10 +4,13 @@
 #include "Player\Player.h"
 #include "Monster\Monster.h"
 
+#include <random>
+
 enum class BehaviorType {
     use_item,
     basic_attack,
-    skill_attack
+    skill_attack,
+    run_away
 };
 
 class CombatSystem {
@@ -27,12 +30,17 @@ private:
     bool is_first_attack = false;
     int attack_token = 0;
 
-    bool IsFirstAttack(void) const;
+    bool IsFirstAttack(void);
     bool PlayerBehavior(const BehaviorType now_behavior, bool& kill_monster);
     bool MonsterBehavior(bool& kill_player);
 
     const int AttackCalculation(const int attacker_power, const int striker_defense, const int attacker_critical);
     void GetResult(void) const;
+
+    BehaviorType AskPlayerBehavior();
+    void PlayerTurn(bool& kill_monster);
+
+    std::mt19937 rng{ std::random_device{}() };
 };
 
 #endif

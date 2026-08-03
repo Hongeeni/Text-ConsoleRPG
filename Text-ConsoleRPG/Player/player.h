@@ -35,6 +35,18 @@ protected:
     const int kAttackCost = 10;
     const int kSkillCost = 20;
 
+    // 전직 보너스 (전직 즉시)
+    const int kWarriorDefenseBonus = 5;
+    const int kWarriorHpBonus = 100;
+    const int kMagePowerBonus = 3;
+    const int kMageMpBonus = 100;
+
+    // 전직 보너스 (레벨업마다)
+    const int kWarriorDefenseGrowth = 2;
+    const int kWarriorHpGrowth = 50;
+    const int kMagePowerGrowth = 2;
+    const int kMageMpGrowth = 50;
+
     // Variable
     std::string name = "Nameless";
     std::string job = "Farmer";
@@ -93,7 +105,7 @@ public:
     const int GetSkillCost(void);
 
     // Player Function
-    void PlayerAwaken(void);
+    void PlayerAwaken(JobType job_type);
 
     bool ToAttack(int mp_reduction_amount);
     bool GetDamage(int hp_reduction_amount);

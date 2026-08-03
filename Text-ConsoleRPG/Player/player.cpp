@@ -5,8 +5,6 @@
 #include <map>
 
 Player::Player(void) {
-	// 플레이어에게 이름을 입력받는 Log 함수 필요.
-	std::cin >> this->name;
 }
 
 // Setter
@@ -146,23 +144,21 @@ const int Player::GetSkillCost(void) {
 	return this->kSkillCost;
 }
 
-// Player Function
-void Player::PlayerAwaken(void) {
-	JobType job_type = JobType::Warrior;
-	//job_type = PlayerLog.SelectJob();
+
+void Player::PlayerAwaken(JobType job_type) {
+	if (this->arousal) return;
 
 	if (job_type == JobType::Warrior) {
 		this->SetJob("Warrior");
-		this->SetDefense(this->GetDefense() + 20);
-
-		this->SetArousal(true);
+		this->SetDefense(this->GetDefense() + kWarriorDefenseBonus);
+		this->SetHp(this->GetCurrentHp() + kWarriorHpBonus, this->GetMaxHp() + kWarriorHpBonus);
 	}
-	else if (job_type == JobType::Mage) {
+	else {
 		this->SetJob("Mage");
-		this->SetPower(this->GetPower() + 20);
-
-		this->SetArousal(true);
+		this->SetPower(this->GetPower() + kMagePowerBonus);
+		this->SetMp(this->GetCurrentMp() + kMageMpBonus, this->GetMaxMp() + kMageMpBonus);
 	}
+	this->SetArousal(true);
 }
 
 bool Player::ToAttack(int mp_decrease_amount) {
@@ -183,11 +179,15 @@ void Player::MpRecovery(int mp_increase_amount) {
 	this->SetMp(std::min((this->GetCurrentMp() + mp_increase_amount), this->GetMaxMp()));
 }
 void Player::GainExp(int exp_increase_amount) {
-	if (this->GetCurrentLevel() < this->GetMaxLevel()) {
-		this->SetExp(GetCurrentExp() + exp_increase_amount);
-		if ((this->GetCurrentExp() + exp_increase_amount) >= this->GetMaxExp()) {
-			this->LevelUp();
-		}
+	if (this->GetCurrentLevel() >= this->GetMaxLevel()) {
+		return;
+	}
+
+	this->SetExp(this->GetCurrentExp() + exp_increase_amount);
+
+	while (this->GetCurrentExp() >= this->GetMaxExp()
+		&& this->GetCurrentLevel() < this->GetMaxLevel()) {
+		this->LevelUp();
 	}
 }
 
@@ -215,12 +215,22 @@ void Player::LevelUp(void) {
 	this->SetDefense((this->GetDefense() * 5) / 4);
 	this->SetCritical(this->GetCritical() + 1);
 	this->SetSpeed(this->GetSpeed() + 1);
+
+	// 전직 직업별 추가 성장
+	if (this->job == "Warrior") {
+		this->SetDefense(this->GetDefense() + kWarriorDefenseGrowth);
+		this->SetHp(this->GetCurrentHp() + kWarriorHpGrowth, this->GetMaxHp() + kWarriorHpGrowth);
+	}
+	else if (this->job == "Mage") {
+		this->SetPower(this->GetPower() + kMagePowerGrowth);
+		this->SetMp(this->GetCurrentMp() + kMageMpGrowth, this->GetMaxMp() + kMageMpGrowth);
+	}
 }
 void Player::DecreaseLife(void) {
 	this->SetLife(std::max((this->GetCurrentLife() - 1), 0));
 }
 bool Player::IsAlive(int current_hp) {
-	if (current_hp > 1) {
+	if (current_hp > 0) {
 		return true;
 	}
 	DecreaseLife();

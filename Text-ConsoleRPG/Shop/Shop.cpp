@@ -60,25 +60,33 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 		_getch();
 		return false;
 	}
-	ItemData item_data = FindItem(item_name); 
+	ItemData item_data = FindItem(item_name);
 
-	if (item_data.price > player.GetGold()) {
+	float multiple = 1.0f;
+	auto it = g_map_shop.find(shop_name);
+	if (it != g_map_shop.end()) {
+		multiple = it->second.multiple_;
+	}
+	const int real_price = static_cast<int>(item_data.price * multiple);
+
+	if (real_price > player.GetGold()) {
 		std::cout << "---------------------------------------------------------------------\n";
 		std::cout << "골드가 충분하지 않습니다..\n";
 		std::cout << "---------------------------------------------------------------------\n";
 		_getch();
 		return false;
 	}
-	 RemoveGoods(shop_name, item_data.name, 1);
-	 AddItem(inven, item_data.name, 1);
-	 player.DecreaseGold(item_data.price);
-	 std::cout << "---------------------------------------------------------------------\n";
-	 std::cout << "[" << item_data.name << "]를 구매했습니다.\n";
-	 std::cout << "[" << item_data.price << "]골드를 사용했습니다.\n";
-	 std::cout << "---------------------------------------------------------------------\n";
-	 _getch();
-	 return true;
+	RemoveGoods(shop_name, item_data.name, 1);
+	AddItem(inven, item_data.name, 1);
+	player.DecreaseGold(real_price);
+	std::cout << "---------------------------------------------------------------------\n";
+	std::cout << "[" << item_data.name << "]를 구매했습니다.\n";
+	std::cout << "[" << real_price << "]골드를 사용했습니다.\n";
+	std::cout << "---------------------------------------------------------------------\n";
+	_getch();
+	return true;
 }
+
 bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::string& item_name) {
 	ItemData item_data = FindItem(item_name);
 	 if (!item_data.found) {
@@ -87,6 +95,13 @@ bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::strin
 	 	std::cout << "---------------------------------------------------------------------\n";
 	 	_getch();
 	 	return false;
+	 }
+	 if (item_data.category == "license" || item_data.category == "other") {
+		 std::cout << "---------------------------------------------------------------------\n";
+		 std::cout << "이 물건은 팔 수 없습니다.\n";
+		 std::cout << "---------------------------------------------------------------------\n";
+		 _getch();
+		 return false;
 	 }
 	if (!CheckItem(inven, item_name, 1)) {
 	  	std::cout << "---------------------------------------------------------------------\n";
@@ -106,24 +121,32 @@ bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::strin
 	 return true;
 }
 
-void ViewShop(const std::string& shop_name, const std::string& name, Player& player) {
+void ViewShop(const std::string& shop_name, Player& player) {
 	while (true) {
 		system("cls");
-		ShopData shop_data = FindShopData(name);
-			std::cout << "=========================================================\n";
+		auto it = g_map_shop.find(shop_name);
+		if (it == g_map_shop.end()) {
+			return;
+		}
+		const ShopData& shop_data = it->second;
+		std::cout << "=========================================================\n";
 		std::cout << "[" << shop_data.shop_name_ << "]\n";
 		std::cout << shop_data.greet_ << std::endl;
 		std::cout << "---------------------------------------------------------\n";
-		std::cout << std::left << std::setw(5) << "[번호]"
-			<< std::left << std::setw(12) << "[::이름::]"
-			<< std::left << std::setw(12) << "[::갯수::]"
+		std::cout << std::left << std::setw(6) << "[번호]"
+			<< std::left << std::setw(20) << "[이름]"
+			<< std::left << std::setw(8) << "[갯수]"
+			<< "[가격]"
 			<< std::endl;
 		std::cout << "---------------------------------------------------------\n";
 		int number = 1;
 		for (const auto& i : shop_data.items_.ViewInventory()) {
-			std::cout << std::left << std::setw(5) << number
-				<< std::left << std::setw(12) << i.name_
-				<< std::left << std::setw(12) << i.count_
+			ItemData data = FindItem(i.name_);
+			const int price = static_cast<int>(data.price * shop_data.multiple_);
+			std::cout << std::left << std::setw(6) << number
+				<< std::left << std::setw(20) << i.name_
+				<< std::left << std::setw(8) << i.count_
+				<< price << "G"
 				<< std::endl;
 			++number;
 		}

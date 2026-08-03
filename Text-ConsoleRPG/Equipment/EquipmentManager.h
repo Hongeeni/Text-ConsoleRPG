@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Inventory.h"
 #include <string>
 #include <iostream>
@@ -22,6 +22,9 @@ struct EquipmentSlots {
 
 extern EquipmentSlots g_equip_slot;
 
-bool EquipGear(const EquipInfo& answer);
-bool UnequipGear(const std::string& answer);
-void DisplayEquipMenu();
+bool EquipGear(Player& player, const EquipInfo& answer);
+bool UnequipGear(Player& player, const std::string& answer);
+void DisplayEquipMenu(Player& player);
+
+// 장비 스탯을 플레이어에 반영(equip=true)하거나 되돌림(equip=false)
+void ApplyEquipStat(Player& player, const std::string& item_name, bool equip);

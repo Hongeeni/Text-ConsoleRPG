@@ -27,7 +27,7 @@ void DungeonMenu(); // 던전 메뉴
 void DungeonEventMenu(); // 던전 내 플레이어 선택지
 void EmptyDungeon(); // 던전 클리어 이후 출력
 void Battle(); // 전투 입력
-void BattleMenu(); // 전투 시 플레이어 선택메뉴
+void BattleMenu(int token, int currentMp, int skillCost); // 전투 시 플레이어 선택메뉴
 void BattleVictory(); // 배틀승리
 void BattleDefeat(); // 배틀패배 
 void EquipmentMenu(); // 장비
@@ -44,3 +44,4 @@ void HpRecoveryLog(); // 체력 회복 출력
 void MaxLevelLog(); // 최대 레발 도달시 출력
 void MaxExpLog();// 최대 레발 도달시 경험치 얻을때 출력
 void GameOverScreen(); // 게임오버
+void BossRoomQuestion(); // 보스방 문제 출력

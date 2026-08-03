@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "TemplateInventory.h"
 #include <string>
 #include <vector>
@@ -22,11 +22,11 @@ extern std::unordered_map<std::string, ShopData> g_map_shop;
 //need to exec this when game started
 void LoadShop();
 ShopData FindShopData(const std::string name); //export shop datas
-
+void ViewShop(const std::string& shop_name, Player& player);
 void AddGoods(const std::string& shop_name, const std::string& item_name, int count);
 bool RemoveGoods(const std::string& shop_name, const std::string& item_name, int count);
 bool CheckGoods(const std::string& shop_name, const std::string& item_name, int count);
-void ViewShop(const std::string& shop_name, const std::string& name, Player& player);
+
 
 bool SellItemMenu(Inventory<InventoryInfo>& inven, Player& player);
 
