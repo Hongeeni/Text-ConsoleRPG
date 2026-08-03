@@ -25,7 +25,6 @@ namespace {
 }
 
 // ---- 레시피 데이터 ----
-// (미확정) 재료 가격 합보다 결과 포션 가격이 높게만 맞춰둔 임시 구성
 
 const std::vector<CraftRecipe>& PotionCrafting::RecipeList() {
     static const std::vector<CraftRecipe> recipes = {
