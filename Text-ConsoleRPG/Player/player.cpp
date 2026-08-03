@@ -1,4 +1,5 @@
 ﻿#include "Player\Player.h"
+#include "Logger\Logger.h"
 
 #include <algorithm>
 #include <iostream>
@@ -159,6 +160,7 @@ void Player::PlayerAwaken(JobType job_type) {
 		this->SetMp(this->GetCurrentMp() + kMageMpBonus, this->GetMaxMp() + kMageMpBonus);
 	}
 	this->SetArousal(true);
+	AwakenResultLog(this->GetJob());
 }
 
 bool Player::ToAttack(int mp_decrease_amount) {
@@ -180,6 +182,7 @@ void Player::MpRecovery(int mp_increase_amount) {
 }
 void Player::GainExp(int exp_increase_amount) {
 	if (this->GetCurrentLevel() >= this->GetMaxLevel()) {
+		MaxExpLog();
 		return;
 	}
 
@@ -224,6 +227,13 @@ void Player::LevelUp(void) {
 	else if (this->job == "Mage") {
 		this->SetPower(this->GetPower() + kMagePowerGrowth);
 		this->SetMp(this->GetCurrentMp() + kMageMpGrowth, this->GetMaxMp() + kMageMpGrowth);
+	}
+
+	LevelUpLog(this->GetCurrentLevel(), this->GetMaxHp(), this->GetMaxMp(),
+		this->GetPower(), this->GetDefense(), this->GetCritical(), this->GetSpeed());
+
+	if (this->GetCurrentLevel() >= this->GetMaxLevel()) {
+		MaxLevelLog();
 	}
 }
 void Player::DecreaseLife(void) {

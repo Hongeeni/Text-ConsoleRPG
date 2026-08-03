@@ -5,10 +5,12 @@
 #include <unordered_map>
 #include "Inventory.h"
 #include "Player.h"
+
 struct ShopItems {
 	std::string name_;
 	int count_;
 };
+
 struct ShopData {
 	std::string shop_name_;
 	std::string greet_;
@@ -16,6 +18,7 @@ struct ShopData {
 	float multiple_; // increase item value (gold * multiple) in dungeon
 	Inventory<ShopItems> items_;
 };
+
 //vector for shoplist
 std::vector<ShopData> kShopList();
 extern std::unordered_map<std::string, ShopData> g_map_shop;

@@ -29,6 +29,7 @@ private:
     char  behavior_token = 0;
     bool is_first_attack = false;
     int attack_token = 0;
+    bool last_critical = false; // 직전 공격 치명타 여부 (로그용)
 
     bool IsFirstAttack(void);
     bool PlayerBehavior(const BehaviorType now_behavior, bool& kill_monster);

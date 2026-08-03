@@ -48,6 +48,9 @@ void CombatSystem::PlayerTurn(bool& kill_monster) {
     // 라운드가 시작될 때마다 토큰을 채운다
     this->behavior_token = this->token_maximum;
 
+    BattleStatus(player.GetName(), player.GetCurrentHp(), player.GetMaxHp(),
+        player.GetCurrentMp(), player.GetMaxMp(), monster.GetName(), monster.GetHP());
+
     while (this->behavior_token >= 1 && monster.IsAlive()) {
         BehaviorType behavior = this->AskPlayerBehavior();
 
@@ -64,6 +67,9 @@ void CombatSystem::PlayerTurn(bool& kill_monster) {
 void CombatSystem::StartBattle(void) {
     bool is_kill_monster = false;
     bool is_kill_player = false;
+
+    Battle();
+    BattleStart(monster.GetName(), monster.GetHP(), monster.GetPower(), monster.GetDefence());
 
     do {
         if (this->IsFirstAttack()) {
@@ -92,7 +98,8 @@ void CombatSystem::StartBattle(void) {
 const int CombatSystem::AttackCalculation(const int attacker_power, const int striker_defense, const int attacker_critical) {
     std::bernoulli_distribution crit(attacker_critical / 100.0);
     int damage = std::max(1, attacker_power - striker_defense);
-    if (crit(rng)) {
+    this->last_critical = crit(rng);
+    if (this->last_critical) {
         damage = static_cast<int>(damage * 1.5);
     }
     return damage;
@@ -110,15 +117,11 @@ bool CombatSystem::PlayerBehavior(const BehaviorType now_behavior, bool& kill_mo
         }
 
         if (potions.empty()) {
-            std::cout << "사용할 수 있는 아이템이 없습니다.\n";
+            NoUsableItemLog();
             return false;   // 토큰을 소모하지 않고 다시 선택하게 한다
         }
 
-        std::cout << "\n[아이템]\n";
-        for (size_t i = 0; i < potions.size(); ++i) {
-            std::cout << "  " << (i + 1) << ". " << potions[i] << "\n";
-        }
-        std::cout << "  0. 취소\n선택: ";
+        ItemSelectMenu(potions);
 
         int pick = 0;
         std::cin >> pick;
@@ -132,7 +135,7 @@ bool CombatSystem::PlayerBehavior(const BehaviorType now_behavior, bool& kill_mo
         }
 
         UseItemOnPlayer(g_player_inventory, player, potions[pick - 1]);
-        std::cout << "[" << potions[pick - 1] << "]을(를) 사용했습니다.\n";
+        ItemUseLog(potions[pick - 1]);
 
         this->behavior_token -= this->use_item_cost;
     }
@@ -146,27 +149,29 @@ bool CombatSystem::PlayerBehavior(const BehaviorType now_behavior, bool& kill_mo
                 // 마법사는 스킬 위력 3배
                 const int multiplier = (player.GetJob() == "Mage") ? 3 : 2;
                 power = player.GetPower() * multiplier;
+                SkillUseLog(player.GetSkillCost(), player.GetCurrentMp());
             }
             else {
-                std::cout << "마나가 부족해 일반 공격으로 대체됩니다.\n";
+                NotEnoughMpLog();
             }
         }
 
-        kill_monster = !(monster.GetDamage(AttackCalculation(power, monster.GetDefence(), player.GetCritical())));
+        const int damage = AttackCalculation(power, monster.GetDefence(), player.GetCritical());
+        kill_monster = !(monster.GetDamage(damage));
+        AttackLog(player.GetName(), monster.GetName(), damage, this->last_critical);
     }
     return (this->behavior_token < 1);
 }
 
 bool CombatSystem::MonsterBehavior(bool& kill_player) {
-    kill_player = !(player.GetDamage(AttackCalculation(monster.GetPower(), player.GetDefense(), monster.GetCritical())));
+    const int damage = AttackCalculation(monster.GetPower(), player.GetDefense(), monster.GetCritical());
+    kill_player = !(player.GetDamage(damage));
+    AttackLog(monster.GetName(), player.GetName(), damage, this->last_critical);
     return kill_player;
 }
 
 void CombatSystem::GetResult(void) const {
-    //CombatLog.PlayerWin();
-
-    //CombatLog.ExpReward();
+    BattleRewardLog(monster.GetRewardExp(), monster.GetDropGold());
     player.GainExp(monster.GetRewardExp());
-    //CombatLog.GoldReward();
     player.AddGold(monster.GetDropGold());
 }

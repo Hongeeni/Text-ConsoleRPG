@@ -24,7 +24,7 @@ namespace {
 	int ReadChoice(int minValue, int maxValue) {
 		int choice = Dungeon::ReadIntInput();
 		while (choice < minValue || choice > maxValue) {
-			std::cout << "잘못된 입력입니다." << std::endl; //Logger 확장 필요
+			InvalidInputLog();
 			if (!std::cin) {
 				return minValue;
 			}
@@ -50,13 +50,15 @@ namespace {
 		case DungeonEvent::Monster:
 			if (r.monster.monsterDefeated) {
 				BattleVictory();
-				std::cout << "드랍 아이템: " << r.monster.dropName << std::endl; // Logger 확장 필요
+				DropItemLog(r.monster.dropName);
 			}
 			break;
 
 		case DungeonEvent::Treasure:
-			std::cout << "보물 발견!" << std::endl; // Logger 확장 필요
-			// r.treasure.rewards, r.treasure.gold 처리
+			TreasureLog(r.treasure.gold);
+			for (const auto& reward : r.treasure.rewards) {
+				TreasureItemLog(reward.itemName, reward.count, reward.isHintPaper);
+			}
 			break;
 
 		case DungeonEvent::Shop:
@@ -69,8 +71,7 @@ namespace {
 
 			if (choice == 1) {
 				AltarResult a = dungeon.TouchAltar(player);
-				std::cout << "성물에 축복이 내려졌습니다." << std::endl; // Logger 확장 필요
-				// logger 확장 필요, a.blessed / a.target / a.amount 출력
+				AltarLog(a.blessed, a.target, a.amount);
 			}
 			else {
 				dungeon.SkipAltar();
@@ -79,20 +80,17 @@ namespace {
 		}
 
 		case DungeonEvent::Fountain:
-			HpRecoveryLog();
-			std::cout << "분수대에서 체력을 회복했습니다." << std::endl; // Logger 확장 필요
-			// r.fountain.hpRestored, r.fountain.mpRestored 처리
+			HpRecoveryLog(r.fountain.hpRestored, r.fountain.mpRestored);
 			break;
 
 		case DungeonEvent::BossFound:
-			// 보스방 발견 안내
+			BossFoundLog();
 			break;
 		}
 
 		if (r.playerDefeated) {
 			BattleDefeat();
-			std::cout << "전투에서 패배했습니다." << std::endl; // Logger 확장 필요
-			// Logger 확장 필요, r.defeat.goldLost / r.defeat.itemsLost 출력
+			DefeatLog(r.defeat.goldLost, r.defeat.itemsLost, player.GetCurrentLife());
 		}
 	}
 
@@ -107,14 +105,16 @@ namespace {
 			return;
 		}
 		if (!r.correctAnswer) {
-			std::cout << "정답이 아닙니다." << std::endl; // Logger 확장 필요
+			WrongAnswerLog();
 			return;
 		}
 		if (r.cleared) {
 			BattleVictory();
+			BossClearLog();
 		}
 		else if (r.playerDefeated) {
 			BattleDefeat();
+			DefeatLog(r.defeat.goldLost, r.defeat.itemsLost, player.GetCurrentLife());
 		}
 	}
 
@@ -123,10 +123,7 @@ namespace {
 		if (player.GetArousal()) return;
 		if (player.GetCurrentLevel() < kAwakenLevel) return;
 
-		std::cout << "\n농부의 손에 낯선 힘이 깃든다. 당신은 더 이상 농부가 아니다.\n";
-		std::cout << "1. 전사   - 방어력 +5, 최대 HP +100 (레벨업마다 방어력 +2, 최대 HP +50)\n";
-		std::cout << "2. 마법사 - 공격력 +3, 최대 MP +100 (레벨업마다 공격력 +2, 최대 MP +50, 스킬 위력 3배)\n";
-		std::cout << "선택: ";
+		AwakenMenu();
 
 		const int job = ReadChoice(1, 2);
 		player.PlayerAwaken(job == 1 ? JobType::Warrior : JobType::Mage);
@@ -145,10 +142,10 @@ namespace {
 			if (answer == "0") return;
 
 			if (UseItemOnPlayer(g_player_inventory, player, answer)) {
-				std::cout << "[" << answer << "]을(를) 사용했습니다.\n";
+				ItemUseLog(answer);
 			}
 			else {
-				std::cout << "사용할 수 없는 아이템입니다.\n";
+				ItemUseFailLog();
 			}
 		}
 	}
@@ -232,8 +229,7 @@ namespace {
 				FightFinalBoss(player);
 			}
 			else {
-				std::cout << "\n마왕성의 문은 굳게 닫혀 있다.\n";
-				std::cout << "토벌 증서 " << count << " / " << kLicenseItemCount << "\n";
+				LicenseNotEnoughLog(count, kLicenseItemCount);
 			}
 			return;
 		}
@@ -314,7 +310,7 @@ void RunGame(Player& player) {
 			SelectDungeon(player);
 			break;
 		case 2:
-			PrintStatus();
+			PrintStatus(player);
 			break;
 		case 3:
 			RunInventory(player);
