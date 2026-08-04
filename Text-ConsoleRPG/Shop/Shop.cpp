@@ -54,7 +54,7 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 
 	bool existed = CheckGoods(shop_name, item_name, 1);
 	if (!existed) {
-		std::cout << "---------------------------------------------------------------------\n";
+		std::cout << "\n---------------------------------------------------------------------\n";
 		std::cout << "해당 아이템을 찾을 수 없습니다.\n";
 		std::cout << "---------------------------------------------------------------------\n";
 		_getch();
@@ -70,7 +70,7 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 	const int real_price = static_cast<int>(item_data.price * multiple);
 
 	if (real_price > player.GetGold()) {
-		std::cout << "---------------------------------------------------------------------\n";
+		std::cout << "\n---------------------------------------------------------------------\n";
 		std::cout << "골드가 충분하지 않습니다..\n";
 		std::cout << "---------------------------------------------------------------------\n";
 		_getch();
@@ -79,7 +79,7 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 	RemoveGoods(shop_name, item_data.name, 1);
 	AddItem(inven, item_data.name, 1);
 	player.DecreaseGold(real_price);
-	std::cout << "---------------------------------------------------------------------\n";
+	std::cout << "\n---------------------------------------------------------------------\n";
 	std::cout << "[" << item_data.name << "]를 구매했습니다.\n";
 	std::cout << "[" << real_price << "]골드를 사용했습니다.\n";
 	std::cout << "---------------------------------------------------------------------\n";
@@ -90,28 +90,28 @@ bool BuyItems(Inventory<InventoryInfo>& inven, Player& player, const std::string
 bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::string& item_name) {
 	ItemData item_data = FindItem(item_name);
 	 if (!item_data.found) {
-	 	std::cout << "---------------------------------------------------------------------\n";
+	 	std::cout << "\n---------------------------------------------------------------------\n";
 	 	std::cout << "해당 아이템을 찾을 수 없습니다.\n";
 	 	std::cout << "---------------------------------------------------------------------\n";
 	 	_getch();
 	 	return false;
 	 }
 	 if (item_data.category == "license" || item_data.category == "other") {
-		 std::cout << "---------------------------------------------------------------------\n";
+		 std::cout << "\n---------------------------------------------------------------------\n";
 		 std::cout << "이 물건은 팔 수 없습니다.\n";
 		 std::cout << "---------------------------------------------------------------------\n";
 		 _getch();
 		 return false;
 	 }
 	if (!CheckItem(inven, item_name, 1)) {
-	  	std::cout << "---------------------------------------------------------------------\n";
+	  	std::cout << "\n---------------------------------------------------------------------\n";
 	  	std::cout << "해당 아이템을 가지고 있지 않습니다.\n";
 	  	std::cout << "---------------------------------------------------------------------\n";
 	  	_getch();
 	  	return false;
 	  }
 	int sell_value = item_data.price / 3;
-	 std::cout << "---------------------------------------------------------------------\n";
+	 std::cout << "\n---------------------------------------------------------------------\n";
 	 std::cout << "[" << item_data.name << "]를 판매했습니다.\n";
 	 std::cout << "[" << sell_value << "]골드를 얻었습니다.\n";
 	 std::cout << "---------------------------------------------------------------------\n";
@@ -182,7 +182,7 @@ void ViewShop(const std::string& shop_name, Player& player) {
 bool SellItemMenu(Inventory<InventoryInfo>& inven, Player& player) {
 	while (true) {
 		system("cls");
-		ViewInventory(inven);
+		ViewInventory(inven, false);
 		std::cout << "---------------------------------------------------------\n";
 		std::cout << "[아이템 이름: 판매] [[0]: 뒤로]\n";
 		std::string answer;

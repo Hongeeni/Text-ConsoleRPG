@@ -119,23 +119,12 @@ bool CombatSystem::PlayerBehavior(const BehaviorType now_behavior, bool& kill_mo
             return false;   // 토큰을 소모하지 않고 다시 선택하게 한다
         }
 
-        ItemSelectMenu(potions);
+        bool is_pick = BattleInventory(player);
 
-        int pick = 0;
-        std::cin >> pick;
-        if (!std::cin) {
-            std::cin.clear();
-            std::cin.ignore(10000, '\n');
-            pick = 0;
-        }
-        if (pick < 1 || pick > static_cast<int>(potions.size())) {
+        if (!is_pick) {
             return false;   // 취소. 토큰 소모 없음
-        }
-
-        UseItemOnPlayer(g_player_inventory, player, potions[pick - 1]);
-        ItemUseLog(potions[pick - 1]);
-
-        this->behavior_token -= this->use_item_cost;
+        }        
+       this->behavior_token -= this->use_item_cost;
     }
 
     else {
