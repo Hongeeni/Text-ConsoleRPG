@@ -8,9 +8,9 @@ enum class EquipType {
 	Weapon,
 	Shield,
 	Armor,
-	Ring,
-	Gloves,
-	Shoes
+	Hands,
+	Feet,
+	Ring
 };
 struct EquipInfo {
 	std::string name_ = "";
@@ -20,13 +20,8 @@ struct EquipInfo {
 	}
 };
 struct EquipmentSlots {
-	EquipInfo weapon;
-	EquipInfo shield;
-	EquipInfo armor;
-	EquipInfo ring;
-	EquipInfo gloves;
-	EquipInfo shoes;
-};
+	EquipInfo weapon, shield, armor, ring, hands, feet;
+	};
 
 extern EquipmentSlots g_equip_slot;
 
