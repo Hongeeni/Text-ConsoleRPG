@@ -82,7 +82,7 @@ bool UnequipGear(Player& player, const std::string& answer) {
 void DisplayEquipMenu(Player& player) {
     while (true) {
         system("cls");
-        ViewInventory(g_player_armory);
+        ViewInventory(g_player_armory, false);
         std::cout << "[장비칸]\n";
         std::cout << "무기: [" << g_equip_slot.weapon.name_ << "] 방어구: [" << g_equip_slot.armor.name_ << "]\n";
         std::cout << "---------------------------------------------------------------------\n";

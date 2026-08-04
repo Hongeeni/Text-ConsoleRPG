@@ -180,7 +180,7 @@ void ViewShop(const std::string& shop_name, Player& player) {
 bool SellItemMenu(Inventory<InventoryInfo>& inven, Player& player) {
 	while (true) {
 		system("cls");
-		ViewInventory(inven);
+		ViewInventory(inven, false);
 		std::cout << "---------------------------------------------------------\n";
 		std::cout << "[아이템 이름: 판매] [[0]: 뒤로]\n";
 		std::string answer;
