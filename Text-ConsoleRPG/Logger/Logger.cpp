@@ -99,11 +99,11 @@ void DungeonScreen(const std::string& dungeonName, Player& player, bool bossFoun
     std::cout << kLine << "\n";
     if (bossFound) {
         std::cout << "[1] 전진   [2] 인벤토리   [3] 보스룸   [0] 탈출\n";
-        std::cout << "===========================================================\n";
+        std::cout << "=======================================================\n";
     }
     else {
         std::cout << "[1] 전진   [2] 인벤토리   [0] 탈출\n";
-        std::cout << "===========================================================\n";
+        std::cout << "=======================================================\n";
     }
     std::cout << "선택: ";
 }
@@ -125,6 +125,7 @@ void BattleScreen(Player& player, const std::string& monsterName, int monsterHp,
     std::cout << kLine << "\n";
     std::cout << "[1] 공격   [2] 스킬(MP " << player.GetSkillCost() << ")   [3] 아이템"
         << "      토큰 " << token << "\n";
+    std::cout << "=======================================================\n";
     std::cout << "선택: ";
 }
 
@@ -200,10 +201,10 @@ void Tutorial() {
 
 void MapScreen() {
     ClearScreen();
-    std::cout << "===========================================================\n";
+    std::cout << "=======================================================\n";
 	std::cout << "[던전 선택]\n\n";
     std::cout << "[1] 슬라임 던전   [2] 언데드 던전   [3] 골렘 던전\n[4] 마왕의 성    [0] 돌아가기\n";
-    std::cout << "===========================================================\n";
+    std::cout << "=======================================================\n";
     std::cout << "선택: ";
 }
 
@@ -216,14 +217,14 @@ void MainMenu() {
 /*
 void DungeonMenu() {
     std::cout << "[1] 전진   [2] 인벤토리   [3] 보스룸   [0] 탈출\n";
-    std::cout << "===========================================================\n";
+    std::cout << "=======================================================\n";
     std::cout << "선택: ";
 }
 */
 
 void DungeonEventMenu() {
     std::cout << "[1] 제단을 만진다   [0] 지나친다\n";
-    std::cout << "===========================================================\n";
+    std::cout << "=======================================================\n";
     std::cout << "선택: ";
 }
 
@@ -249,12 +250,14 @@ void BattleStatus(const std::string& playerName, int playerHp, int playerMaxHp,
     PushLog(os.str());
 }
 
+/*
 void BattleMenu(int token, int currentMp, int skillCost) {
     std::cout << "[1] 공격   [2] 스킬(MP " << skillCost << " / 현재 " << currentMp << ")   [3] 아이템"
         << "      토큰 " << token << "\n";
-    std::cout << "===========================================================\n";
+    std::cout << "=======================================================\n";
     std::cout << "선택: ";
 }
+*/
 
 void AttackLog(const std::string& attacker, const std::string& target, int damage, bool critical) {
     std::ostringstream os;
