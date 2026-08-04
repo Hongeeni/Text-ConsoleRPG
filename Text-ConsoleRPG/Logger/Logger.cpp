@@ -92,8 +92,10 @@ void DungeonScreen(const std::string& dungeonName, Player& player, bool bossFoun
         << "   목숨 " << player.GetCurrentLife()
         << "   골드 " << player.GetGold() << "\n";
     std::cout << " HP " << Bar(player.GetCurrentHp(), player.GetMaxHp(), 20)
-        << " " << player.GetCurrentHp() << "/" << player.GetMaxHp()
-        << "   MP " << player.GetCurrentMp() << "/" << player.GetMaxMp() << "\n";
+        << " " << player.GetCurrentHp() << "/" << player.GetMaxHp() << "\n";
+    std::cout << " MP " << Bar(player.GetCurrentMp(), player.GetMaxMp(), 20)
+        << " " << player.GetCurrentMp() << "/" << player.GetMaxMp() << "\n";
+    std::cout << " EXP " << player.GetCurrentExp() << "/" << player.GetMaxExp() << "\n";
     std::cout << kDouble << "\n";
     DrawLog();
     std::cout << kLine << "\n";
@@ -114,8 +116,9 @@ void BattleScreen(Player& player, const std::string& monsterName, int monsterHp,
     std::cout << " " << player.GetName() << " Lv." << player.GetCurrentLevel()
         << " [" << player.GetJob() << "]\n";
     std::cout << " HP " << Bar(player.GetCurrentHp(), player.GetMaxHp(), 20)
-        << " " << player.GetCurrentHp() << "/" << player.GetMaxHp()
-        << "   MP " << player.GetCurrentMp() << "/" << player.GetMaxMp() << "\n";
+        << " " << player.GetCurrentHp() << "/" << player.GetMaxHp() << "\n";
+    std::cout << " MP " << Bar(player.GetCurrentMp(), player.GetMaxMp(), 20)
+        << " " << player.GetCurrentMp() << "/" << player.GetMaxMp() << "\n";
     std::cout << kLine << "\n";
     std::cout << " " << monsterName << "\n";
     std::cout << " HP " << Bar(monsterHp, monsterMaxHp, 20)
