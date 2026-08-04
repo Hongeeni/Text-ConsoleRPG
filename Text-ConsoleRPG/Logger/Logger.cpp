@@ -99,9 +99,11 @@ void DungeonScreen(const std::string& dungeonName, Player& player, bool bossFoun
     std::cout << kLine << "\n";
     if (bossFound) {
         std::cout << "[1] 전진   [2] 인벤토리   [3] 보스룸   [0] 탈출\n";
+        std::cout << "===========================================================\n";
     }
     else {
         std::cout << "[1] 전진   [2] 인벤토리   [0] 탈출\n";
+        std::cout << "===========================================================\n";
     }
     std::cout << "선택: ";
 }
@@ -130,8 +132,8 @@ void BattleScreen(Player& player, const std::string& monsterName, int monsterHp,
 
 void TitleScreen() {
     ClearScreen();
-    std::cout << "=========================================\n";
-    std::cout << "     농부였던 내가 오늘부터는 용사?! \n";
+    std::cout << "=========================================\n\n";
+    std::cout << "     농부였던 내가 오늘부터는 용사?!\n\n";
     std::cout << "=========================================\n";
     PauseScreen();
     ClearScreen();
@@ -139,7 +141,7 @@ void TitleScreen() {
 
 void StoryScreen() {
     std::cout << R"(
-========================================
+=========================================
 
 마왕이 세상을 지배한 이후
 
@@ -160,13 +162,14 @@ void StoryScreen() {
 모든 던전을 돌파하고
 세상에 다시 풍년을 되찾으세요!
 
-========================================
+=========================================
 )";
     PauseScreen();
     ClearScreen();
 }
 
 void NameInputScreen() {
+	std::cout << "\n흉작으로부터 세상을 구할 당신의 이름을 알려주세요.\n";
     std::cout << "이름을 입력하세요: ";
 }
 
@@ -197,22 +200,31 @@ void Tutorial() {
 
 void MapScreen() {
     ClearScreen();
-    std::cout << "[1] 슬라임 던전   [2] 언데드 던전   [3] 골렘 던전\n";
-    std::cout << "[4] 마왕의 성     [0] 돌아가기\n";
+    std::cout << "===========================================================\n";
+	std::cout << "[던전 선택]\n\n";
+    std::cout << "[1] 슬라임 던전   [2] 언데드 던전   [3] 골렘 던전\n[4] 마왕의 성    [0] 돌아가기\n";
+    std::cout << "===========================================================\n";
     std::cout << "선택: ";
 }
 
 void MainMenu() {
-    std::cout << "[1] 던전  [2] 스탯  [3] 인벤토리  [4] 장비  [5] 포션 제작  [6] 상점  [0] 종료\n";
+    std::cout << "[1] 던전      [2] 스탯      [3] 인벤토리  [4] 장비\n[5] 포션 제작 [6] 상점      [0] 종료\n";
+    std::cout << "=======================================================\n";
     std::cout << "선택: ";
 }
 
+/*
 void DungeonMenu() {
-    std::cout << "[1] 전진   [2] 인벤토리   [3] 보스룸   [0] 탈출\n선택: ";
+    std::cout << "[1] 전진   [2] 인벤토리   [3] 보스룸   [0] 탈출\n";
+    std::cout << "===========================================================\n";
+    std::cout << "선택: ";
 }
+*/
 
 void DungeonEventMenu() {
-    std::cout << "[1] 제단을 만진다   [0] 지나친다\n선택: ";
+    std::cout << "[1] 제단을 만진다   [0] 지나친다\n";
+    std::cout << "===========================================================\n";
+    std::cout << "선택: ";
 }
 
 // ---- 전투 ----
@@ -240,6 +252,7 @@ void BattleStatus(const std::string& playerName, int playerHp, int playerMaxHp,
 void BattleMenu(int token, int currentMp, int skillCost) {
     std::cout << "[1] 공격   [2] 스킬(MP " << skillCost << " / 현재 " << currentMp << ")   [3] 아이템"
         << "      토큰 " << token << "\n";
+    std::cout << "===========================================================\n";
     std::cout << "선택: ";
 }
 
