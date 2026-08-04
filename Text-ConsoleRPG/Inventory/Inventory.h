@@ -17,5 +17,5 @@ bool CheckItem(const Inventory<InventoryInfo>& inven, const std::string name, in
 void ViewInventory(const Inventory<InventoryInfo>& inven);
 
 class Player;
-
+void RunInventory(Player& player);
 bool UseItemOnPlayer(Inventory<InventoryInfo>& inven, Player& player, const std::string& name);

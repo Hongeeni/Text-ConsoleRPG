@@ -3,7 +3,7 @@
 #include "Player/Player.h"
 #include <iomanip>
 #include <iostream>
-
+#include <conio.h>
 
 Inventory<InventoryInfo> g_player_armory;
 Inventory<InventoryInfo> g_player_inventory;
@@ -36,6 +36,48 @@ void ViewInventory(const Inventory<InventoryInfo>& inven) {
 		++number;
 	}
 	std::cout << "==========================================================================\n";
+}
+
+void RunInventory(Player& player) {
+	while (true) {
+		system("cls");
+		std::cout << "============== 인 벤 토 리 ==============\n";
+		ViewInventory(g_player_inventory);
+		std::cout << "[아이템 이름: 사용] [0: 돌아가기]\n:: ";
+
+		std::string answer;
+		std::getline(std::cin >> std::ws, answer);
+
+		if (answer == "0") {
+			return;
+		}
+		ItemData item_data = FindItem(answer);
+		if (!item_data.found) {
+			std::cout << "\n---------------------------------------------------------------------\n";
+			std::cout << "해당 아이템을 찾을 수 없습니다.\n";
+			std::cout << "---------------------------------------------------------------------\n";
+			_getch();
+			continue;
+		}
+		if (!CheckItem(g_player_inventory, answer, 1)) {
+			std::cout << "\n---------------------------------------------------------------------\n";
+			std::cout << "그 아이템을 가지고 있지 않습니다..\n";
+			std::cout << "---------------------------------------------------------------------\n";
+			_getch();
+			continue;
+		}
+		if (UseItemOnPlayer(g_player_inventory, player, answer)) {
+			std::cout << "\n---------------------------------------------------------------------\n";
+			std::cout << "[" << answer << "]을(를) 사용했습니다.\n";
+			std::cout << "---------------------------------------------------------------------\n";
+		}
+		else {
+			std::cout << "\n---------------------------------------------------------------------\n";
+			std::cout << "사용할 수 없는 아이템입니다.\n";
+			std::cout << "---------------------------------------------------------------------\n";
+		}
+		_getch();
+	}
 }
 
 bool UseItemOnPlayer(Inventory<InventoryInfo>& inven, Player& player, const std::string& name) {

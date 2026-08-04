@@ -129,27 +129,6 @@ namespace {
 		player.PlayerAwaken(job == 1 ? JobType::Warrior : JobType::Mage);
 	}
 
-	void RunInventory(Player& player) {
-		while (true) {
-			InventoryScreen();
-			ViewInventory(g_player_inventory);
-			std::cout << "[아이템 이름: 사용] [0: 돌아가기]\n선택: ";
-
-			std::string answer;
-			std::getline(std::cin >> std::ws, answer);
-
-			if (!std::cin) return;      // EOF 방어
-			if (answer == "0") return;
-
-			if (UseItemOnPlayer(g_player_inventory, player, answer)) {
-				std::cout << "[" << answer << "]을(를) 사용했습니다.\n";
-			}
-			else {
-				std::cout << "사용할 수 없는 아이템입니다.\n";
-			}
-			PauseScreen();
-		}
-	}
 
 	void RunDungeon(Player& player, DungeonType type) {
 		LoadShop();
