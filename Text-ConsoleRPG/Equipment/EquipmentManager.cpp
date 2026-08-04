@@ -26,8 +26,8 @@ struct EquipParts {
 bool EquipGear(Player& player, const EquipInfo& answer) {
     static const std::unordered_map<EquipType, EquipParts> kSlotMap = {
     {EquipType::Weapon, {&g_equip_slot.weapon, "무기"}},
-    {EquipType::Shield, {&g_equip_slot.armor, "방패"}},
-    {EquipType::Armor, {&g_equip_slot.shield, "갑옷"}},
+    {EquipType::Shield, {&g_equip_slot.armor, "갑옷"}},
+    {EquipType::Armor, {&g_equip_slot.shield, "방패"}},
     {EquipType::Hands, {&g_equip_slot.hands, "장갑"}},
     {EquipType::Feet, {&g_equip_slot.feet, "신발"}},
     {EquipType::Ring, {&g_equip_slot.ring, "반지"}},
