@@ -55,8 +55,6 @@ protected:
     int gold = 150;
 
 public:
-    Player(void);
-
     // Setter
     void SetName(std::string new_player_name);
     void SetJob(std::string new_player_job);

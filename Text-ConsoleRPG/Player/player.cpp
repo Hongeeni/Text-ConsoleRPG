@@ -5,9 +5,6 @@
 #include <iostream>
 #include <map>
 
-Player::Player(void) {
-}
-
 // Setter
 void Player::SetName(std::string new_name) {
 	this->name = new_name;
@@ -208,10 +205,8 @@ Player::~Player(void) {
 
 // Private Player Function
 void Player::LevelUp(void) {
-	int new_max_exp = (status[PlayerInfo::max_exp] * 3) / 2;
-
 	this->SetLevel(std::min(this->GetCurrentLevel() + 1, this->GetMaxLevel()));
-	this->SetExp((this->GetCurrentExp() - this->GetMaxExp()), new_max_exp);
+	this->SetExp((this->GetCurrentExp() - this->GetMaxExp()), (status[PlayerInfo::max_exp] * 3) / 2);
 	this->SetHp((this->GetMaxHp() * 4) / 3, (this->GetMaxHp() * 4) / 3);
 	this->SetMp((this->GetMaxMp() * 4) / 3, (this->GetMaxMp() * 4) / 3);
 	this->SetPower((this->GetPower() * 5) / 4);
