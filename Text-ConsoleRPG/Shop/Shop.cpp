@@ -7,20 +7,20 @@
 std::vector<ShopData> kShopList() {
 	std::vector<ShopData> shops = {
 		{"일반 상점", "어서오세요.", "마을 상점",  1,{
-			{"힐링 포션", 5},
-			{"마나 포션", 5},
+			{"힐링 포션", 99}, {"마나 포션", 99},
+			{"호미", 1}, {"얇은 방패", 1}, {"얇은 갑옷", 1}, {"얇은 신발", 1},
 		}},
 		{"슬라임 상인", "슬라임슬라임", "슬라임 던전 상점", 1.5,{
-			{"힐링 포션", 5},
-			{"마나 포션", 5},
+			{"힐링 포션", 10}, {"마나 포션", 10},
+			{"짧은 검", 1}, {"나무 방패", 1}, {"가죽 갑옷", 1}, {"고철 반지", 1},
 		}},
 		{"언데드 상인", "언데드언데드", "언데드 던전 상점",  2, {
-			{"힐링 포션", 5},
-			{"마나 포션", 5},
+			{"힐링 포션", 10}, {"마나 포션", 10},
+			{"긴 검", 1}, {"가죽 방패", 1}, {"사슬 갑옷", 1}, {"가죽 장갑", 1},
 		}},
 		{"골렘 상인", "골골렘렘.", "골렘 던전 상점.",  2,{
-			{"힐링 포션", 5},
-			{"마나 포션", 5},
+			{"힐링 포션", 10}, {"마나 포션", 10},
+			{"양손검", 1}, {"사슬 방패", 1}, {"판금 갑옷", 1}, {"사슬 장갑", 1},
 		}}
 	};
 	return shops;
@@ -169,8 +169,10 @@ void ViewShop(const std::string& shop_name, Player& player) {
 			return; 
 		}
 		ItemData item_data = FindItem(answer);
-		Inventory<InventoryInfo>& inventype =
-			(item_data.category == "weapon" || item_data.category == "armor") ? g_player_armory : g_player_inventory;
+		const std::string& c = item_data.category;
+		const bool is_gear = (c == "weapon" || c == "shield" || c == "armor"
+			|| c == "ring" || c == "gloves" || c == "shoes");
+		Inventory<InventoryInfo>& inventype = is_gear ? g_player_armory : g_player_inventory;
 	
 		BuyItems(inventype, player, shop_name, answer); 
 		continue;

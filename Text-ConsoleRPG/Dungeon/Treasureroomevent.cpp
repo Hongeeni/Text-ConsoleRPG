@@ -30,11 +30,11 @@ namespace {
     // (미확정) 던전 등급별 아이템 가격 상한
     int MaxItemPrice(DungeonType type) {
         switch (type) {
-        case DungeonType::Slime:  return 300;
-        case DungeonType::Undead: return 700;
+        case DungeonType::Slime:  return 320;
+        case DungeonType::Undead: return 960;
         case DungeonType::Golem:  return 99999;
         }
-        return 300;
+        return 320;
     }
 
     // (미확정) 던전 등급별 골드 보상 범위
@@ -51,8 +51,10 @@ namespace {
     const std::vector<double> kCountWeights = { 50.0, 35.0, 15.0 };
 
     // (미확정) 카테고리별 등장 비율
-    const std::vector<std::string> kCategories = { "weapon", "armor", "potion", "hint" };
-    const std::vector<double>      kCategoryWeights = { 20.0,     20.0,    35.0,     25.0 };
+    const std::vector<std::string> kCategories =
+    { "weapon", "shield", "armor", "ring", "gloves", "shoes", "potion", "hint" };
+    const std::vector<double> kCategoryWeights =
+    { 7.0,      7.0,     7.0,    6.0,     7.0,      6.0,     20.0,    40.0 };
 
     // 같은 아이템이 또 나오면 개수만 늘린다
     void AddReward(std::vector<TreasureReward>& rewards,
