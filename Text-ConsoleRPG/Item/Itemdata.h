@@ -8,7 +8,7 @@
 
 struct ItemData {
     std::string category;
-
+    bool is_gear;
     std::string name;
     std::string description;
 

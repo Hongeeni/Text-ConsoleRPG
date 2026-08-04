@@ -6,7 +6,11 @@
 enum class EquipType {
 	None,
 	Weapon,
-	Armor
+	Shield,
+	Armor,
+	Hands,
+	Feet,
+	Ring
 };
 struct EquipInfo {
 	std::string name_ = ""; // "" mean = empty
@@ -16,9 +20,8 @@ struct EquipInfo {
 	}
 };
 struct EquipmentSlots {
-	EquipInfo weapon;
-	EquipInfo armor;
-};
+	EquipInfo weapon, shield, armor, ring, hands, feet;
+	};
 
 extern EquipmentSlots g_equip_slot;
 

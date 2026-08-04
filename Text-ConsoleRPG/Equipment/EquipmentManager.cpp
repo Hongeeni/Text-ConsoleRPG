@@ -6,101 +6,114 @@
 
 EquipmentSlots g_equip_slot;
 
-bool EquipGear(Player& player, const EquipInfo& answer) {
-    std::cout << "\n---------------------------------------------------------------------\n";
-    if (answer.type_ == EquipType::Weapon) {
-        if (!g_equip_slot.weapon.is_empty_()) {
-            ApplyEquipStat(player, g_equip_slot.weapon.name_, false);   // 기존 장비 효과 해제
-            std::cout << "[" << g_equip_slot.weapon.name_ << "]무기를 해제했습니다.\n";
-            AddItem(g_player_armory, g_equip_slot.weapon.name_, 1);
-        }
-        g_equip_slot.weapon = answer;
-        ApplyEquipStat(player, answer.name_, true);                     // 새 장비 효과 적용
-        std::cout << "[" << g_equip_slot.weapon.name_ << "]무기를 장착했습니다.\n";
-        std::cout << "---------------------------------------------------------------------\n";
-        return true;
-    }
-    if (answer.type_ == EquipType::Armor) {
-        if (!g_equip_slot.armor.is_empty_()) {
-            ApplyEquipStat(player, g_equip_slot.armor.name_, false);
-            std::cout << "[" << g_equip_slot.armor.name_ << "]방어구를 해제했습니다.\n";
-            AddItem(g_player_armory, g_equip_slot.armor.name_, 1);
-        }
-        g_equip_slot.armor = answer;
-        ApplyEquipStat(player, answer.name_, true);
-        std::cout << "[" << g_equip_slot.armor.name_ << "]방어구를 장착했습니다.\n";
-        std::cout << "---------------------------------------------------------------------\n";
-        return true;
-    }
+struct EquipParts {
+    EquipInfo* slot;
+    std::string slot_name;
+};
 
-    std::cout << "해당 아이템은 장착할 수 없습니다.\n";
-    std::cout << "-------------------------------------------------------------------\n";
-    return false;
+
+bool EquipGear(Player& player, const EquipInfo& answer) {
+    static const std::unordered_map<EquipType, EquipParts> kSlotMap = {
+    {EquipType::Weapon, {&g_equip_slot.weapon, "무기"}},
+    {EquipType::Shield, {&g_equip_slot.armor, "방패"}},
+    {EquipType::Armor, {&g_equip_slot.shield, "갑옷"}},
+    {EquipType::Hands, {&g_equip_slot.hands, "장갑"}},
+    {EquipType::Feet, {&g_equip_slot.feet, "신발"}},
+    {EquipType::Ring, {&g_equip_slot.ring, "반지"}},
+    };
+
+    std::cout << "\n---------------------------------------------------------------------\n";
+    auto it = kSlotMap.find(answer.type_);
+    if (it == kSlotMap.end()) {
+        std::cout << "해당 아이템은 장착할 수 없습니다.\n";
+        std::cout << "-------------------------------------------------------------------\n";
+        _getch();
+        return false;
+    }
+    EquipInfo* gear_slot = it->second.slot;
+    const std::string& slot_name = it->second.slot_name;
+    std::cout << "\n---------------------------------------------------------------------\n";
+    if (!gear_slot->is_empty_()) {
+        ApplyEquipStat(player, gear_slot->name_, false);   // 기존 장비 효과 해제
+        std::cout << "[" << gear_slot->name_ << "]" << slot_name <<"를 해제했습니다.\n";
+        AddItem(g_player_armory, gear_slot->name_, 1);
+    }
+        *gear_slot = answer;
+        ApplyEquipStat(player, answer.name_, true);                     // 새 장비 효과 적용
+        std::cout << "[" << gear_slot->name_ << "]" << slot_name << "를 장착했습니다.\n";
+        std::cout << "---------------------------------------------------------------------\n";
+        return true;
+   
 }
 
-
 bool UnequipGear(Player& player, const std::string& answer) {
-    std::cout << "\n---------------------------------------------------------------------\n";
-    if (answer == "weapon") {
-        if (g_equip_slot.weapon.is_empty_()) {
-            std::cout << "해제할 무기가 없습니다.\n";
-            std::cout << "---------------------------------------------------------------------\n";
-            _getch();
-            return false;
-        }
-        ApplyEquipStat(player, g_equip_slot.weapon.name_, false);
-        AddItem(g_player_armory, g_equip_slot.weapon.name_, 1);
-        g_equip_slot.weapon = {"", EquipType::None};
-        std::cout << "무기를 해제했습니다.\n";
-        
-        std::cout << "---------------------------------------------------------------------\n";
-        _getch();
-        return true;
-    }
-    if (answer == "armor") {
-        if (g_equip_slot.armor.is_empty_()) {
-            std::cout << "해제할 방어구가 없습니다.\n";
-            std::cout << "---------------------------------------------------------------------\n";
-            _getch();
-            return false;
-        }
-        ApplyEquipStat(player, g_equip_slot.armor.name_, false);
-        AddItem(g_player_armory, g_equip_slot.armor.name_, 1);
-        g_equip_slot.armor = {"", EquipType::None};
-        std::cout << "방어구를 해제했습니다.\n";
-        std::cout << "---------------------------------------------------------------------\n";
-        _getch();
-        return true;
-    }
+    static const std::unordered_map<std::string, EquipParts> kSlotMap = {
+    {"weapon", {&g_equip_slot.weapon, "무기"}},
+    {"armor", {&g_equip_slot.armor, "갑옷"}},
+    {"shield", {&g_equip_slot.shield, "방패"}},
+    {"hands", {&g_equip_slot.hands, "장갑"}},
+    {"feet", {&g_equip_slot.feet, "신발"}},
+    {"ring", {&g_equip_slot.ring, "반지"}},
+    };
 
-    std::cout << "해제할 아이템이 없습니다.\n";
-    std::cout << "-------------------------------------------------------------------\n";
-    _getch();
-    return false;
+    std::cout << "\n---------------------------------------------------------------------\n";
+    auto it = kSlotMap.find(answer);
+    if (it == kSlotMap.end()) {
+        std::cout << "해제할 아이템이 없습니다.\n";
+        std::cout << "-------------------------------------------------------------------\n";
+        _getch();
+        return false;
+    }
+    EquipInfo* gear_slot = it->second.slot;
+    const std::string& slot_name = it->second.slot_name;
+    if (gear_slot->is_empty_()) {
+        std::cout << "해제할 " << slot_name << "가 없습니다.\n";
+            std::cout << "---------------------------------------------------------------------\n";
+            _getch();
+            return false;
+    }
+        ApplyEquipStat(player, gear_slot->name_ , false);
+        AddItem(g_player_armory, gear_slot->name_, 1);
+        g_equip_slot.weapon = {"", EquipType::None};
+        std::cout <<  slot_name <<"를 해제했습니다.\n";
+        std::cout << "---------------------------------------------------------------------\n";
+        _getch();
+        return true;
 }
 
 void DisplayEquipMenu(Player& player) {
+    const static std::unordered_map<std::string, std::string> kSlotName = {
+        {"무기", "weapon"},
+        {"갑옷", "armor"},
+        {"방패", "shield"},
+        {"장갑", "hands"},
+        {"신발", "feet"},
+        {"반지", "ring"},
+    };
     while (true) {
         system("cls");
         ViewInventory(g_player_armory, false);
         std::cout << "[장비칸]\n";
-        std::cout << "무기: [" << g_equip_slot.weapon.name_ << "] 방어구: [" << g_equip_slot.armor.name_ << "]\n";
+        std::cout << "무기: [" << g_equip_slot.weapon.name_ << "]\n";
+        std::cout << "방패: [" << g_equip_slot.shield.name_ << "]\n";
+        std::cout << "갑옷: [" << g_equip_slot.armor.name_ << "]\n";
+        std::cout << "장갑: [" << g_equip_slot.hands.name_ << "]\n";
+        std::cout << "신발: [" << g_equip_slot.feet.name_ << "]\n";
+        std::cout << "반지: [" << g_equip_slot.ring.name_ << "]\n";
         std::cout << "---------------------------------------------------------------------\n";
-        std::cout << "[장비 이름: 장착] [무기/방어구: 해제] [[0]: 돌아가기]" << std::endl;
+        std::cout << "[장비 이름: 장착] [장비칸: 해제] [[0]: 돌아가기]" << std::endl;
         std::cout << ":: ";
         std::string answer;
         getline(std::cin >> std::ws, answer);
-        if (answer == "0") {
-            break;
-        }
-        if (answer == "무기") {
-            UnequipGear(player, "weapon");
-            continue;
-        }
-        else if (answer == "방어구") {
-            UnequipGear(player, "armor");
-            continue;
-        }
+            if (answer == "0") {
+                break;
+            }
+            auto slot_name = kSlotName.find(answer);
+            if (slot_name != kSlotName.end()) {
+                UnequipGear(player, slot_name->second);
+                continue;
+            }
+            
         ItemData item_data = FindItem(answer);
         EquipType equip_type = EquipType::None;
         if (!item_data.found) {

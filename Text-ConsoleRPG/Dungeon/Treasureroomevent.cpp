@@ -112,8 +112,13 @@ TreasureResult TreasureRoomEvent::Trigger(Player& player, DungeonType type) {
 
         std::uniform_int_distribution<int> itemDist(0, static_cast<int>(candidates.size()) - 1);
         const ItemData* reward = candidates[itemDist(Rng())];
-
-        AddItem(g_player_inventory, reward->name, 1);
+        if (reward->is_gear) {
+            AddItem(g_player_armory, reward->name, 1);
+        }
+        else {
+            AddItem(g_player_inventory, reward->name, 1);
+        }
+        
         AddReward(result.rewards, reward->name, reward->category, false);
     }
 
