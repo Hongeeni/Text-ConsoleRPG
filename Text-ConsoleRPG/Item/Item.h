@@ -18,7 +18,7 @@ public:
     std::string Getdescription() const { return m_description; }
 
     int GetBuyPrice() const { return m_price; }
-    int GetSellPrice() const { return m_price / 2; }
+    int GetSellPrice() const { return m_price / 3; }
     int GetCount() const { return m_count; }
 
     int GetHealHPAmount() const { return m_healHp; }

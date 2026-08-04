@@ -110,7 +110,7 @@ bool SellItems(Inventory<InventoryInfo>& inven, Player& player, const std::strin
 	  	_getch();
 	  	return false;
 	  }
-	int sell_value = item_data.price / 2;
+	int sell_value = item_data.price / 3;
 	 std::cout << "---------------------------------------------------------------------\n";
 	 std::cout << "[" << item_data.name << "]를 판매했습니다.\n";
 	 std::cout << "[" << sell_value << "]골드를 얻었습니다.\n";

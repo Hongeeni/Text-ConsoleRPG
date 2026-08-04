@@ -7,6 +7,11 @@
 
 int main(void) {
     LoadShop();
+
+    AddItem(g_player_inventory, "힐링 포션", 3);
+    AddItem(g_player_inventory, "마나 포션", 2);
+    AddItem(g_player_armory, "호미", 1);
+
     TitleScreen();
     StoryScreen();
     Player player;

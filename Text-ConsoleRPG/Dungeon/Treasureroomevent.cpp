@@ -40,9 +40,9 @@ namespace {
     // (미확정) 던전 등급별 골드 보상 범위
     std::pair<int, int> GoldRange(DungeonType type) {
         switch (type) {
-        case DungeonType::Slime:  return { 20, 60 };
-        case DungeonType::Undead: return { 50, 120 };
-        case DungeonType::Golem:  return { 100, 250 };
+        case DungeonType::Slime:  return { 60, 120 };
+        case DungeonType::Undead: return { 120, 240 };
+        case DungeonType::Golem:  return { 250, 450 };
         }
         return { 20, 60 };
     }

@@ -160,11 +160,11 @@ DungeonEvent Dungeon::RollEvent() {
     const bool canFindBoss = !bossFound_ && !IsCleared(type_);
 
     std::vector<double> weights = {
-        60.0,                        // Monster
-        9.5,                        // Treasure
-        9.5,                        // Shop
-        9.5,                        // Altar
-        9.5,                        // Fountain
+        45.0,                        // Monster
+        13.25,                        // Treasure
+        13.25,                        // Shop
+        13.25,                        // Altar
+        13.25,                        // Fountain
         canFindBoss ? 2.0 : 0.0     // BossFound
     };
     std::discrete_distribution<int> dist(weights.begin(), weights.end());
@@ -279,7 +279,7 @@ DefeatResult Dungeon::OnDefeat(Player& player) {
 
     player.SetHp(std::max(1, player.GetMaxHp() * 3 / 10));
 
-    std::uniform_int_distribution<int> goldLossRange(5, 20);
+    std::uniform_int_distribution<int> goldLossRange(30, 80);
     int goldLoss = std::min<int>(goldLossRange(rng_), player.GetGold());
     player.DecreaseGold(goldLoss);
     result.goldLost = goldLoss;
