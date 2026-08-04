@@ -92,16 +92,20 @@ void DungeonScreen(const std::string& dungeonName, Player& player, bool bossFoun
         << "   목숨 " << player.GetCurrentLife()
         << "   골드 " << player.GetGold() << "\n";
     std::cout << " HP " << Bar(player.GetCurrentHp(), player.GetMaxHp(), 20)
-        << " " << player.GetCurrentHp() << "/" << player.GetMaxHp()
-        << "   MP " << player.GetCurrentMp() << "/" << player.GetMaxMp() << "\n";
+        << " " << player.GetCurrentHp() << "/" << player.GetMaxHp() << "\n";
+    std::cout << " MP " << Bar(player.GetCurrentMp(), player.GetMaxMp(), 20)
+        << " " << player.GetCurrentMp() << "/" << player.GetMaxMp() << "\n";
+    std::cout << " EXP " << player.GetCurrentExp() << "/" << player.GetMaxExp() << "\n";
     std::cout << kDouble << "\n";
     DrawLog();
     std::cout << kLine << "\n";
     if (bossFound) {
         std::cout << "[1] 전진   [2] 인벤토리   [3] 보스룸   [0] 탈출\n";
+        std::cout << "=======================================================\n";
     }
     else {
         std::cout << "[1] 전진   [2] 인벤토리   [0] 탈출\n";
+        std::cout << "=======================================================\n";
     }
     std::cout << "선택: ";
 }
@@ -112,8 +116,9 @@ void BattleScreen(Player& player, const std::string& monsterName, int monsterHp,
     std::cout << " " << player.GetName() << " Lv." << player.GetCurrentLevel()
         << " [" << player.GetJob() << "]\n";
     std::cout << " HP " << Bar(player.GetCurrentHp(), player.GetMaxHp(), 20)
-        << " " << player.GetCurrentHp() << "/" << player.GetMaxHp()
-        << "   MP " << player.GetCurrentMp() << "/" << player.GetMaxMp() << "\n";
+        << " " << player.GetCurrentHp() << "/" << player.GetMaxHp() << "\n";
+    std::cout << " MP " << Bar(player.GetCurrentMp(), player.GetMaxMp(), 20)
+        << " " << player.GetCurrentMp() << "/" << player.GetMaxMp() << "\n";
     std::cout << kLine << "\n";
     std::cout << " " << monsterName << "\n";
     std::cout << " HP " << Bar(monsterHp, monsterMaxHp, 20)
@@ -123,6 +128,7 @@ void BattleScreen(Player& player, const std::string& monsterName, int monsterHp,
     std::cout << kLine << "\n";
     std::cout << "[1] 공격   [2] 스킬(MP " << player.GetSkillCost() << ")   [3] 아이템"
         << "      토큰 " << token << "\n";
+    std::cout << "=======================================================\n";
     std::cout << "선택: ";
 }
 
@@ -130,65 +136,69 @@ void BattleScreen(Player& player, const std::string& monsterName, int monsterHp,
 
 void TitleScreen() {
     ClearScreen();
-    std::cout << "=========================================\n";
-    std::cout << "     농부였던 내가 오늘부터는 용사?! \n";
+    std::cout << "=========================================\n\n";
+    std::cout << "     농부였던 내가 오늘부터는 용사?!\n\n";
     std::cout << "=========================================\n";
     PauseScreen();
     ClearScreen();
 }
 
 void StoryScreen() {
-    std::cout << R"(
-========================================
+    std::cout << "=========================================\n\n"
 
-마왕이 세상을 지배한 이후
+        << "마왕이 세상을 지배한 이후\n\n"
 
-세상은 끝없는 흉년에 빠졌습니다.
+        << "세상은 끝없는 흉년에 빠졌습니다.\n\n"
 
-햇빛은 사라지고 농작물은 모두 말라 죽었고,
-농부였던 당신의 밭도 결국 황무지가 되었습니다.
+        << "햇빛은 사라지고 농작물은 모두 말라 죽었고,\n"
+        << "농부였던 당신의 밭도 결국 황무지가 되었습니다.\n\n"
 
-"농사가 안 된다면...
-마왕을 쓰러뜨리면 되는 거 아닌가?"
+        << "\"농사가 안 된다면...\n"
+        << "마왕을 쓰러뜨리면 되는 거 아닌가?\"\n\n"
 
-그렇게 당신은 낫을 들고
-마왕을 향한 여정을 시작합니다.
+        << "그렇게 당신은 낫을 들고\n"
+        << "마왕을 향한 여정을 시작합니다.\n\n"
 
-하지만 마왕에게 가는 길에는
-수많은 던전과 강력한 몬스터들이 기다리고 있습니다.
+        << "하지만 마왕에게 가는 길에는\n"
+        << "수많은 던전과 강력한 몬스터들이 기다리고 있습니다.\n\n"
 
-모든 던전을 돌파하고
-세상에 다시 풍년을 되찾으세요!
+        << "모든 던전을 돌파하고\n"
+        << "세상에 다시 풍년을 되찾으세요!\n\n"
 
-========================================
-)";
-    PauseScreen();
-    ClearScreen();
+        << "=========================================\n";
 }
 
 void NameInputScreen() {
+	std::cout << "흉작으로부터 세상을 구할 당신의 이름을 알려주세요.\n";
     std::cout << "이름을 입력하세요: ";
 }
 
 void Tutorial() {
     ClearScreen();
-    std::cout << "======================== 조작 안내 ========================\n";
-    std::cout << "메뉴는 번호를 입력해 선택합니다.\n\n";
-    std::cout << "던전에서 전진하면 몬스터, 보물상자, 상점,\n";
-    std::cout << "제단, 생명의 샘, 보스방 중 하나를 만납니다.\n\n";
-    std::cout << "전투는 라운드마다 행동 토큰 2개를 받습니다.\n";
-    std::cout << "  일반 공격 / 스킬 공격 : 토큰 2\n";
-    std::cout << "  아이템 사용           : 토큰 1\n\n";
-    std::cout << "각 던전 보스방에는 문제가 있습니다.\n";
-    std::cout << "보물상자에서 나오는 [정체를 알 수 없는 종이]가 힌트입니다.\n";
-    std::cout << "인벤토리에서 종이의 설명을 확인하세요.\n\n";
-    std::cout << "던전 3곳을 토벌해 [토벌 증서] 3장을 모으면\n";
-    std::cout << "마왕의 성에 들어갈 수 있습니다.\n";
-    std::cout << "===========================================================\n";
-    std::cout << "\n[기본 지급]\n";
-    std::cout << "골드 150 / 힐링 포션 3 / 마나 포션 2 / 호미 1\n";
-    std::cout << "장비 메뉴에서 [호미]를 장착하고 출발하세요.\n\n";
-    std::cout << "===========================================================\n";
+    std::cout << "======================== 조작 안내 ========================\n"
+        << "메뉴는 번호를 입력해 선택합니다.\n\n"
+
+        << "던전에서 전진하면 몬스터, 보물상자, 상점,\n"
+        << "제단, 생명의 샘, 보스방 중 하나를 만납니다.\n\n"
+
+        << "전투에서는 다음 행동을 선택하실 수 있습니다.\n"
+        << "    일반 공격 / 스킬 공격 / 아이템 사용\n"
+        << "토큰이 남아있는 동안에는 계속 행동을 실행할 수 있습니다.\n"
+        << "단, 일반 공격과 스킬 공격을 선택할 경우, 턴이 종료됩니다.\n\n"
+
+        << "각 던전 보스방에는 문제가 있습니다.\n"
+        << "보물상자에서 나오는 [정체를 알 수 없는 종이]가 힌트입니다.\n"
+        << "인벤토리에서 종이의 설명을 확인하세요.\n\n"
+
+        << "던전 3곳을 토벌해 [토벌 증서] 3장을 모으면\n"
+        << "마왕의 성에 들어갈 수 있습니다.\n"
+        << "===========================================================\n"
+
+        << "\n[기본 지급]\n"
+        << "골드 150 / 힐링 포션 3 / 마나 포션 2 / 호미 1\n"
+        << "장비 메뉴에서 [호미]를 장착하고 출발하세요.\n\n"
+
+        << "===========================================================\n";
     PauseScreen();
     ClearScreen();
 }
@@ -197,22 +207,31 @@ void Tutorial() {
 
 void MapScreen() {
     ClearScreen();
-    std::cout << "[1] 슬라임 던전   [2] 언데드 던전   [3] 골렘 던전\n";
-    std::cout << "[4] 마왕의 성     [0] 돌아가기\n";
+    std::cout << "=======================================================\n";
+	std::cout << "[던전 선택]\n\n";
+    std::cout << "[1] 슬라임 던전   [2] 언데드 던전   [3] 골렘 던전\n[4] 마왕의 성     [0] 돌아가기\n";
+    std::cout << "=======================================================\n";
     std::cout << "선택: ";
 }
 
 void MainMenu() {
-    std::cout << "[1] 던전  [2] 스탯  [3] 인벤토리  [4] 장비  [5] 포션 제작  [6] 상점  [0] 종료\n";
+    std::cout << "[1] 던전      [2] 스탯      [3] 인벤토리  [4] 장비\n[5] 포션 제작 [6] 상점      [0] 종료\n";
+    std::cout << "=======================================================\n";
     std::cout << "선택: ";
 }
 
+/*
 void DungeonMenu() {
-    std::cout << "[1] 전진   [2] 인벤토리   [3] 보스룸   [0] 탈출\n선택: ";
+    std::cout << "[1] 전진   [2] 인벤토리   [3] 보스룸   [0] 탈출\n";
+    std::cout << "=======================================================\n";
+    std::cout << "선택: ";
 }
+*/
 
 void DungeonEventMenu() {
-    std::cout << "[1] 제단을 만진다   [0] 지나친다\n선택: ";
+    std::cout << "[1] 제단을 만진다   [0] 지나친다\n";
+    std::cout << "=======================================================\n";
+    std::cout << "선택: ";
 }
 
 // ---- 전투 ----
@@ -237,11 +256,14 @@ void BattleStatus(const std::string& playerName, int playerHp, int playerMaxHp,
     PushLog(os.str());
 }
 
+/*
 void BattleMenu(int token, int currentMp, int skillCost) {
     std::cout << "[1] 공격   [2] 스킬(MP " << skillCost << " / 현재 " << currentMp << ")   [3] 아이템"
         << "      토큰 " << token << "\n";
+    std::cout << "=======================================================\n";
     std::cout << "선택: ";
 }
+*/
 
 void AttackLog(const std::string& attacker, const std::string& target, int damage, bool critical) {
     std::ostringstream os;

@@ -50,13 +50,11 @@ protected:
     // Variable
     std::string name = "Nameless";
     std::string job = "Farmer";
-    std::vector<int> status = { 1, 3, 0, 100, 200, 200, 200, 200, 25, 10, 10, 10 };
+    std::vector<int> status = { 1, 3, 0, 100, 200, 200, 200, 200, 20, 10, 10, 10 };
     bool arousal = false;
     int gold = 150;
 
 public:
-    Player(void);
-
     // Setter
     void SetName(std::string new_player_name);
     void SetJob(std::string new_player_job);

@@ -4,6 +4,7 @@
 #include "Logger/Logger.h"
 #include "Player/Player.h"
 #include "Shop/Shop.h"
+#include "Inventory/Inventory.h"
 
 int main(void) {
     LoadShop();

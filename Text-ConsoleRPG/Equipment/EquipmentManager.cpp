@@ -103,6 +103,7 @@ void DisplayEquipMenu(Player& player) {
         std::cout << "---------------------------------------------------------------------\n";
         std::cout << "[장비 이름: 장착] [장비칸: 해제] [[0]: 돌아가기]" << std::endl;
         std::cout << ":: ";
+
         std::string answer;
         getline(std::cin >> std::ws, answer);
             if (answer == "0") {
@@ -115,7 +116,6 @@ void DisplayEquipMenu(Player& player) {
             }
             
         ItemData item_data = FindItem(answer);
-        EquipType equip_type = EquipType::None;
         if (!item_data.found) {
             std::cout << "\n---------------------------------------------------------------------\n";
             std::cout << "해당 아이템을 찾을 수 없습니다.\n";
@@ -130,19 +130,16 @@ void DisplayEquipMenu(Player& player) {
             _getch();
             continue;
         }
-        if (item_data.category == "weapon") {
-            equip_type = EquipType::Weapon;
-        }
-        else if (item_data.category == "armor") {
-            equip_type = EquipType::Armor;
-        }
-        else {
+
+        EquipType equip_type = CategoryToEquipType(item_data.category);
+        if (equip_type == EquipType::None) {
             std::cout << "\n---------------------------------------------------------------------\n";
             std::cout << "잘못된 아이템을 입력했습니다.\n";
             std::cout << "---------------------------------------------------------------------\n";
             _getch();
             continue;
         }
+
         EquipInfo equip_info = { item_data.name, equip_type };
         if (EquipGear(player, equip_info)) {
             RemoveItem(g_player_armory, item_data.name, 1);

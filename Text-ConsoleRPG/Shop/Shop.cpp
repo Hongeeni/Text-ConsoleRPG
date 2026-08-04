@@ -169,8 +169,10 @@ void ViewShop(const std::string& shop_name, Player& player) {
 			return; 
 		}
 		ItemData item_data = FindItem(answer);
-		Inventory<InventoryInfo>& inventype =
-			(item_data.category == "weapon" || item_data.category == "armor") ? g_player_armory : g_player_inventory;
+		const std::string& c = item_data.category;
+		const bool is_gear = (c == "weapon" || c == "shield" || c == "armor"
+			|| c == "ring" || c == "gloves" || c == "shoes");
+		Inventory<InventoryInfo>& inventype = is_gear ? g_player_armory : g_player_inventory;
 	
 		BuyItems(inventype, player, shop_name, answer); 
 		continue;
