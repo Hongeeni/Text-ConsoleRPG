@@ -1,6 +1,7 @@
+﻿#pragma once
 #include "TemplateInventory.h"
 #include <string>
-#pragma once
+
 
 struct InventoryInfo {
 	std::string name_;
@@ -13,4 +14,8 @@ extern Inventory<InventoryInfo> g_player_armory;
 void AddItem(Inventory<InventoryInfo>& inven, const std::string name, int count);
 bool RemoveItem(Inventory<InventoryInfo>& inven, const std::string name, int count);
 bool CheckItem(const Inventory<InventoryInfo>& inven, const std::string name, int count);
-void ViewInventory(const Inventory<InventoryInfo>& inven);
+int ViewInventory(const Inventory<InventoryInfo>& inven, bool on_battle);
+class Player;
+bool BattleInventory(Player& player);
+void RunInventory(Player& player);
+bool UseItemOnPlayer(Inventory<InventoryInfo>& inven, Player& player, const std::string& name);

@@ -1,0 +1,48 @@
+﻿#ifndef _COMBAT_H_
+#define _COMBAT_H_
+
+#include "Player\Player.h"
+#include "Monster\Monster.h"
+
+#include <random>
+
+enum class BehaviorType {
+    use_item,
+    basic_attack,
+    skill_attack,
+    run_away
+};
+
+class CombatSystem {
+public:
+    CombatSystem(Player& player, Monster& monster);
+    void StartBattle(void);
+
+private:
+    Player& player;
+    Monster& monster;
+
+    static const char token_maximum = 2;
+    static const char use_item_cost = 1;
+    static const char attack_cost = 2;
+
+    char  behavior_token = 0;
+    bool is_first_attack = false;
+    int attack_token = 0;
+    bool last_critical = false; // 직전 공격 치명타 여부 (로그용)
+    int monster_max_hp = 0; // 전투 시작 시점 몬스터 HP (막대 표시용)
+
+    bool IsFirstAttack(void);
+    bool PlayerBehavior(const BehaviorType now_behavior, bool& kill_monster);
+    bool MonsterBehavior(bool& kill_player);
+
+    const int AttackCalculation(const int attacker_power, const int striker_defense, const int attacker_critical);
+    void GetResult(void) const;
+
+    BehaviorType AskPlayerBehavior();
+    void PlayerTurn(bool& kill_monster);
+
+    std::mt19937 rng{ std::random_device{}() };
+};
+
+#endif

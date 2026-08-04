@@ -24,7 +24,7 @@ namespace {
     }
 
     Monster MakeMonster(const MonsterData& data) {
-        return Monster(data.group, data.name, data.hp, data.attack, data.defence, data.speed,
+		return Monster(data.group, data.name, data.hp, data.power, data.defence, data.speed, data.critical,
             data.dropName, data.dropCategory, data.dropGold,
             data.rewardExp, data.isBoss);
     }
@@ -127,7 +127,13 @@ Monster Dungeon::PickNormalMonster() {
         return MakeMonster(MonsterList()[0]);
     }
 
-    std::uniform_int_distribution<int> pick(0, static_cast<int>(candidates.size()) - 1);
+    // 전진 횟수가 늘수록 뒤쪽(강한) 몬스터까지 후보에 들어옴
+    int limit = 2 + advanceCount_ / 3;
+    if (limit > static_cast<int>(candidates.size())) {
+        limit = static_cast<int>(candidates.size());
+    }
+
+    std::uniform_int_distribution<int> pick(0, limit - 1);
     return MakeMonster(candidates[pick(rng_)]);
 }
 
@@ -154,12 +160,12 @@ DungeonEvent Dungeon::RollEvent() {
     const bool canFindBoss = !bossFound_ && !IsCleared(type_);
 
     std::vector<double> weights = {
-        60.0,                        // Monster
-        8.0,                        // Treasure
-        8.0,                        // Shop
-        8.0,                        // Altar
-        8.0,                        // Fountain
-        canFindBoss ? 8.0 : 0.0     // BossFound
+        45.0,                        // Monster
+        13.25,                        // Treasure
+        13.25,                        // Shop
+        13.25,                        // Altar
+        13.25,                        // Fountain
+        canFindBoss ? 2.0 : 0.0     // BossFound
     };
     std::discrete_distribution<int> dist(weights.begin(), weights.end());
     return static_cast<DungeonEvent>(dist(rng_));
@@ -183,7 +189,7 @@ AdvanceResult Dungeon::Resolve(DungeonEvent e, Player& player) {
         result.treasure = TreasureRoomEvent::Trigger(player, type_);
         break;
     case DungeonEvent::Shop:
-        ViewShop(GetShopName(), GetShopName(), player);
+        ViewShop(GetShopName(), player);
         break;
     case DungeonEvent::Altar:
         // game.cpp가 "만진다/지나친다" 선택을 받은 뒤 TouchAltar() / SkipAltar()를 호출한다.
@@ -200,8 +206,8 @@ AdvanceResult Dungeon::Resolve(DungeonEvent e, Player& player) {
 }
 
 AdvanceResult Dungeon::Advance(Player& player) {
-    // 이전 제단에서 선택을 안 하고 넘어왔으면 지나친 것으로 처리한다
     altarPending_ = false;
+    ++advanceCount_;
     return Resolve(RollEvent(), player);
 }
 
@@ -271,21 +277,29 @@ BossRoomResult Dungeon::EnterBossRoom(const std::string& answer, Player& player)
 DefeatResult Dungeon::OnDefeat(Player& player) {
     DefeatResult result;
 
-    player.SetHp(1);   // 체력을 1로 강제 조정
+    player.SetHp(std::max(1, player.GetMaxHp() * 3 / 10));
 
-    std::uniform_int_distribution<int> goldLossRange(5, 20);
+    std::uniform_int_distribution<int> goldLossRange(30, 80);
     int goldLoss = std::min<int>(goldLossRange(rng_), player.GetGold());
     player.DecreaseGold(goldLoss);
     result.goldLost = goldLoss;
 
     auto items = g_player_inventory.ViewInventory();
-    int removeCount = std::min<int>(2, static_cast<int>(items.size()));
+
+    // 토벌 증서와 힌트 종이는 잃지 않음 (진행 불가 상태 방지)
+    std::vector<int> losable;
+    for (int i = 0; i < static_cast<int>(items.size()); ++i) {
+        const std::string& name = items[i].name_;
+        if (name == "토벌 증서") continue;
+        if (name.rfind("정체를 알 수 없는 종이", 0) == 0) continue;
+        losable.push_back(i);
+    }
+
+    int removeCount = std::min<int>(2, static_cast<int>(losable.size()));
 
     if (removeCount > 0) {
-        std::vector<int> indices(items.size());
-        std::iota(indices.begin(), indices.end(), 0);
         std::vector<int> picked;
-        std::sample(indices.begin(), indices.end(), std::back_inserter(picked), removeCount, rng_);
+        std::sample(losable.begin(), losable.end(), std::back_inserter(picked), removeCount, rng_);
 
         for (int idx : picked) {
             RemoveItem(g_player_inventory, items[idx].name_, items[idx].count_);

@@ -98,4 +98,5 @@ private:
 
     DefeatResult OnDefeat(Player& player);
     bool IsPlayerAlive(Player& player) const;
+    int advanceCount_ = 0;   // 이번 던전에서 전진한 횟수
 };
