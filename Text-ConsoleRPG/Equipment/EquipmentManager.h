@@ -30,8 +30,6 @@ bool UnequipGear(Player& player, const std::string& answer);
 void DisplayEquipMenu(Player& player);
 
 EquipType CategoryToEquipType(const std::string& category);
-EquipInfo* SlotOf(EquipType type);
-std::string EquipTypeName(EquipType type);
 
 // 장비 스탯을 플레이어에 반영(equip=true)하거나 되돌림(equip=false)
 void ApplyEquipStat(Player& player, const std::string& item_name, bool equip);
