@@ -37,20 +37,20 @@ namespace {
         return 320;
     }
 
-    // (미확정) 던전 등급별 골드 보상 범위
+    // 던전 등급별 골드 보상 범위
     std::pair<int, int> GoldRange(DungeonType type) {
         switch (type) {
         case DungeonType::Slime:  return { 60, 120 };
         case DungeonType::Undead: return { 120, 240 };
         case DungeonType::Golem:  return { 250, 450 };
         }
-        return { 20, 60 };
+        return { 60, 120 };
     }
 
-    // (미확정) 상자당 아이템 개수 - 1개 50% / 2개 35% / 3개 15%
+    // 상자당 아이템 개수 - 1개 50% / 2개 35% / 3개 15%
     const std::vector<double> kCountWeights = { 50.0, 35.0, 15.0 };
 
-    // (미확정) 카테고리별 등장 비율
+    // 카테고리별 등장 비율
     const std::vector<std::string> kCategories =
     { "weapon", "shield", "armor", "ring", "gloves", "shoes", "potion", "hint" };
     const std::vector<double> kCategoryWeights =
