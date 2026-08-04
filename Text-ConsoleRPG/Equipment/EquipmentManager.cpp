@@ -5,7 +5,18 @@
 #include <iostream>
 
 EquipmentSlots g_equip_slot;
-
+EquipType CategoryToEquipType(const std::string& category) {
+    static const std::unordered_map<std::string, EquipType> kMap = {
+        {"weapon", EquipType::Weapon},
+        {"shield", EquipType::Shield},
+        {"armor",  EquipType::Armor},
+        {"hands",  EquipType::Hands},
+        {"feet",   EquipType::Feet},
+        {"ring",   EquipType::Ring},
+    };
+    auto it = kMap.find(category);
+    return (it == kMap.end()) ? EquipType::None : it->second;
+}
 struct EquipParts {
     EquipInfo* slot;
     std::string slot_name;
